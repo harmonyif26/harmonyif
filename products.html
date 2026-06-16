@@ -390,22 +390,14 @@
   </script>
 
 
-  <!-- Catalogue PDF loader: auto-updated by Google Sheets -->
+  <!-- Catalogue PDF: hosted directly on GitHub, auto-updated by Google Sheets -->
   <script>
   (function() {
-    // This file is automatically updated by Apps Script whenever a new price list is generated
-    fetch('https://raw.githubusercontent.com/harmonyif26/harmonyif/main/pdf-id.txt?t=' + Date.now())
-      .then(function(r) { return r.text(); })
-      .then(function(fileId) {
-        fileId = fileId.trim();
-        if (!fileId) return;
-        var pdfUrl = 'https://drive.google.com/file/d/' + fileId + '/view?usp=sharing';
-        ['pricelist-btn','pricelist-footer-btn'].forEach(function(id) {
-          var el = document.getElementById(id);
-          if (el) el.href = pdfUrl;
-        });
-      })
-      .catch(function(e) { console.warn('Could not load latest catalogue:', e); });
+    var pdfUrl = 'https://raw.githubusercontent.com/harmonyif26/harmonyif/main/price-list.pdf';
+    ['pricelist-btn','pricelist-footer-btn'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.href = pdfUrl;
+    });
   })();
   </script>
 

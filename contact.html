@@ -388,17 +388,11 @@
   <script src="js/form_handler.js"></script>
 
 
+  <!-- Catalogue PDF: hosted directly on GitHub, auto-updated by Google Sheets -->
   <script>
   (function() {
-    fetch('https://raw.githubusercontent.com/harmonyif26/harmonyif/main/pdf-id.txt?t=' + Date.now())
-      .then(function(r) { return r.text(); })
-      .then(function(fileId) {
-        fileId = fileId.trim();
-        if (!fileId) return;
-        var el = document.getElementById('pricelist-contact-btn');
-        if (el) el.href = 'https://drive.google.com/file/d/' + fileId + '/view?usp=sharing';
-      })
-      .catch(function(){});
+    var el = document.getElementById('pricelist-contact-btn');
+    if (el) el.href = 'https://raw.githubusercontent.com/harmonyif26/harmonyif/main/price-list.pdf';
   })();
   </script>
 
