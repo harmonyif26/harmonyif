@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <meta name="description" content="Get in touch with Harmony International Food for product enquiries, bulk pricing and supply arrangements. WhatsApp, email or fill in our enquiry form." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.harmonyif.com.sg/contact.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Harmony International Food" />
+  <meta property="og:url"         content="https://www.harmonyif.com.sg/contact.html" />
+  <meta property="og:title"       content="Contact Harmony International Food" />
+  <meta property="og:description" content="Reach out for product enquiries, pricing and supply arrangements. We respond within 1 business day." />
+  <meta property="og:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="en_SG" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Contact Harmony International Food" />
+  <meta name="twitter:description" content="Reach out for product enquiries, pricing and supply arrangements. We respond within 1 business day." />
+  <meta name="twitter:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Harmony International Food",
+    "url": "https://www.harmonyif.com.sg/contact.html",
+    "description": "Contact Harmony International Food for product enquiries and bulk supply arrangements."
+  }
+  </script>
+
+  <title>Contact Us — Harmony International Food Singapore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero__label { font-size:0.7rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); display:block; margin-bottom:0.6rem; }
+    .page-hero { text-align:center; }
+
+    /* ── 3 contact method cards ── */
+    .contact-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      /* Gap between cards and the dark section below */
+      margin-bottom: var(--space-md);
+    }
+
+    /* ── Form + Sidebar layout ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    /* ── FORM — light card ── */
+    .contact-form-card {
+      background: var(--cream-light);
+      border: 1px solid var(--border);
+      padding: 2.4rem;
+    }
+    .contact-form-card .form-label  { color: var(--ink-mist); }
+    .contact-form-card .form-input,
+    .contact-form-card .form-select,
+    .contact-form-card .form-textarea {
+      background: #fff;
+      border-color: rgba(26,25,22,0.15);
+      color: var(--ink);
+    }
+    .contact-form-card .form-input:focus,
+    .contact-form-card .form-select:focus,
+    .contact-form-card .form-textarea:focus { border-color: var(--coral); }
+    .contact-form-card .form-input::placeholder,
+    .contact-form-card .form-textarea::placeholder { color: var(--stone); }
+    .contact-form-card .form-select { background-color:#fff; color:var(--ink); }
+    .contact-form-card .form-select option { background:#fff; color:var(--ink); }
+
+    .form-eyebrow { font-size:0.68rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.4rem; }
+    .form-title   { font-family:var(--font-heading); font-size:1.8rem; color:var(--ink); margin-bottom:0.5rem; }
+    .form-subtitle { font-size:0.85rem; color:var(--mist); margin-bottom:2rem; line-height:1.65; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .form-submit { width:100%; text-align:center; margin-top:0.25rem; }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      border: 1px solid var(--gold);
+      background: rgba(239,159,39,0.06);
+      text-align: center;
+    }
+    .form-success h4 { font-family:var(--font-heading); font-size:1.3rem; color:var(--gold-dark); margin-bottom:0.5rem; }
+    .form-success p  { font-size:0.85rem; color:var(--mist); }
+
+    /* ── SIDEBAR ── */
+    .contact-sidebar {
+      display: flex; flex-direction: column; gap: 0;
+      position: sticky; top: calc(var(--nav-height) + 2rem);
+    }
+    .contact-sidebar__block {
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-top: none;
+      background: var(--cream-light);
+    }
+    .contact-sidebar__block:first-child { border-top: 1px solid var(--border); }
+    .contact-sidebar__block h4 { font-family:var(--font-heading); font-size:1.05rem; font-weight:400; color:var(--ink); margin-bottom:0.5rem; }
+    .contact-sidebar__block p  { font-size:0.82rem; color:var(--mist); line-height:1.65; margin-bottom:0.75rem; }
+    .contact-sidebar__block p:last-child { margin-bottom:0; }
+
+    .wa-btn-full {
+      display:flex; align-items:center; gap:0.6rem; padding:0.7rem 1rem;
+      background:#25D366; color:#fff; font-size:0.75rem; font-weight:500;
+      letter-spacing:0.06em; text-transform:uppercase; transition:background var(--transition);
+      width:100%; justify-content:center; text-decoration:none;
+    }
+    .wa-btn-full:hover { background:#1ebe5d; }
+
+    .supply-list { display:flex; flex-direction:column; gap:0.4rem; margin-top:0.5rem; }
+    .supply-list li { font-size:0.8rem; color:var(--mist); padding-left:1rem; position:relative; line-height:1.5; }
+    .supply-list li::before { content:'–'; position:absolute; left:0; color:var(--gold); }
+
+    .co-detail { font-size:0.8rem; color:var(--mist); line-height:1.9; margin-top:0.25rem; }
+    .co-detail strong { color:var(--ink); font-weight:500; }
+    .co-detail a { color:var(--coral); }
+
+    @media (max-width:900px) {
+      .contact-methods { grid-template-columns:1fr; }
+      .contact-grid    { grid-template-columns:1fr; }
+      .contact-sidebar { position:static; }
+      .form-row        { grid-template-columns:1fr; }
+    }
+    @media (max-width:600px) {
+      .contact-form-card { padding:1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html"  data-en="Home"    data-cn="首页">Home</a></li>
+        <li><a href="products.html" data-en="Products" data-cn="产品">Products</a></li>
+        <li><a href="about.html"  data-en="About"   data-cn="关于">About</a></li>
+        <li><a href="contact.html" class="active" data-en="Contact" data-cn="联系">Contact</a></li>
+      </ul>
+      <div class="nav__right">
+        <div class="lang-toggle">
+          <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
+        </div>
+        <a href="contact.html" class="nav__cta" data-en="Enquire Now" data-cn="立即询价">Enquire Now</a>
+        <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile">
+      <a href="index.html" data-en="Home" data-cn="首页">Home</a>
+      <a href="products.html" data-en="Products" data-cn="产品">Products</a>
+      <a href="about.html" data-en="About" data-cn="关于">About</a>
+      <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+      <div class="lang-toggle" style="margin-top:1.5rem;">
+        <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">EN</button>
+        <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero__label" data-en="Get In Touch" data-cn="联系我们">Get In Touch</span>
+      <h1><span data-en="Let's Talk Business" data-cn="欢迎来电洽谈">Let's Talk Business</span></h1>
+      <p data-en="Reach out via WhatsApp or email, or fill in the form below — we'll get back to you with pricing and availability." data-cn="通过 WhatsApp 或电邮联系我们，或填写以下表格——我们将回复您的价格及货品情况。">Reach out via WhatsApp or email, or fill in the form below — we'll get back to you with pricing and availability.</p>
+    </div>
+  </section>
+
+  <!-- 3 CONTACT METHOD CARDS -->
+  <section style="padding: var(--space-md) 0 0;">
+    <div class="container">
+      <div class="contact-methods">
+
+        <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." target="_blank" class="contact-method-card">
+          <div class="contact-method-card__icon" data-en="WHATSAPP" data-cn="WHATSAPP">WHATSAPP</div>
+          <h4>+65 8795 3309</h4>
+          <p data-en="Fastest way to reach us. Chat directly for pricing and availability." data-cn="联系我们最快捷的方式。直接询问价格及货品情况。">Fastest way to reach us. Chat directly for pricing and availability.</p>
+          <span class="contact-method-card__cta" data-en="Open WhatsApp →" data-cn="打开 WhatsApp →">Open WhatsApp →</span>
+        </a>
+
+        <a href="mailto:pat@harmonyif.com" class="contact-method-card">
+          <div class="contact-method-card__icon" data-en="EMAIL" data-cn="电邮">EMAIL</div>
+          <h4>pat@harmonyif.com</h4>
+          <p data-en="Send your enquiry by email and we'll respond within 1 business day." data-cn="通过电邮发送询价，我们将在1个工作日内回复。">Send your enquiry by email and we'll respond within 1 business day.</p>
+          <span class="contact-method-card__cta" data-en="Send Email →" data-cn="发送邮件 →">Send Email →</span>
+        </a>
+
+        <div class="contact-method-card contact-method-card--static">
+          <div class="contact-method-card__icon" data-en="LOCATION" data-cn="地点">LOCATION</div>
+          <h4>Singapore</h4>
+          <p data-en="Island-wide delivery available. We serve F&B operators across Singapore." data-cn="提供全岛配送服务，为新加坡各地餐饮业者提供供货。">Island-wide delivery available. We serve F&amp;B operators across Singapore.</p>
+          <span class="contact-method-card__cta" data-en="Island-wide delivery" data-cn="全岛配送">Island-wide delivery</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM + SIDEBAR -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- FORM -->
+        <div class="contact-form-card reveal">
+          <p class="form-eyebrow" data-en="Send an Enquiry" data-cn="发送询价">Send an Enquiry</p>
+          <h2 class="form-title" data-en="What Are You Looking For?" data-cn="您需要什么？">What Are You Looking For?</h2>
+          <p class="form-subtitle" data-en="Fill in the details below and we'll come back with a tailored quote." data-cn="请填写以下详情，我们将为您提供专属报价。">Fill in the details below and we'll come back with a tailored quote.</p>
+
+          <form id="contact-form">
+            <!-- Web3Forms access key — replace YOUR_WEB3FORMS_KEY with actual key from web3forms.com (free) -->
+            
+            
+            
+            
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="cf-name" data-en="Full Name *" data-cn="姓名 *">Full Name *</label>
+                <input class="form-input" type="text" id="cf-name" name="name" placeholder="John Tan" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-company" data-en="Restaurant / Company" data-cn="餐厅 / 公司">Restaurant / Company</label>
+                <input class="form-input" type="text" id="cf-company" name="company" placeholder="e.g. Hai Di Lao Orchard" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="cf-email" data-en="Email Address *" data-cn="电邮地址 *">Email Address *</label>
+                <input class="form-input" type="email" id="cf-email" name="email" placeholder="you@restaurant.com" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-phone" data-en="WhatsApp / Phone *" data-cn="WhatsApp / 电话 *">WhatsApp / Phone *</label>
+                <input class="form-input" type="tel" id="cf-phone" name="phone" placeholder="+65 9XXX XXXX" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cf-product" data-en="Product(s) of Interest" data-cn="感兴趣的产品">Product(s) of Interest</label>
+              <input class="form-input" type="text" id="cf-product" name="products"
+                placeholder="e.g. Pork Belly, Vannamei Shrimp 21/25, Beef Brisket" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="cf-volume" data-en="Est. Required Volume" data-cn="预计所需用量">Est. Required Volume</label>
+                <select class="form-select" id="cf-volume" name="volume">
+                  <option value="" data-en="Select a range" data-cn="选择范围">Select a range</option>
+                  <option data-en="Under 50kg" data-cn="50公斤以下">Under 50kg</option>
+                  <option data-en="50 – 100kg" data-cn="50–100公斤">50 – 100kg</option>
+                  <option data-en="100 – 200kg" data-cn="100–200公斤">100 – 200kg</option>
+                  <option data-en="200 – 500kg" data-cn="200–500公斤">200 – 500kg</option>
+                  <option data-en="500kg+" data-cn="500公斤以上">500kg+</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-type" data-en="Order Type" data-cn="订单类型">Order Type</label>
+                <select class="form-select" id="cf-type" name="order_type">
+                  <option value="" data-en="Select type" data-cn="选择类型">Select type</option>
+                  <option data-en="Trial / Sample Order" data-cn="试订单">Trial / Sample Order</option>
+                  <option data-en="Regular Supply" data-cn="定期供货">Regular Supply</option>
+                  <option data-en="Bulk One-off Order" data-cn="大批量单次订购">Bulk One-off Order</option>
+                  <option data-en="Pricing Enquiry Only" data-cn="仅询价">Pricing Enquiry Only</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cf-message" data-en="Additional Notes" data-cn="备注">Additional Notes</label>
+              <textarea class="form-textarea" id="cf-message" name="message" rows="3"
+                placeholder="Specific cuts, packaging, delivery frequency..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary form-submit" id="cf-submit" data-en="Send Enquiry" data-cn="发送询价">Send Enquiry</button>
+
+            <!-- Success message -->
+            <div class="form-success" id="form-success">
+              <h4 data-en="Enquiry Sent!" data-cn="询价已发送！">Enquiry Sent!</h4>
+              <p data-en="We've received your message and will be in touch within 1 business day." data-cn="我们已收到您的留言，将在1个工作日内与您联系。">We've received your message and will be in touch within 1 business day.</p>
+            </div>
+          </form>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="contact-sidebar">
+          <div class="contact-sidebar__block">
+            <h4 data-en="Prefer to talk?" data-cn="想直接联系？">Prefer to talk?</h4>
+            <p data-en="WhatsApp is the fastest way to reach us for a quick quote or question." data-cn="WhatsApp 是获取快速报价或咨询问题的最便捷方式。">WhatsApp is the fastest way to reach us for a quick quote or question.</p>
+            <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." target="_blank" class="wa-btn-full">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp +65 8795 3309
+            </a>
+          </div>
+
+          <div class="contact-sidebar__block">
+            <h4 data-en="What we supply" data-cn="我们的供应范围">What we supply</h4>
+            <ul class="supply-list">
+              <li data-en="Fresh & frozen pork cuts" data-cn="新鲜及冷冻猪肉">Fresh & frozen pork cuts</li>
+              <li data-en="Beef & lamb — local + imported" data-cn="牛羊肉——本地及进口">Beef & lamb — local + imported</li>
+              <li data-en="Chicken, duck & poultry" data-cn="鸡鸭及禽类">Chicken, duck & poultry</li>
+              <li data-en="Seafood — prawns, squid, fish" data-cn="海鲜——虾、鱿鱼、鱼类">Seafood — prawns, squid, fish</li>
+              <li data-en="Processed & hotpot items" data-cn="加工食品及火锅食材">Processed & hotpot items</li>
+            </ul>
+          </div>
+
+          <div class="contact-sidebar__block">
+            <h4 data-en="Company" data-cn="公司资料">Company</h4>
+            <div class="co-detail">
+              <strong>Harmony International Food Pte Ltd</strong><br>
+              和谐国际食品私人有限公司<br>
+              UEN: 202608797N<br>
+              <a href="mailto:pat@harmonyif.com">pat@harmonyif.com</a><br>
+              <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing.">+65 8795 3309</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <div class="footer__logo">Harmony<span>.</span></div>
+          <p class="footer__tagline">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</p>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Products" data-cn="产品">Products</h5>
+          <ul>
+            <li><a href="products.html?category=pork"      data-en="Pork"           data-cn="猪肉">Pork</a></li>
+            <li><a href="products.html?category=beef"      data-en="Beef & Lamb"    data-cn="牛羊肉">Beef & Lamb</a></li>
+            <li><a href="products.html?category=chicken"   data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</a></li>
+            <li><a href="products.html?category=seafood"   data-en="Seafood"        data-cn="海鲜">Seafood</a></li>
+            <li><a href="products.html?category=processed" data-en="Processed"      data-cn="加工食品">Processed</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Company" data-cn="公司">Company</h5>
+          <ul>
+            <li><a href="about.html"   data-en="About Us"           data-cn="关于我们">About Us</a></li>
+            <li><a href="contact.html" data-en="Contact"            data-cn="联系我们">Contact</a></li>
+            <li><a id="pricelist-contact-btn" href="#" target="_blank" rel="noopener">Download Catalogue</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Contact" data-cn="联系方式">Contact</h5>
+          <div class="footer__contact-item"><span class="icon">WA</span><span><a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." style="font-size:0.85rem;color:rgba(245,240,232,0.65);">+65 8795 3309</a></span></div>
+          <div class="footer__contact-item"><span class="icon">✉</span><span><a href="mailto:pat@harmonyif.com" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">pat@harmonyif.com</a></span></div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p data-en="© 2026 Harmony International Food Pte Ltd. All rights reserved." data-cn="© 2026 和谐国际食品私人有限公司。版权所有。">© 2026 Harmony International Food Pte Ltd. All rights reserved.</p>
+        <p data-en="Prices are indicative and subject to change. All orders confirmed via direct quotation." data-cn="价格仅供参考，可能随时调整。所有订单须经直接报价确认。">Prices are indicative and subject to change. All orders confirmed via direct quotation.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/form_handler.js"></script>
+
+
+  <script>
+  (function() {
+    var LATEST_JSON_ID = '1UuQKfYbtG3T4PLFK8bQsuDkkDFGBoH6d';
+    if (!LATEST_JSON_ID || LATEST_JSON_ID.indexOf('REPLACE') === 0) return;
+    fetch('https://drive.google.com/uc?export=download&id=' + LATEST_JSON_ID)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var el = document.getElementById('pricelist-contact-btn');
+        if (el) el.href = data.downloadUrl;
+      })
+      .catch(function(){});
+  })();
+  </script>
+
+</body>
+</html>

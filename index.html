@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <meta name="description" content="Harmony International Food supplies premium frozen and fresh meats, seafood and processed foods to Singapore restaurants, hotpot operators and commercial kitchens. Competitive pricing, wide range, direct communication." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.harmonyif.com.sg/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Harmony International Food" />
+  <meta property="og:url"         content="https://www.harmonyif.com.sg/" />
+  <meta property="og:title"       content="Harmony International Food — B2B Food Supplier Singapore" />
+  <meta property="og:description" content="Premium frozen & fresh meat, seafood and processed food supply for Singapore F&B operators. Pork, beef, chicken, seafood and hotpot ingredients." />
+  <meta property="og:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="en_SG" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Harmony International Food — B2B Food Supplier Singapore" />
+  <meta name="twitter:description" content="Premium frozen & fresh meat, seafood and processed food supply for Singapore F&B operators. Pork, beef, chicken, seafood and hotpot ingredients." />
+  <meta name="twitter:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FoodEstablishment",
+    "name": "Harmony International Food Pte Ltd",
+    "alternateName": "和谐国际食品私人有限公司",
+    "url": "https://www.harmonyif.com.sg",
+    "email": "pat@harmonyif.com",
+    "telephone": "+6587953309",
+    "address": { "@type": "PostalAddress", "addressCountry": "SG" },
+    "description": "B2B frozen and fresh food distributor supplying Singapore restaurants, hotpot operators and commercial kitchens.",
+    "areaServed": "Singapore",
+    "servesCuisine": ["Pork", "Beef", "Chicken", "Seafood", "Processed Foods"]
+  }
+  </script>
+
+  <title>Harmony International Food — B2B Frozen & Fresh Food Supplier Singapore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <!-- Lucide icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── CATEGORY CARDS ── */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .cat-card {
+      background: var(--cream-light);
+      padding: 2.2rem 1.2rem;
+      text-align: center;
+      transition: background var(--transition);
+      text-decoration: none;
+      display: block;
+    }
+    .cat-card:hover { background: var(--ink); }
+    .cat-card:hover .cat-card__icon,
+    .cat-card:hover .cat-card__name,
+    .cat-card:hover .cat-card__count { color: var(--cream); }
+    .cat-card__icon {
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; color: var(--gold-dark);
+      transition: color var(--transition);
+    }
+    .cat-card__icon [data-lucide] { width: 32px; height: 32px; stroke-width: 1.25; }
+    .cat-card__name {
+      font-family: var(--font-heading); font-size: 1.1rem; color: var(--ink);
+      display: block; margin-bottom: 0.3rem; transition: color var(--transition);
+    }
+    .cat-card__count { font-size: 0.7rem; color: var(--mist); letter-spacing: 0.06em; transition: color var(--transition); }
+
+    /* ── HOW IT WORKS ── */
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+    .how-step { padding: var(--space-sm) 0; text-align: center; }
+    .how-step__icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 52px; height: 52px; border: 1px solid var(--border);
+      margin: 0 auto 1.2rem; color: var(--gold-dark);
+    }
+    .how-step__icon [data-lucide] { width: 22px; height: 22px; stroke-width: 1.4; }
+    .how-step__num { font-family: var(--font-heading); font-size: 3rem; color: var(--gold); opacity: 0.3; line-height: 1; margin-bottom: 0.75rem; }
+    .how-step h4 { font-size: 1.1rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .how-step p  { font-size: 0.85rem; color: var(--mist); line-height: 1.8; }
+
+    /* ── TEXT ALIGNMENT ── */
+    .section-header        { text-align: center; }
+    .section-header__sub   { text-align: center; margin-left: auto; margin-right: auto; }
+    .page-hero             { text-align: center; }
+    .hero__content         { text-align: center; max-width: 100%; }
+    .hero__heading         { font-size: clamp(3.2rem, 7vw, 6rem); max-width: 900px; margin: 0 auto 1.4rem; }
+    .hero__sub             { max-width: 580px; margin: 0 auto 2.4rem; text-align: center; }
+    .hero__actions         { justify-content: center; }
+    .cta-banner            { text-align: center; }
+    .cta-banner p          { margin-left: auto; margin-right: auto; }
+
+    .origin-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.2rem; }
+    .origin-tag  {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 0.85rem; border: 1px solid rgba(245,240,232,0.15);
+      font-size: 0.78rem; color: rgba(245,240,232,0.75); letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 900px) {
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .how-grid { grid-template-columns: 1fr; gap: var(--space-sm); }
+    }
+    @media (max-width: 600px) {
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+  .sourcing-section { background: var(--ink); }
+ 
+    .sourcing-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+  
+    .sourcing-text .origin-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+    .sourcing-text .origin-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid rgba(245,240,232,0.15);
+      font-size: 0.76rem;
+      color: rgba(245,240,232,0.72);
+      letter-spacing: 0.03em;
+    }
+  
+    /* Map container */
+    #sourcing-map {
+      height: 380px;
+      width: 100%;
+      border: 1px solid rgba(245,240,232,0.08);
+      z-index: 1;
+    }
+  
+    /* Override Leaflet defaults to match dark theme */
+    #sourcing-map .leaflet-tile-pane { filter: brightness(0.7) saturate(0.4) hue-rotate(180deg); }
+    #sourcing-map .leaflet-control-attribution { display: none; }
+    #sourcing-map .leaflet-control-zoom a {
+      background: #1A1916 !important;
+      color: #F5F0E8 !important;
+      border-color: rgba(245,240,232,0.2) !important;
+    }
+    #sourcing-map .leaflet-popup-content-wrapper {
+      background: #1A1916;
+      color: #F5F0E8;
+      border: 1px solid rgba(245,240,232,0.15);
+      border-radius: 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    #sourcing-map .leaflet-popup-tip { background: #1A1916; }
+    #sourcing-map .leaflet-popup-content { margin: 12px 16px; }
+    #sourcing-map .leaflet-popup-content p { margin: 0; line-height: 1.5; }
+    .map-popup-country { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B5895A; margin-bottom: 3px !important; }
+    .map-popup-desc    { font-size: 0.78rem; color: rgba(245,240,232,0.7); }
+  
+    @media (max-width: 900px) {
+      .sourcing-layout { grid-template-columns: 1fr; }
+      #sourcing-map { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--transparent nav--starts-transparent">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html" class="active" data-en="Home" data-cn="首页">Home</a></li>
+        <li><a href="products.html" data-en="Products" data-cn="产品">Products</a></li>
+        <li><a href="about.html" data-en="About" data-cn="关于">About</a></li>
+        <li><a href="contact.html" data-en="Contact" data-cn="联系">Contact</a></li>
+      </ul>
+      <div class="nav__right">
+        <div class="lang-toggle">
+          <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
+        </div>
+        <a href="contact.html" class="nav__cta" data-en="Enquire Now" data-cn="立即询价">Enquire Now</a>
+        <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile">
+      <a href="index.html" data-en="Home" data-cn="首页">Home</a>
+      <a href="products.html" data-en="Products" data-cn="产品">Products</a>
+      <a href="about.html" data-en="About" data-cn="关于">About</a>
+      <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+      <div class="lang-toggle" style="margin-top:1.5rem;">
+        <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">EN</button>
+        <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content container">
+      <span class="label text-muted" data-en="B2B Food Supply · Singapore" data-cn="B2B 食品供应 · 新加坡">B2B Food Supply · Singapore</span>
+      <h1 class="hero__heading">
+        <span data-en="Your Direct Line to" data-cn="您的直接货源">Your Direct Line to</span><br>
+        <em data-en="Fresh & Frozen" data-cn="新鲜与冷冻">Fresh & Frozen</em><br>
+        <span data-en="Food Supply" data-cn="食品供应">Food Supply</span>
+      </h1>
+      <p class="hero__sub" data-en="Harmony connects Singapore's F&B operators with quality pork, beef, lamb, chicken, seafood, and processed food — competitively priced, reliably delivered." data-cn="和谐国际食品为新加坡餐饮业者提供优质猪肉、牛羊肉、鸡肉、海鲜及加工食品，价格具竞争力，供货稳定可靠。">Harmony connects Singapore's F&amp;B operators with quality pork, beef, lamb, chicken, seafood, and processed food — competitively priced, reliably delivered.</p>
+      <div class="hero__actions">
+        <a href="products.html" class="btn btn-primary" data-en="Browse Products" data-cn="浏览产品">Browse Products</a>
+        <a href="https://wa.me/6587953309" target="_blank" class="btn btn-ghost" data-en="WhatsApp Us" data-cn="WhatsApp 联系">WhatsApp Us</a>
+      </div>
+    </div>
+    <div class="hero__scroll-hint"><span></span></div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-bar__inner">
+      <div class="trust-bar__item"><div class="dot"></div><span data-en="150+ Product SKUs" data-cn="超过150个产品">150+ Product SKUs</span></div>
+      <div class="trust-bar__item"><div class="dot"></div><span data-en="5 Food Categories" data-cn="5大食品类别">5 Food Categories</span></div>
+      <div class="trust-bar__item"><div class="dot"></div><span data-en="Competitive B2B Pricing" data-cn="具竞争力的B2B价格">Competitive B2B Pricing</span></div>
+      <div class="trust-bar__item"><div class="dot"></div><span data-en="Singapore-based" data-cn="新加坡本地">Singapore-based</span></div>
+      <div class="trust-bar__item"><div class="dot"></div><span data-en="Direct Quotation" data-cn="直接报价">Direct Quotation</span></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY OVERVIEW -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section-header">
+        <span class="label text-muted" data-en="What We Carry" data-cn="我们的产品">What We Carry</span>
+        <h2><span data-en="Five Categories." data-cn="五大类别，">Five Categories.</span><br><span data-en="One Supplier." data-cn="一个供应商。">One Supplier.</span></h2>
+        <p class="section-header__sub" data-en="From premium cuts to hotpot ingredients — everything your kitchen needs, sourced and supplied through a single point of contact." data-cn="从优质肉切到火锅食材——您厨房所需的一切，均通过单一联系人采购供应。">From premium cuts to hotpot ingredients — everything your kitchen needs, sourced and supplied through a single point of contact.</p>
+      </div>
+      <div class="cat-grid">
+        <a href="products.html?category=pork" class="cat-card reveal">
+          <div class="cat-card__icon"><i data-lucide="beef"></i></div>
+          <span class="cat-card__name" data-en="Pork" data-cn="猪肉">Pork</span>
+          <span class="cat-card__count" data-en="43 SKUs" data-cn="43个产品">43 SKUs</span>
+        </a>
+        <a href="products.html?category=beef" class="cat-card reveal">
+          <div class="cat-card__icon"><i data-lucide="flame"></i></div>
+          <span class="cat-card__name" data-en="Beef & Lamb" data-cn="牛羊肉">Beef & Lamb</span>
+          <span class="cat-card__count" data-en="37 SKUs" data-cn="37个产品">37 SKUs</span>
+        </a>
+        <a href="products.html?category=chicken" class="cat-card reveal">
+          <div class="cat-card__icon"><i data-lucide="feather"></i></div>
+          <span class="cat-card__name" data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</span>
+          <span class="cat-card__count" data-en="29 SKUs" data-cn="29个产品">29 SKUs</span>
+        </a>
+        <a href="products.html?category=seafood" class="cat-card reveal">
+          <div class="cat-card__icon"><i data-lucide="waves"></i></div>
+          <span class="cat-card__name" data-en="Seafood" data-cn="海鲜">Seafood</span>
+          <span class="cat-card__count" data-en="35 SKUs" data-cn="35个产品">35 SKUs</span>
+        </a>
+        <a href="products.html?category=processed" class="cat-card reveal">
+          <div class="cat-card__icon"><i data-lucide="package"></i></div>
+          <span class="cat-card__name" data-en="Processed" data-cn="加工食品">Processed</span>
+          <span class="cat-card__count" data-en="21 SKUs" data-cn="21个产品">21 SKUs</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="label text-muted" data-en="Simple Process" data-cn="简单流程">Simple Process</span>
+        <h2 data-en="How It Works" data-cn="如何运作">How It Works</h2>
+      </div>
+      <div class="how-grid">
+        <div class="how-step reveal">
+          <div class="how-step__icon"><i data-lucide="search"></i></div>
+          <div class="how-step__num">01</div>
+          <h4 data-en="Browse & Enquire" data-cn="浏览与询价">Browse & Enquire</h4>
+          <p data-en="Browse our full product range online or download the price list. Send us an enquiry with the products and quantities you need." data-cn="在线浏览完整产品系列或下载价格表，发送询价注明所需产品和数量。">Browse our full product range online or download the price list. Send us an enquiry with the products and quantities you need.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-step__icon"><i data-lucide="message-circle"></i></div>
+          <div class="how-step__num">02</div>
+          <h4 data-en="Receive Your Quote" data-cn="获取报价">Receive Your Quote</h4>
+          <p data-en="We follow up directly with a tailored quote based on your volume, product mix, and delivery requirements." data-cn="我们将根据您的采购量、产品组合和配送需求，直接为您提供专属报价。">We follow up directly with a tailored quote based on your volume, product mix, and delivery requirements.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-step__icon"><i data-lucide="check-square"></i></div>
+          <div class="how-step__num">03</div>
+          <h4 data-en="Confirm & Supply" data-cn="确认与供货">Confirm & Supply</h4>
+          <p data-en="Once the order is confirmed, we handle the rest — sourcing, coordination, and delivery to your kitchen or warehouse." data-cn="订单确认后，我们负责其余一切——采购、协调及配送至您的厨房或仓库。">Once the order is confirmed, we handle the rest — sourcing, coordination, and delivery to your kitchen or warehouse.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL SOURCING — FLAT WORLD MAP -->
+  <section class="section sourcing-section">
+    <div class="container">
+      <div class="sourcing-layout">
+  
+        <div class="sourcing-text">
+          <span class="label" style="color:var(--mist);" data-en="Global Sourcing" data-cn="全球采购">Global Sourcing</span>
+          <h2 style="color:var(--cream);margin:0.5rem 0 1rem;" data-en="Quality from Around the World" data-cn="来自全球的优质产品">Quality from Around the World</h2>
+          <p style="color:var(--mist);line-height:1.8;" data-en="We work with trusted suppliers across multiple countries to bring you consistent quality at competitive prices. Country of origin is listed on every product." data-cn="我们与多个国家的可靠供应商合作，以具竞争力的价格为您提供稳定优质的产品。每件产品均注明原产地。">We work with trusted suppliers across multiple countries to bring you consistent quality at competitive prices. Country of origin is listed on every product.</p>
+          <div class="origin-tags">
+            <span class="origin-tag">🇧🇷 Brazil</span>
+            <span class="origin-tag">🇺🇸 USA</span>
+            <span class="origin-tag">🇯🇵 Japan</span>
+            <span class="origin-tag">🇹🇼 Taiwan</span>
+            <span class="origin-tag">🇹🇭 Thailand</span>
+            <span class="origin-tag">🇨🇳 China</span>
+          </div>
+        </div>
+  
+        <div class="reveal">
+          <div id="sourcing-map"></div>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="grid-4">
+        <div class="stat-item reveal"><div class="stat-item__number">150+</div><div class="stat-item__label" data-en="Product SKUs" data-cn="产品种类">Product SKUs</div></div>
+        <div class="stat-item reveal"><div class="stat-item__number">5</div><div class="stat-item__label" data-en="Food Categories" data-cn="食品类别">Food Categories</div></div>
+        <div class="stat-item reveal"><div class="stat-item__number">7+</div><div class="stat-item__label" data-en="Countries of Origin" data-cn="原产国">Countries of Origin</div></div>
+        <div class="stat-item reveal"><div class="stat-item__number">1</div><div class="stat-item__label" data-en="Point of Contact" data-cn="单一联系人">Point of Contact</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section section--dark cta-banner">
+    <div class="container" style="text-align:center;">
+      <span class="label" style="color:var(--mist);" data-en="Get Started" data-cn="开始合作">Get Started</span>
+      <h2 style="color:var(--cream);margin:0.5rem 0 0.75rem;" data-en="Ready to place an order?" data-cn="准备好下单了吗？">Ready to place an order?</h2>
+      <p style="color:var(--mist);max-width:460px;margin:0 auto 2rem;" data-en="Reach out directly for pricing, availability, and to set up your trade account." data-cn="直接联系我们，了解价格、货品情况，并开设贸易账户。">Reach out directly for pricing, availability, and to set up your trade account.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+        <a href="products.html" class="btn btn-primary" data-en="View All Products" data-cn="查看所有产品">View All Products</a>
+        <a href="https://wa.me/6587953309" target="_blank" class="whatsapp-btn">WhatsApp +65 8795 3309</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <div class="footer__logo">Harmony<span>.</span></div>
+          <p class="footer__tagline">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</p>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Products" data-cn="产品">Products</h5>
+          <ul>
+            <li><a href="products.html?category=pork"      data-en="Pork"           data-cn="猪肉">Pork</a></li>
+            <li><a href="products.html?category=beef"      data-en="Beef & Lamb"    data-cn="牛羊肉">Beef & Lamb</a></li>
+            <li><a href="products.html?category=chicken"   data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</a></li>
+            <li><a href="products.html?category=seafood"   data-en="Seafood"        data-cn="海鲜">Seafood</a></li>
+            <li><a href="products.html?category=processed" data-en="Processed"      data-cn="加工食品">Processed</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Company" data-cn="公司">Company</h5>
+          <ul>
+            <li><a href="about.html"   data-en="About Us"           data-cn="关于我们">About Us</a></li>
+            <li><a href="contact.html" data-en="Contact"            data-cn="联系我们">Contact</a></li>
+            <li><a href="Harmony_Product_Catalogue_May2026.pdf" download data-en="Download Catalogue" data-cn="下载产品目录">Download Catalogue</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Contact" data-cn="联系方式">Contact</h5>
+          <div class="footer__contact-item"><span class="icon">WA</span><span><a href="https://wa.me/6587953309" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">+65 8795 3309</a></span></div>
+          <div class="footer__contact-item"><span class="icon">✉</span><span><a href="mailto:pat@harmonyif.com" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">pat@harmonyif.com</a></span></div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p data-en="© 2026 Harmony International Food Pte Ltd. All rights reserved." data-cn="© 2026 和谐国际食品私人有限公司。版权所有。">© 2026 Harmony International Food Pte Ltd. All rights reserved.</p>
+        <p data-en="Prices are indicative and subject to change. All orders confirmed via direct quotation." data-cn="价格仅供参考，可能随时调整。所有订单须经直接报价确认。">Prices are indicative and subject to change. All orders confirmed via direct quotation.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Only init map once Leaflet is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof L === 'undefined') return;
+  
+      const map = L.map('sourcing-map', {
+        center: [20, 105],
+        zoom: 2,
+        scrollWheelZoom: false,
+        zoomControl: true,
+        attributionControl: false,
+      });
+  
+      // Dark-friendly tile layer (CartoDB Dark Matter — free, no API key)
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 5,
+        minZoom: 1,
+      }).addTo(map);
+  
+      // Source marker — gold pulsing dot
+      function sourceIcon() {
+        return L.divIcon({
+          className: '',
+          html: `<div style="
+            width:14px;height:14px;border-radius:50%;
+            background:#B5895A;border:2px solid rgba(245,240,232,0.6);
+            box-shadow:0 0 0 4px rgba(181,137,90,0.25),0 0 12px rgba(181,137,90,0.4);
+          "></div>`,
+          iconSize: [14,14],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-10],
+        });
+      }
+  
+      // Destination marker — coral dot (Singapore)
+      function destIcon() {
+        return L.divIcon({
+          className: '',
+          html: `<div style="
+            width:16px;height:16px;border-radius:50%;
+            background:#D85A30;border:2px solid rgba(245,240,232,0.8);
+            box-shadow:0 0 0 5px rgba(216,90,48,0.25),0 0 14px rgba(216,90,48,0.5);
+          "></div>`,
+          iconSize: [16,16],
+          iconAnchor: [8,8],
+          popupAnchor: [0,-10],
+        });
+      }
+  
+      // Source countries
+      const sources = [
+        { lat:-14.2, lng:-51.9, country:'Brazil',    desc:'Beef ribeye, striploin & cuberoll' },
+        { lat: 37.1, lng:-95.7, country:'USA',       desc:'US short plate & beef cuts' },
+        { lat: 36.2, lng:138.3, country:'Japan',     desc:'Japanese chashu & specialty items' },
+        { lat: 23.7, lng:121.0, country:'Taiwan',    desc:'Pork sausages & processed items' },
+        { lat: 15.9, lng:100.9, country:'Thailand',  desc:'Seafood & imitation crab sticks' },
+        { lat: 35.9, lng:104.2, country:'China',     desc:'Mussels, crab products & more' },
+      ];
+  
+      const sgLat = 1.35, sgLng = 103.82;
+  
+      // Add source markers + lines to Singapore
+      sources.forEach(s => {
+        L.marker([s.lat, s.lng], { icon: sourceIcon() })
+          .addTo(map)
+          .bindPopup(`<p class="map-popup-country">${s.country}</p><p class="map-popup-desc">${s.desc}</p>`);
+  
+        // Dashed polyline from source to Singapore
+        L.polyline([[s.lat, s.lng],[sgLat, sgLng]], {
+          color: 'rgba(181,137,90,0.35)',
+          weight: 1.2,
+          dashArray: '5, 6',
+        }).addTo(map);
+      });
+  
+      // Singapore destination marker
+      L.marker([sgLat, sgLng], { icon: destIcon() })
+        .addTo(map)
+        .bindPopup(`<p class="map-popup-country">🇸🇬 Singapore</p><p class="map-popup-desc">Base of operations · Island-wide delivery</p>`)
+        .openPopup();
+    });
+  </script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

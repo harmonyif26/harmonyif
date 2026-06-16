@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <meta name="description" content="Browse 165+ frozen and fresh food products including pork, beef & lamb, chicken & duck, seafood, and processed hotpot ingredients. B2B supply for Singapore F&B operators." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.harmonyif.com.sg/products.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Harmony International Food" />
+  <meta property="og:url"         content="https://www.harmonyif.com.sg/products.html" />
+  <meta property="og:title"       content="Products — Harmony International Food" />
+  <meta property="og:description" content="165+ SKUs including pork, beef, chicken, seafood and processed hotpot ingredients. Download our price list or enquire for bulk pricing." />
+  <meta property="og:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="en_SG" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Products — Harmony International Food" />
+  <meta name="twitter:description" content="165+ SKUs including pork, beef, chicken, seafood and processed hotpot ingredients. Download our price list or enquire for bulk pricing." />
+  <meta name="twitter:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Harmony International Food Product Catalogue",
+    "description": "165+ frozen and fresh food products including pork, beef, chicken, seafood and processed hotpot ingredients.",
+    "url": "https://www.harmonyif.com.sg/products.html",
+    "numberOfItems": 165
+  }
+  </script>
+
+  <title>Products — Frozen & Fresh Meat, Seafood & Hotpot Ingredients | Harmony</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero__label { font-size:0.7rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); display:block; margin-bottom:0.6rem; }
+    .page-hero { text-align:center; }
+    .page-hero__actions { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:1.6rem; }
+    .btn-ghost-hero { display:inline-block; padding:0.85rem 2.2rem; font-size:0.75rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; border:1px solid rgba(245,240,232,0.35); color:var(--cream); transition:all var(--transition); cursor:pointer; background:transparent; }
+    .btn-ghost-hero:hover { background:rgba(245,240,232,0.08); border-color:var(--cream); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar__inner { flex-wrap:wrap; gap:0.75rem 1.5rem; }
+    .search-wrap { flex:1; min-width:200px; max-width:280px; }
+    .search-input-wrap { position:relative; }
+    .search-input-wrap svg { position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); color:var(--mist); pointer-events:none; }
+    #product-search { width:100%; padding:0.5rem 0.9rem 0.5rem 2.2rem; background:transparent; border:1px solid var(--border); color:var(--ink); font-family:var(--font-body); font-size:0.82rem; outline:none; transition:border-color var(--transition); }
+    #product-search:focus { border-color:var(--ink); }
+    #product-search::placeholder { color:var(--stone); }
+
+    /* ── PRODUCTS GRID — compact 4-col ── */
+    #products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+    }
+    @media (max-width:1100px) { #products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width:750px)  { #products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width:480px)  { #products-grid { grid-template-columns: 1fr; } }
+
+    /* ── COMPACT PRODUCT CARD ── */
+    .product-card {
+      background: var(--cream-light);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .product-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(26,25,22,0.1); }
+
+    /* No image — just a slim colour bar at top */
+    .product-card__colorbar {
+      height: 4px;
+      background: var(--gold);
+      opacity: 0.4;
+    }
+
+    .product-card__body { padding: 1rem 1rem 0.9rem; }
+
+    /* Chinese name — prominent, same weight as EN */
+    .product-card__cn {
+      font-size: 0.9rem;
+      color: var(--mist);
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+    .product-card__name {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    /* origin badge */
+    .product-card__origin-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      background: rgba(186,117,23,0.08);
+      padding: 2px 7px;
+      margin-bottom: 0.6rem;
+    }
+
+    /* Meta rows — all same size, uniform */
+    .product-card__meta { border-top: 1px solid var(--border); padding-top: 0.65rem; margin-top: 0.1rem; }
+    .product-card__meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.22rem 0;
+    }
+    .product-card__meta-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .product-card__meta-value {
+      font-size: 0.8rem;
+      color: var(--ink);
+      text-align: right;
+    }
+    /* Price — same size as other meta, just bold */
+    .product-card__meta-value--price {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .product-card__enquire {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 0.8rem;
+      padding: 0.55rem;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--cream);
+      border: none;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .product-card__enquire:hover { background: var(--coral); }
+
+    /* ── MODAL ── */
+    .enquiry-modal { display:none; position:fixed; inset:0; background:rgba(26,25,22,0.82); z-index:2000; align-items:center; justify-content:center; padding:1rem; backdrop-filter:blur(4px); }
+    .enquiry-modal.open { display:flex; }
+    .enquiry-modal__box { background:var(--ink); border:1px solid var(--border-dark); width:100%; max-width:520px; max-height:90vh; overflow-y:auto; padding:2.2rem; position:relative; }
+    .enquiry-modal__close { position:absolute; top:1rem; right:1.2rem; font-size:1.3rem; color:var(--mist); cursor:pointer; background:none; border:none; line-height:1; transition:color var(--transition); }
+    .enquiry-modal__close:hover { color:var(--cream); }
+    .enquiry-modal__eyebrow { font-size:0.68rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.4rem; }
+    .enquiry-modal__title { font-family:var(--font-heading); font-size:1.7rem; color:var(--cream); margin-bottom:1.4rem; }
+    .enquiry-modal .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .enquiry-modal .btn-primary { width:100%; text-align:center; margin-top:0.25rem; }
+    .enquiry-modal__note { font-size:0.7rem; color:var(--ink-mist); margin-top:0.5rem; text-align:center; line-height:1.5; }
+    .modal-success { display:none; text-align:center; padding:1rem 0; }
+    .modal-success h4 { font-family:var(--font-heading); font-size:1.4rem; color:var(--gold); margin-bottom:0.5rem; }
+    .modal-success p  { font-size:0.85rem; color:var(--mist); }
+    @media (max-width:600px) {
+      .enquiry-modal .form-row { grid-template-columns:1fr; }
+      .enquiry-modal__box { padding:1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html"  data-en="Home"    data-cn="首页">Home</a></li>
+        <li><a href="products.html" class="active" data-en="Products" data-cn="产品">Products</a></li>
+        <li><a href="about.html"  data-en="About"   data-cn="关于">About</a></li>
+        <li><a href="contact.html" data-en="Contact" data-cn="联系">Contact</a></li>
+      </ul>
+      <div class="nav__right">
+        <div class="lang-toggle">
+          <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
+        </div>
+        <button class="nav__cta" onclick="openEnquiry('')" data-en="Enquire Now" data-cn="立即询价">Enquire Now</button>
+        <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile">
+      <a href="index.html"    data-en="Home"     data-cn="首页">Home</a>
+      <a href="products.html" data-en="Products" data-cn="产品">Products</a>
+      <a href="about.html"    data-en="About"    data-cn="关于">About</a>
+      <a href="contact.html"  data-en="Contact"  data-cn="联系">Contact</a>
+      <div class="lang-toggle" style="margin-top:1.5rem;">
+        <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">EN</button>
+        <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero__label" data-en="Full Product Range" data-cn="全部产品">Full Product Range</span>
+      <h1 data-en="What We Supply" data-cn="我们的供应">What We Supply</h1>
+      <p data-en="150+ fresh and frozen products across 5 categories. Prices are indicative — contact us for your tailored quote." data-cn="超过150种新鲜及冷冻产品，涵盖5大类别。所示价格仅供参考，请联系我们获取专属报价。">150+ fresh and frozen products across 5 categories. Prices are indicative — contact us for your tailored quote.</p>
+      <div class="page-hero__actions">
+        <a id="pricelist-btn" href="#" target="_blank" rel="noopener" class="btn btn-primary" data-en="↓  Download Price List (PDF)" data-cn="↓  下载价格表 (PDF)">↓  Download Price List (PDF)</a>
+        <button class="btn-ghost-hero" onclick="openEnquiry('')" data-en="Request a Quote" data-cn="请求报价">Request a Quote</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER BAR + SEARCH -->
+  <div class="filter-bar">
+    <div class="container">
+      <div class="filter-bar__inner">
+        <div class="filter-group">
+          <span class="filter-group__label" data-en="Category" data-cn="类别">Category</span>
+          <div class="filter-group__btns" id="filter-btns"><!-- rendered by JS --></div>
+        </div>
+        <div class="search-wrap">
+          <div class="search-input-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="product-search" type="text" placeholder="Search by name, origin…" autocomplete="off" />
+          </div>
+        </div>
+        <div class="filter-bar__count" id="products-count"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS GRID -->
+  <section class="section products-section">
+    <div class="container">
+      <div id="products-grid"><!-- rendered by JS --></div>
+    </div>
+  </section>
+
+  <!-- TRADE CTA -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="trade-cta__inner">
+        <div>
+          <span class="label text-muted" data-en="Trade Enquiries Welcome" data-cn="欢迎贸易询价">Trade Enquiries Welcome</span>
+          <h2 style="color:var(--cream);margin:0.5rem 0 0.75rem;" data-en="Looking for a reliable supplier?" data-cn="正在寻找可靠的供应商？">Looking for a reliable supplier?</h2>
+          <p style="color:var(--mist);max-width:480px;" data-en="We work with hot pot restaurants, commercial kitchens, and F&B operators across Singapore." data-cn="我们与新加坡各地的火锅餐厅、商业厨房及餐饮经营者合作。">We work with hot pot restaurants, commercial kitchens, and F&amp;B operators across Singapore.</p>
+        </div>
+        <div class="trade-cta__actions">
+          <button class="btn btn-primary" onclick="openEnquiry('')" data-en="Get in Touch" data-cn="联系我们">Get in Touch</button>
+          <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." target="_blank" class="whatsapp-btn" data-en="WhatsApp Us" data-cn="WhatsApp 联系">WhatsApp Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <div class="footer__logo">Harmony<span>.</span></div>
+          <p class="footer__tagline">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</p>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Products" data-cn="产品">Products</h5>
+          <ul>
+            <li><a href="products.html?category=pork"      data-en="Pork"           data-cn="猪肉">Pork</a></li>
+            <li><a href="products.html?category=beef"      data-en="Beef & Lamb"    data-cn="牛羊肉">Beef & Lamb</a></li>
+            <li><a href="products.html?category=chicken"   data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</a></li>
+            <li><a href="products.html?category=seafood"   data-en="Seafood"        data-cn="海鲜">Seafood</a></li>
+            <li><a href="products.html?category=processed" data-en="Processed"      data-cn="加工食品">Processed</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Company" data-cn="公司">Company</h5>
+          <ul>
+            <li><a href="about.html"   data-en="About Us"           data-cn="关于我们">About Us</a></li>
+            <li><a href="contact.html" data-en="Contact"            data-cn="联系我们">Contact</a></li>
+            <li><a id="pricelist-footer-btn" href="#" target="_blank" rel="noopener" data-en="Download Catalogue" data-cn="下载产品目录">Download Catalogue</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Contact" data-cn="联系方式">Contact</h5>
+          <div class="footer__contact-item"><span class="icon">WA</span><span><a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." style="font-size:0.85rem;color:rgba(245,240,232,0.65);">+65 8795 3309</a></span></div>
+          <div class="footer__contact-item"><span class="icon">✉</span><span><a href="mailto:pat@harmonyif.com" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">pat@harmonyif.com</a></span></div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p data-en="© 2026 Harmony International Food Pte Ltd. All rights reserved." data-cn="© 2026 和谐国际食品私人有限公司。版权所有。">© 2026 Harmony International Food Pte Ltd. All rights reserved.</p>
+        <p data-en="Prices are indicative and subject to change. All orders confirmed via direct quotation." data-cn="价格仅供参考，可能随时调整。所有订单须经直接报价确认。">Prices are indicative and subject to change. All orders confirmed via direct quotation.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ENQUIRY MODAL -->
+  <div class="enquiry-modal" id="enquiry-modal">
+    <div class="enquiry-modal__box">
+      <button class="enquiry-modal__close" onclick="closeEnquiry()">✕</button>
+      <p class="enquiry-modal__eyebrow" data-en="Product Enquiry" data-cn="产品询价">Product Enquiry</p>
+      <h2 class="enquiry-modal__title" data-en="Tell Us What You Need" data-cn="告诉我们您的需求">Tell Us What You Need</h2>
+
+      <form id="modal-form">
+        
+        
+        
+        
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="modal-name" data-en="Full Name *" data-cn="姓名 *">Full Name *</label>
+            <input class="form-input" type="text" id="modal-name" name="name" placeholder="John Tan" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="modal-company" data-en="Restaurant / Company" data-cn="餐厅 / 公司">Restaurant / Company</label>
+            <input class="form-input" type="text" id="modal-company" name="company" placeholder="e.g. Hai Di Lao" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="modal-email" data-en="Email *" data-cn="电邮 *">Email *</label>
+            <input class="form-input" type="email" id="modal-email" name="email" placeholder="you@restaurant.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="modal-phone" data-en="WhatsApp / Phone *" data-cn="WhatsApp / 电话 *">WhatsApp / Phone *</label>
+            <input class="form-input" type="tel" id="modal-phone" name="phone" placeholder="+65 9XXX XXXX" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-product" data-en="Product(s) of Interest" data-cn="感兴趣的产品">Product(s) of Interest</label>
+          <input class="form-input" type="text" id="modal-product" name="products" placeholder="e.g. Pork Belly, Vannamei Shrimp 21/25" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-volume" data-en="Est. Required Volume" data-cn="预计所需用量">Est. Required Volume</label>
+          <select class="form-select" id="modal-volume" name="volume">
+            <option value="" data-en="Select a range" data-cn="选择范围">Select a range</option>
+            <option>Under 50kg</option>
+            <option>50 – 100kg</option>
+            <option>100 – 200kg</option>
+            <option>200 – 500kg</option>
+            <option>500kg+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-message" data-en="Additional Notes" data-cn="备注">Additional Notes</label>
+          <textarea class="form-textarea" id="modal-message" name="message" rows="2" placeholder="Specific cuts, packaging, delivery frequency…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" id="modal-submit" data-en="Send Enquiry" data-cn="发送询价">Send Enquiry</button>
+        <div class="modal-success" id="modal-success">
+          <h4 data-en="Sent!" data-cn="已发送！">Sent!</h4>
+          <p data-en="We'll be in touch within 1 business day." data-cn="我们将在1个工作日内与您联系。">We'll be in touch within 1 business day.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/form_handler.js"></script>
+  <script>
+    /* Modal open/close */
+    function openEnquiry(productName) {
+      const modal = document.getElementById('enquiry-modal');
+      const field = document.getElementById('modal-product');
+      if (field && productName) field.value = productName;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeEnquiry() {
+      document.getElementById('enquiry-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('enquiry-modal').addEventListener('click', e => {
+      if (e.target.id === 'enquiry-modal') closeEnquiry();
+    });
+  </script>
+
+
+  <!-- Catalogue PDF loader: reads latest.json from Google Drive -->
+  <script>
+  (function() {
+    // Paste the latest.json File ID here after first run of "Generate Price List":
+    var LATEST_JSON_ID = '1UuQKfYbtG3T4PLFK8bQsuDkkDFGBoH6d';
+    if (!LATEST_JSON_ID || LATEST_JSON_ID.indexOf('REPLACE') === 0) return;
+
+    fetch('https://drive.google.com/uc?export=download&id=' + LATEST_JSON_ID)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var pdfUrl = data.downloadUrl;
+        ['pricelist-btn','pricelist-footer-btn'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.href = pdfUrl;
+        });
+      })
+      .catch(function(e) { console.warn('Could not load latest catalogue:', e); });
+  })();
+  </script>
+
+</body>
+</html>

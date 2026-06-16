@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <meta name="description" content="Learn about Harmony International Food, a Singapore-based B2B food distributor supplying frozen and fresh meats, seafood and processed foods to restaurants and commercial kitchens." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.harmonyif.com.sg/about.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Harmony International Food" />
+  <meta property="og:url"         content="https://www.harmonyif.com.sg/about.html" />
+  <meta property="og:title"       content="About Harmony International Food" />
+  <meta property="og:description" content="Singapore B2B food distributor connecting F&B operators with quality frozen and fresh food from Brazil, USA, Japan, Thailand and more." />
+  <meta property="og:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="en_SG" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="About Harmony International Food" />
+  <meta name="twitter:description" content="Singapore B2B food distributor connecting F&B operators with quality frozen and fresh food from Brazil, USA, Japan, Thailand and more." />
+  <meta name="twitter:image"       content="https://www.harmonyif.com.sg/og-image.jpg" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Harmony International Food Pte Ltd",
+    "url": "https://www.harmonyif.com.sg",
+    "email": "pat@harmonyif.com",
+    "telephone": "+6587953309",
+    "address": { "@type": "PostalAddress", "addressCountry": "SG" },
+    "description": "Singapore-based B2B food distributor supplying frozen and fresh meats, seafood and processed foods to F&B operators."
+  }
+  </script>
+
+  <title>About Us — Harmony International Food Pte Ltd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero__label { font-size:0.7rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); display:block; margin-bottom:0.6rem; }
+    .page-hero { text-align: center; }
+
+    /* About lead */
+    .about-lead { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-lg); align-items:center; }
+    .about-lead__image { aspect-ratio:4/5; background:var(--stone); display:flex; align-items:center; justify-content:center; min-height:380px; }
+    .about-lead__image span { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--mist); }
+    .about-lead__text h2 { margin:0.5rem 0 1.2rem; }
+    .about-lead__text p  { color:var(--mist); margin-bottom:1rem; line-height:1.85; }
+
+    /* Pillars — SVG icons, no emojis */
+    .pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-md); }
+    .pillar  { border-top:2px solid var(--gold); padding-top:1.4rem; }
+    .pillar__icon { display:flex; align-items:center; justify-content:flex-start; margin-bottom:1rem; color:var(--gold-dark); }
+    .pillar__icon svg { width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+    .pillar__num { font-family:var(--font-heading); font-size:2.2rem; color:var(--gold); opacity:0.4; line-height:1; margin-bottom:0.75rem; }
+    .pillar h4 { font-size:1.05rem; color:var(--cream); margin-bottom:0.5rem; }
+    .pillar p  { font-size:0.85rem; color:var(--mist); line-height:1.8; }
+
+    /* Origin grid — no emojis in country names (flags stay as unicode flag chars which render as images) */
+    .origin-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border-dark); border:1px solid var(--border-dark); margin-top:var(--space-md); }
+    .origin-cell { background:var(--ink-light); padding:1.6rem 1.2rem; text-align:center; }
+    .origin-cell__flag    { font-size:1.8rem; display:block; margin-bottom:0.6rem; }
+    .origin-cell__country { font-size:0.8rem; font-weight:500; letter-spacing:0.06em; color:var(--cream); display:block; margin-bottom:0.3rem; }
+    .origin-cell__desc    { font-size:0.72rem; color:var(--mist); line-height:1.5; }
+
+    /* Cat strip — SVG icons */
+    .cat-strip { display:grid; grid-template-columns:repeat(5,1fr); gap:var(--space-sm); margin-top:var(--space-md); }
+    .cat-strip__item { text-align:center; padding:1.5rem 1rem; border:1px solid var(--border); background:var(--cream-light); transition:background var(--transition),border-color var(--transition); text-decoration:none; display:block; }
+    .cat-strip__item:hover { background:var(--ink); border-color:var(--ink); }
+    .cat-strip__item:hover .cat-strip__icon svg,
+    .cat-strip__item:hover .cat-strip__name,
+    .cat-strip__item:hover .cat-strip__count { color:var(--cream); stroke:var(--cream); }
+    .cat-strip__icon { display:flex; align-items:center; justify-content:center; margin:0 auto 0.75rem; color:var(--gold-dark); width:28px; height:28px; }
+    .cat-strip__icon svg { width:24px; height:24px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; transition:stroke var(--transition); }
+    .cat-strip__name  { font-size:0.82rem; font-weight:500; color:var(--ink); display:block; margin-bottom:0.2rem; transition:color var(--transition); }
+    .cat-strip__count { font-size:0.7rem; color:var(--mist); transition:color var(--transition); }
+
+    /* Section text centred */
+    .section-header { text-align:center; }
+    .section-header__sub { text-align:center; }
+
+    @media (max-width:900px) {
+      .about-lead  { grid-template-columns:1fr; }
+      .pillars     { grid-template-columns:1fr; }
+      .origin-grid { grid-template-columns:repeat(2,1fr); }
+      .cat-strip   { grid-template-columns:repeat(3,1fr); }
+    }
+    @media (max-width:600px) {
+      .origin-grid { grid-template-columns:repeat(2,1fr); }
+      .cat-strip   { grid-template-columns:repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html"  data-en="Home"    data-cn="首页">Home</a></li>
+        <li><a href="products.html" data-en="Products" data-cn="产品">Products</a></li>
+        <li><a href="about.html" class="active" data-en="About" data-cn="关于">About</a></li>
+        <li><a href="contact.html" data-en="Contact" data-cn="联系">Contact</a></li>
+      </ul>
+      <div class="nav__right">
+        <div class="lang-toggle">
+          <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
+        </div>
+        <a href="contact.html" class="nav__cta" data-en="Enquire Now" data-cn="立即询价">Enquire Now</a>
+        <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile">
+      <a href="index.html" data-en="Home" data-cn="首页">Home</a>
+      <a href="products.html" data-en="Products" data-cn="产品">Products</a>
+      <a href="about.html" data-en="About" data-cn="关于">About</a>
+      <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+      <div class="lang-toggle" style="margin-top:1.5rem;">
+        <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">EN</button>
+        <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero__label" data-en="About Harmony" data-cn="关于和谐">About Harmony</span>
+      <h1><span data-en="The Supplier Behind" data-cn="您厨房背后的">The Supplier Behind</span><br><span data-en="Your Kitchen" data-cn="可靠供应商">Your Kitchen</span></h1>
+      <p data-en="A Singapore-based B2B food distributor connecting F&B operators with quality fresh and frozen produce — competitively priced, directly supplied." data-cn="新加坡本地B2B食品分销商，为餐饮业者提供优质新鲜及冷冻食品，价格具竞争力，直接供货。">A Singapore-based B2B food distributor connecting F&amp;B operators with quality fresh and frozen produce — competitively priced, directly supplied.</p>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO -->
+  <section class="section">
+    <div class="container">
+      <div class="about-lead">
+        <div class="about-lead__image reveal">
+          <span data-en="Photo — coming soon" data-cn="图片 — 即将上线">Photo — coming soon</span>
+        </div>
+        <div class="about-lead__text reveal">
+          <span class="label text-muted" data-en="What We Do" data-cn="我们的业务">What We Do</span>
+          <h2 data-en="Built for the F&B Trade" data-cn="专为餐饮业打造">Built for the F&B Trade</h2>
+          <p data-en="Harmony International Food is a Singapore-registered B2B food supply business that sources and distributes fresh and frozen protein products to restaurants, hot pot operators, commercial kitchens, and food service companies across the island." data-cn="和谐国际食品是一家在新加坡注册的B2B食品供应商，专向全岛餐厅、火锅经营者、商业厨房及餐饮公司分销新鲜及冷冻蛋白类食品。">Harmony International Food is a Singapore-registered B2B food supply business that sources and distributes fresh and frozen protein products to restaurants, hot pot operators, commercial kitchens, and food service companies across the island.</p>
+          <p data-en="We act as a direct supply channel — bridging international and local producers with Singapore's F&B businesses. This keeps our pricing lean and our supply chain tight, with a single point of contact for ordering, quotation, and delivery coordination." data-cn="我们作为直接供应渠道，连接国际与本地生产商及新加坡餐饮企业，确保价格精简、供应链稳定，订单、报价与配送均由单一联系人负责。">We act as a direct supply channel — bridging international and local producers with Singapore's F&amp;B businesses. This keeps our pricing lean and our supply chain tight, with a single point of contact for ordering, quotation, and delivery coordination.</p>
+          <p data-en="With over 150 SKUs across five product categories — from fresh pork cuts and seafood to processed hotpot items — we offer the breadth of range that busy kitchens need without the complexity of managing multiple suppliers." data-cn="我们拥有超过150个SKU，涵盖五大产品类别，为繁忙的厨房提供多样化选择，无需应对多个供应商的繁琐管理。">With over 150 SKUs across five product categories — from fresh pork cuts and seafood to processed hotpot items — we offer the breadth of range that busy kitchens need without the complexity of managing multiple suppliers.</p>
+          <div style="margin-top:1.6rem;">
+            <a href="products.html" class="btn btn-primary" data-en="View Full Product Range" data-cn="查看完整产品系列">View Full Product Range</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-header">
+        <span class="label" style="color:var(--mist);" data-en="Why Work With Us" data-cn="为何选择我们">Why Work With Us</span>
+        <h2 style="color:var(--cream);" data-en="What Sets Us Apart" data-cn="我们的优势">What Sets Us Apart</h2>
+      </div>
+      <div class="pillars">
+        <div class="pillar reveal">
+          <div class="pillar__icon">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="pillar__num">01</div>
+          <h4 data-en="Competitive Pricing" data-cn="价格具竞争力">Competitive Pricing</h4>
+          <p data-en="By operating lean and sourcing directly, we pass genuine savings to our trade customers. Every quote is tailored to your volume and product mix." data-cn="通过精简运营和直接采购，我们将真实的价格优惠传递给贸易客户。每份报价均根据您的采购量和产品组合量身定制。">By operating lean and sourcing directly, we pass genuine savings to our trade customers. Every quote is tailored to your volume and product mix.</p>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar__icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="pillar__num">02</div>
+          <h4 data-en="Wide Product Range" data-cn="产品种类丰富">Wide Product Range</h4>
+          <p data-en="150+ SKUs across pork, beef, lamb, chicken, duck, seafood, and processed items means you can consolidate more of your purchasing through one supplier." data-cn="超过150个SKU，涵盖猪肉、牛肉、羊肉、鸡鸭、海鲜及加工食品，让您通过一个供应商完成更多采购。">150+ SKUs across pork, beef, lamb, chicken, duck, seafood, and processed items means you can consolidate more of your purchasing through one supplier.</p>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar__icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="pillar__num">03</div>
+          <h4 data-en="Direct Communication" data-cn="直接沟通">Direct Communication</h4>
+          <p data-en="No call centres, no ticketing systems. You deal directly with us — fast responses, clear pricing, and a relationship that scales with your business." data-cn="无需联络中心，无需工单系统。与我们直接沟通——快速响应、价格透明，建立随业务成长的合作关系。">No call centres, no ticketing systems. You deal directly with us — fast responses, clear pricing, and a relationship that scales with your business.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section-header">
+        <span class="label text-muted" data-en="Our Range" data-cn="我们的产品系列">Our Range</span>
+        <h2 data-en="Five Categories, One Contact" data-cn="五大类别，一个联系人">Five Categories, One Contact</h2>
+        <p class="section-header__sub" data-en="Everything from whole cuts and offal to shrimp, fish, and ready-to-cook hotpot items." data-cn="从整块肉切和内脏，到虾、鱼及即煮火锅食材，应有尽有。">Everything from whole cuts and offal to shrimp, fish, and ready-to-cook hotpot items.</p>
+      </div>
+      <div class="cat-strip">
+        <a href="products.html?category=pork" class="cat-strip__item reveal">
+          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M18 4a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1.5A6.5 6.5 0 1 1 5.5 9H4a2 2 0 0 1 0-4h1.17A6.5 6.5 0 0 1 16.5 9H18V6a2 2 0 0 1 0-2z"/><circle cx="9" cy="13" r="1" fill="currentColor" stroke="none"/></svg></div>
+          <span class="cat-strip__name" data-en="Pork" data-cn="猪肉">Pork</span>
+          <span class="cat-strip__count" data-en="43 SKUs" data-cn="43个">43 SKUs</span>
+        </a>
+        <a href="products.html?category=beef" class="cat-strip__item reveal">
+          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M5 12c0-1.5.8-2.8 2-3.5L9 3h6l2 5.5c1.2.7 2 2 2 3.5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><line x1="9" y1="3" x2="9" y2="8"/><line x1="15" y1="3" x2="15" y2="8"/></svg></div>
+          <span class="cat-strip__name" data-en="Beef & Lamb" data-cn="牛羊肉">Beef & Lamb</span>
+          <span class="cat-strip__count" data-en="37 SKUs" data-cn="37个">37 SKUs</span>
+        </a>
+        <a href="products.html?category=chicken" class="cat-strip__item reveal">
+          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M14.5 2.5c2.5 0 4.5 2 4.5 4.5 0 1.5-.7 2.8-1.8 3.7L21 20H3l3.8-9.3A4.5 4.5 0 0 1 14.5 2.5z"/><line x1="12" y1="20" x2="12" y2="13"/></svg></div>
+          <span class="cat-strip__name" data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</span>
+          <span class="cat-strip__count" data-en="29 SKUs" data-cn="29个">29 SKUs</span>
+        </a>
+        <a href="products.html?category=seafood" class="cat-strip__item reveal">
+          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><path d="M20 8c1-1 2-2 2-2s-1.5 3-1.5 6S22 18 22 18s-1-1-2-2"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <span class="cat-strip__name" data-en="Seafood" data-cn="海鲜">Seafood</span>
+          <span class="cat-strip__count" data-en="35 SKUs" data-cn="35个">35 SKUs</span>
+        </a>
+        <a href="products.html?category=processed" class="cat-strip__item reveal">
+          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><polyline points="16 7 12 3 8 7"/><line x1="12" y1="3" x2="12" y2="21"/></svg></div>
+          <span class="cat-strip__name" data-en="Processed" data-cn="加工食品">Processed</span>
+          <span class="cat-strip__count" data-en="21 SKUs" data-cn="21个">21 SKUs</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORIGINS -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-header">
+        <span class="label" style="color:var(--mist);" data-en="Where We Source From" data-cn="我们的采购来源">Where We Source From</span>
+        <h2 style="color:var(--cream);"><span data-en="Global Sourcing," data-cn="全球采购，">Global Sourcing,</span><br><span data-en="Singapore Delivered" data-cn="新加坡配送">Singapore Delivered</span></h2>
+        <p style="color:var(--mist);max-width:480px;margin:0 auto;text-align:center;" data-en="Our products are sourced from trusted suppliers across multiple countries. Country of origin is listed on every product in our catalogue." data-cn="我们的产品来自多个国家的可靠供应商。每件产品的原产地均在目录中注明。">Our products are sourced from trusted suppliers across multiple countries. Country of origin is listed on every product in our catalogue.</p>
+      </div>
+      <div class="origin-grid">
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇧🇷</span><span class="origin-cell__country">Brazil</span><span class="origin-cell__desc" data-en="Beef ribeye, striploin & cuberoll" data-cn="牛肋眼、西冷及肉眼">Beef ribeye, striploin & cuberoll</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇺🇸</span><span class="origin-cell__country">USA</span><span class="origin-cell__desc" data-en="US short plate & beef cuts" data-cn="美国短肋及牛肉切片">US short plate & beef cuts</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇯🇵</span><span class="origin-cell__country">Japan</span><span class="origin-cell__desc" data-en="Japanese chashu & specialty items" data-cn="日本叉烧及特色食品">Japanese chashu & specialty items</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇹🇼</span><span class="origin-cell__country">Taiwan</span><span class="origin-cell__desc" data-en="Pork sausages & processed items" data-cn="猪肉香肠及加工食品">Pork sausages & processed items</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇹🇭</span><span class="origin-cell__country">Thailand</span><span class="origin-cell__desc" data-en="Imitation crab sticks" data-cn="仿蟹肉条">Imitation crab sticks</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇨🇳</span><span class="origin-cell__country">China</span><span class="origin-cell__desc" data-en="Mussels, crab products & more" data-cn="青口贝、蟹产品及更多">Mussels, crab products & more</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🌏</span><span class="origin-cell__country" data-en="Southeast Asia" data-cn="东南亚">Southeast Asia</span><span class="origin-cell__desc" data-en="Shrimp, seafood & poultry" data-cn="虾、海鲜及禽类">Shrimp, seafood & poultry</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇸🇬</span><span class="origin-cell__country">Singapore</span><span class="origin-cell__desc" data-en="Based & delivered locally" data-cn="本地经营及配送">Based & delivered locally</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-banner">
+    <div class="container text-center">
+      <span class="label text-muted" data-en="Get in Touch" data-cn="联系我们">Get in Touch</span>
+      <h2 style="margin:0.5rem 0 0.75rem;" data-en="Ready to work together?" data-cn="准备好合作了吗？">Ready to work together?</h2>
+      <p style="color:var(--mist);max-width:440px;margin:0 auto 2rem;text-align:center;" data-en="Send us an enquiry or WhatsApp directly — we'll get back to you with pricing and availability." data-cn="发送询价或直接 WhatsApp 联系——我们将回复您的价格及货品情况。">Send us an enquiry or WhatsApp directly — we'll get back to you with pricing and availability.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+        <a href="contact.html" class="btn btn-primary" data-en="Contact Us" data-cn="联系我们">Contact Us</a>
+        <a href="https://wa.me/6587953309" target="_blank" class="whatsapp-btn">WhatsApp Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <div class="footer__logo">Harmony<span>.</span></div>
+          <p class="footer__tagline">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</p>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Products" data-cn="产品">Products</h5>
+          <ul>
+            <li><a href="products.html?category=pork"      data-en="Pork"           data-cn="猪肉">Pork</a></li>
+            <li><a href="products.html?category=beef"      data-en="Beef & Lamb"    data-cn="牛羊肉">Beef & Lamb</a></li>
+            <li><a href="products.html?category=chicken"   data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</a></li>
+            <li><a href="products.html?category=seafood"   data-en="Seafood"        data-cn="海鲜">Seafood</a></li>
+            <li><a href="products.html?category=processed" data-en="Processed"      data-cn="加工食品">Processed</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Company" data-cn="公司">Company</h5>
+          <ul>
+            <li><a href="about.html"   data-en="About Us"           data-cn="关于我们">About Us</a></li>
+            <li><a href="contact.html" data-en="Contact"            data-cn="联系我们">Contact</a></li>
+            <li><a href="Harmony_Product_Catalogue_May2026.pdf" download data-en="Download Catalogue" data-cn="下载产品目录">Download Catalogue</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Contact" data-cn="联系方式">Contact</h5>
+          <div class="footer__contact-item"><span class="icon">WA</span><span><a href="https://wa.me/6587953309" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">+65 8795 3309</a></span></div>
+          <div class="footer__contact-item"><span class="icon">✉</span><span><a href="mailto:pat@harmonyif.com" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">pat@harmonyif.com</a></span></div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p data-en="© 2026 Harmony International Food Pte Ltd. All rights reserved." data-cn="© 2026 和谐国际食品私人有限公司。版权所有。">© 2026 Harmony International Food Pte Ltd. All rights reserved.</p>
+        <p data-en="Prices are indicative and subject to change. All orders confirmed via direct quotation." data-cn="价格仅供参考，可能随时调整。所有订单须经直接报价确认。">Prices are indicative and subject to change. All orders confirmed via direct quotation.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
