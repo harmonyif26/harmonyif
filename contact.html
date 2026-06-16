@@ -387,13 +387,20 @@
   <script src="js/main.js"></script>
   <script src="js/form_handler.js"></script>
 
-<script>
-(function() {
-  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwq7Q2DA_HZMXRT1rqLs-4hAvcBS5f1TfyYCUfP2_AtXNeNeuqFUg5qc7fAkh6tmf3yzg/exec';
-  var el = document.getElementById('pricelist-contact-btn');
-  if (el) el.href = APPS_SCRIPT_URL;
-})();
-</script>
+
+  <script>
+  (function() {
+    fetch('https://raw.githubusercontent.com/harmonyif26/harmonyif/main/pdf-id.txt?t=' + Date.now())
+      .then(function(r) { return r.text(); })
+      .then(function(fileId) {
+        fileId = fileId.trim();
+        if (!fileId) return;
+        var el = document.getElementById('pricelist-contact-btn');
+        if (el) el.href = 'https://drive.google.com/file/d/' + fileId + '/view?usp=sharing';
+      })
+      .catch(function(){});
+  })();
+  </script>
 
 </body>
 </html>
