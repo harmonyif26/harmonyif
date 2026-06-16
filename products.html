@@ -390,13 +390,13 @@
   </script>
 
 
-  <!-- Catalogue PDF: hosted directly on GitHub, auto-updated by Google Sheets -->
+  <!-- Catalogue: links to live pricelist page, auto-updated by Google Sheets -->
   <script>
   (function() {
-    var pdfUrl = 'https://raw.githubusercontent.com/harmonyif26/harmonyif/main/price-list.pdf';
+    var url = 'https://harmonyif26.github.io/harmonyif/pricelist.html';
     ['pricelist-btn','pricelist-footer-btn'].forEach(function(id) {
       var el = document.getElementById(id);
-      if (el) el.href = pdfUrl;
+      if (el) el.href = url;
     });
   })();
   </script>
