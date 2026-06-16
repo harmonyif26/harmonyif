@@ -105,8 +105,8 @@
       margin-top: 4rem;
     }
     .cover__summary-item {
-      padding: 1.5rem 0;
-      border-right: 1px solid rgba(180,178,169,0.1);
+      padding: 1.5rem 1.5rem 1.5rem 0;
+      border-right: none;
     }
     .cover__summary-item:last-child { border-right: none; }
     .cover__summary-num {
@@ -274,7 +274,7 @@
     /* ════════════════════════════════════════════════
        PRODUCT TABLE
     ════════════════════════════════════════════════ */
-    .table-outer { padding: 0; }
+    .table-outer { padding: 0 5rem; background: var(--page); }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -285,7 +285,7 @@
       border-bottom: 2px solid var(--stone);
     }
     thead th {
-      padding: 0.7rem 1.2rem;
+      padding: 0.7rem 1rem;
       font-size: 0.58rem;
       font-weight: 600;
       letter-spacing: 0.14em;
@@ -303,7 +303,7 @@
     tbody tr:hover { background: rgba(239,159,39,0.05); }
 
     tbody td {
-      padding: 0.7rem 1.2rem;
+      padding: 0.7rem 1rem;
       vertical-align: middle;
       font-size: 0.78rem;
     }
@@ -422,7 +422,7 @@
       padding: 5rem;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       position: relative;
       z-index: 1;
     }
@@ -477,7 +477,8 @@
       padding: 5rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 3rem;
       position: relative;
       z-index: 1;
     }
@@ -509,10 +510,10 @@
     }
     .back-cover__qr {
       display: block;
-      width: 96px;
-      height: 96px;
-      border: 3px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
+      width: 220px;
+      height: 220px;
+      border: 4px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
       overflow: hidden;
       background: white;
       transition: border-color 0.2s;
@@ -572,6 +573,7 @@
       .cat-notice { padding: 0.6rem 2rem; flex-direction: column; gap: 0.25rem; }
       .sec-footer { padding: 1.5rem 2rem; }
       .sec-footer__bottom { padding: 0.5rem 2rem 1rem; }
+      .table-outer { padding: 0 2rem; }
       .back-cover { grid-template-columns: 1fr; }
       .back-cover__left, .back-cover__right { padding: 3rem 2rem; }
       .back-cover__right { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
@@ -606,7 +608,7 @@
     <div class="cover__contacts">
       <span>+65 8795 3309</span>
       <span>pat@harmonyif.com</span>
-      <span>www.harmonyif.com.sg</span>
+      <span>www.harmonyif.sg</span>
     </div>
     <div class="cover__disclaimer">UEN 202608797N</div>
   </div>
@@ -620,8 +622,6 @@
   <a href="#chicken">Chicken &amp; Duck</a>
   <a href="#seafood">Seafood</a>
   <a href="#processed">Processed</a>
-  <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." target="_blank" class="pl-nav__wa">WhatsApp Us</a>
-  <a href="#" onclick="window.print();return false;" class="pl-nav__pdf">Save PDF</a>
 </nav>
 
 <!-- ══ CONTENT (rendered by JS) ════════════════════════════════ -->
@@ -651,7 +651,7 @@
     <div class="back-cover__qr-wrap">
       <div class="back-cover__qr-title">Scan to WhatsApp us</div>
       <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." target="_blank" class="back-cover__qr">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=https%3A%2F%2Fwa.me%2F6587953309%3Ftext%3DHi%2520Harmony%252C%2520I%2520would%2520like%2520to%2520enquire%2520about%2520your%2520products%2520and%2520pricing.&bgcolor=ffffff&color=1A1916&margin=8" alt="WhatsApp QR"/>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=440x440&data=https%3A%2F%2Fwa.me%2F6587953309%3Ftext%3DHi%2520Harmony%252C%2520I%2520would%2520like%2520to%2520enquire%2520about%2520your%2520products%2520and%2520pricing.&bgcolor=ffffff&color=1A1916&margin=12" alt="WhatsApp QR"/>
       </a>
     </div>
   </div>
@@ -762,7 +762,7 @@ function render() {
             <div class="sec-footer__contacts">
               +65 8795 3309 &nbsp;·&nbsp;
               <a href="mailto:pat@harmonyif.com">pat@harmonyif.com</a> &nbsp;·&nbsp;
-              www.harmonyif.com.sg
+              www.harmonyif.sg
             </div>
           </div>
           <div class="sec-footer__right">
