@@ -390,25 +390,20 @@
   </script>
 
 
-  <!-- Catalogue PDF loader: reads latest.json from Google Drive -->
-  <script>
-  (function() {
-    // Paste the latest.json File ID here after first run of "Generate Price List":
-    var LATEST_JSON_ID = '1UuQKfYbtG3T4PLFK8bQsuDkkDFGBoH6d';
-    if (!LATEST_JSON_ID || LATEST_JSON_ID.indexOf('REPLACE') === 0) return;
+<!-- Catalogue PDF loader -->
+<script>
+(function() {
+  // Paste your PDF file ID here (from the success dialog when you ran Generate Price List):
+  var PDF_FILE_ID = '1UuQKfYbtG3T4PLFK8bQsuDkkDFGBoH6d';
+  if (!PDF_FILE_ID) return;
 
-    fetch('https://drive.google.com/uc?export=download&id=' + LATEST_JSON_ID)
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var pdfUrl = data.downloadUrl;
-        ['pricelist-btn','pricelist-footer-btn'].forEach(function(id) {
-          var el = document.getElementById(id);
-          if (el) el.href = pdfUrl;
-        });
-      })
-      .catch(function(e) { console.warn('Could not load latest catalogue:', e); });
-  })();
-  </script>
+  var pdfUrl = 'https://drive.google.com/file/d/' + PDF_FILE_ID + '/view?usp=sharing';
+  ['pricelist-btn','pricelist-footer-btn'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.href = pdfUrl;
+  });
+})();
+</script>
 
 </body>
 </html>

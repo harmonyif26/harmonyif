@@ -388,19 +388,15 @@
   <script src="js/form_handler.js"></script>
 
 
-  <script>
-  (function() {
-    var LATEST_JSON_ID = '1UuQKfYbtG3T4PLFK8bQsuDkkDFGBoH6d';
-    if (!LATEST_JSON_ID || LATEST_JSON_ID.indexOf('REPLACE') === 0) return;
-    fetch('https://drive.google.com/uc?export=download&id=' + LATEST_JSON_ID)
-      .then(function(r){ return r.json(); })
-      .then(function(data){
-        var el = document.getElementById('pricelist-contact-btn');
-        if (el) el.href = data.downloadUrl;
-      })
-      .catch(function(){});
-  })();
-  </script>
+<script>
+(function() {
+  var PDF_FILE_ID = '1UuQKfYbtG3T4PLFK8bQsuDkkDFGBoH6d';
+  if (!PDF_FILE_ID) return;
+  var pdfUrl = 'https://drive.google.com/file/d/' + PDF_FILE_ID + '/view?usp=sharing';
+  var el = document.getElementById('pricelist-contact-btn');
+  if (el) el.href = pdfUrl;
+})();
+</script>
 
 </body>
 </html>
