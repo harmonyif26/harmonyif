@@ -389,18 +389,13 @@
     });
   </script>
 
-
 <!-- Catalogue PDF loader -->
 <script>
 (function() {
-  // Paste your PDF file ID here (from the success dialog when you ran Generate Price List):
-  var PDF_FILE_ID = '1bnWG64JtJBoFwVBndJ0Sb4XejrBmteqF';
-  if (!PDF_FILE_ID) return;
-
-  var pdfUrl = 'https://drive.google.com/file/d/' + PDF_FILE_ID + '/view?usp=sharing';
+  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwq7Q2DA_HZMXRT1rqLs-4hAvcBS5f1TfyYCUfP2_AtXNeNeuqFUg5qc7fAkh6tmf3yzg/exec';
   ['pricelist-btn','pricelist-footer-btn'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (el) el.href = pdfUrl;
+    if (el) el.href = APPS_SCRIPT_URL;
   });
 })();
 </script>
