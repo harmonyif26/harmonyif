@@ -3,39 +3,46 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://www.harmonyif.com.sg/</loc>
-    <lastmod>2026-06-01</lastmod>
+    <loc>https://harmonyif.sg/</loc>
+    <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.harmonyif.com.sg/"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.harmonyif.com.sg/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonyif.sg/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonyif.sg/"/>
   </url>
 
   <url>
-    <loc>https://www.harmonyif.com.sg/products.html</loc>
-    <lastmod>2026-06-01</lastmod>
+    <loc>https://harmonyif.sg/products.html</loc>
+    <lastmod>2026-06-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.harmonyif.com.sg/products.html"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.harmonyif.com.sg/products.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonyif.sg/products.html"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonyif.sg/products.html"/>
   </url>
 
   <url>
-    <loc>https://www.harmonyif.com.sg/about.html</loc>
-    <lastmod>2026-06-01</lastmod>
+    <loc>https://harmonyif.sg/about.html</loc>
+    <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.harmonyif.com.sg/about.html"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.harmonyif.com.sg/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonyif.sg/about.html"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonyif.sg/about.html"/>
   </url>
 
   <url>
-    <loc>https://www.harmonyif.com.sg/contact.html</loc>
-    <lastmod>2026-06-01</lastmod>
+    <loc>https://harmonyif.sg/contact.html</loc>
+    <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.harmonyif.com.sg/contact.html"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.harmonyif.com.sg/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonyif.sg/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonyif.sg/contact.html"/>
+  </url>
+
+  <url>
+    <loc>https://harmonyif.sg/pricelist.html</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
