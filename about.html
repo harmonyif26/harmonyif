@@ -101,6 +101,7 @@
       .cat-strip   { grid-template-columns:repeat(2,1fr); }
     }
   </style>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
@@ -119,7 +120,7 @@
           <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
           <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
         </div>
-        <a href="contact.html" class="nav__cta" data-en="Enquire Now" data-cn="立即询价">Enquire Now</a>
+        <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." target="_blank" class="nav__cta" data-en="Enquire Now" data-cn="立即询价">Enquire Now</a>
         <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -211,27 +212,27 @@
       </div>
       <div class="cat-strip">
         <a href="products.html?category=pork" class="cat-strip__item reveal">
-          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M18 4a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1.5A6.5 6.5 0 1 1 5.5 9H4a2 2 0 0 1 0-4h1.17A6.5 6.5 0 0 1 16.5 9H18V6a2 2 0 0 1 0-2z"/><circle cx="9" cy="13" r="1" fill="currentColor" stroke="none"/></svg></div>
+          <div class="cat-strip__icon"><i data-lucide="beef"></i></div>
           <span class="cat-strip__name" data-en="Pork" data-cn="猪肉">Pork</span>
           <span class="cat-strip__count" data-en="43 SKUs" data-cn="43个">43 SKUs</span>
         </a>
         <a href="products.html?category=beef" class="cat-strip__item reveal">
-          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M5 12c0-1.5.8-2.8 2-3.5L9 3h6l2 5.5c1.2.7 2 2 2 3.5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><line x1="9" y1="3" x2="9" y2="8"/><line x1="15" y1="3" x2="15" y2="8"/></svg></div>
+          <div class="cat-strip__icon"><i data-lucide="flame"></i></div>
           <span class="cat-strip__name" data-en="Beef & Lamb" data-cn="牛羊肉">Beef & Lamb</span>
           <span class="cat-strip__count" data-en="37 SKUs" data-cn="37个">37 SKUs</span>
         </a>
         <a href="products.html?category=chicken" class="cat-strip__item reveal">
-          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M14.5 2.5c2.5 0 4.5 2 4.5 4.5 0 1.5-.7 2.8-1.8 3.7L21 20H3l3.8-9.3A4.5 4.5 0 0 1 14.5 2.5z"/><line x1="12" y1="20" x2="12" y2="13"/></svg></div>
+          <div class="cat-strip__icon"><i data-lucide="feather"></i></div>
           <span class="cat-strip__name" data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</span>
           <span class="cat-strip__count" data-en="29 SKUs" data-cn="29个">29 SKUs</span>
         </a>
         <a href="products.html?category=seafood" class="cat-strip__item reveal">
-          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><path d="M20 8c1-1 2-2 2-2s-1.5 3-1.5 6S22 18 22 18s-1-1-2-2"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <div class="cat-strip__icon"><i data-lucide="waves"></i></div>
           <span class="cat-strip__name" data-en="Seafood" data-cn="海鲜">Seafood</span>
           <span class="cat-strip__count" data-en="35 SKUs" data-cn="35个">35 SKUs</span>
         </a>
         <a href="products.html?category=processed" class="cat-strip__item reveal">
-          <div class="cat-strip__icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><polyline points="16 7 12 3 8 7"/><line x1="12" y1="3" x2="12" y2="21"/></svg></div>
+          <div class="cat-strip__icon"><i data-lucide="package"></i></div>
           <span class="cat-strip__name" data-en="Processed" data-cn="加工食品">Processed</span>
           <span class="cat-strip__count" data-en="21 SKUs" data-cn="21个">21 SKUs</span>
         </a>
@@ -251,7 +252,7 @@
         <div class="origin-cell reveal"><span class="origin-cell__flag">🇧🇷</span><span class="origin-cell__country">Brazil</span><span class="origin-cell__desc" data-en="Beef ribeye, striploin & cuberoll" data-cn="牛肋眼、西冷及肉眼">Beef ribeye, striploin & cuberoll</span></div>
         <div class="origin-cell reveal"><span class="origin-cell__flag">🇺🇸</span><span class="origin-cell__country">USA</span><span class="origin-cell__desc" data-en="US short plate & beef cuts" data-cn="美国短肋及牛肉切片">US short plate & beef cuts</span></div>
         <div class="origin-cell reveal"><span class="origin-cell__flag">🇯🇵</span><span class="origin-cell__country">Japan</span><span class="origin-cell__desc" data-en="Japanese chashu & specialty items" data-cn="日本叉烧及特色食品">Japanese chashu & specialty items</span></div>
-        <div class="origin-cell reveal"><span class="origin-cell__flag">🇹🇼</span><span class="origin-cell__country">Taiwan</span><span class="origin-cell__desc" data-en="Pork sausages & processed items" data-cn="猪肉香肠及加工食品">Pork sausages & processed items</span></div>
+        <div class="origin-cell reveal"><span class="origin-cell__flag">🇮🇪</span><span class="origin-cell__country">Ireland</span><span class="origin-cell__desc" data-en="Pork sausages & processed items" data-cn="猪肉香肠及加工食品">Pork sausages & processed items</span></div>
         <div class="origin-cell reveal"><span class="origin-cell__flag">🇹🇭</span><span class="origin-cell__country">Thailand</span><span class="origin-cell__desc" data-en="Imitation crab sticks" data-cn="仿蟹肉条">Imitation crab sticks</span></div>
         <div class="origin-cell reveal"><span class="origin-cell__flag">🇨🇳</span><span class="origin-cell__country">China</span><span class="origin-cell__desc" data-en="Mussels, crab products & more" data-cn="青口贝、蟹产品及更多">Mussels, crab products & more</span></div>
         <div class="origin-cell reveal"><span class="origin-cell__flag">🌏</span><span class="origin-cell__country" data-en="Southeast Asia" data-cn="东南亚">Southeast Asia</span><span class="origin-cell__desc" data-en="Shrimp, seafood & poultry" data-cn="虾、海鲜及禽类">Shrimp, seafood & poultry</span></div>
@@ -314,5 +315,6 @@
 
   <script src="js/lang.js"></script>
   <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>
