@@ -1,25 +1,30 @@
 /**
  * form_handler.js
- * Handles contact form + product enquiry modal form submissions.
- * On submit: (1) emails pat@harmonyif.com via Apps Script,
- *            (2) opens WhatsApp with a pre-filled summary so the
- *                customer can also message the team directly.
+ * Handles two separate flows:
+ *  1. CONTACT PAGE FORM  → emails pat@harmonyif.com via Apps Script
+ *  2. PRODUCT ENQUIRY MODAL (products.html / product-detail.html)
+ *     → no email — opens WhatsApp directly with all entered
+ *       fields pre-filled into the message.
  */
 
 const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzM98Vkzq68Iow0ZzbMeqW0e5fP8k0U7g0-197-GVmYWGU3wwyxN_wv1XZqamp75LuT/exec';
 const WA_NUMBER     = '6587953309';
 
 /**
- * Builds a WhatsApp deep link pre-filled with the enquiry details.
+ * Builds a WhatsApp deep link with all enquiry fields pre-filled.
  */
 function buildWaUrl(data) {
   const lines = [
-    `Hi Harmony, I just submitted an enquiry on your website:`,
+    `Hi Harmony, I'd like to enquire:`,
     ``,
     `Name: ${data.name || '-'}`,
     data.company ? `Company: ${data.company}` : null,
+    `Phone: ${data.phone || '-'}`,
+    `Email: ${data.email || '-'}`,
     data.products ? `Product(s): ${data.products}` : null,
     data.volume ? `Est. Volume: ${data.volume}` : null,
+    data.message ? `Notes: ${data.message}` : null,
+    ``,
     `Could you follow up with a quote?`,
   ].filter(Boolean).join('\n');
 
@@ -27,10 +32,10 @@ function buildWaUrl(data) {
 }
 
 /**
- * submitForm — POSTs form data to Apps Script (email), then opens
- * WhatsApp in a new tab with the same details pre-filled.
+ * submitToEmail — POSTs form data to Apps Script (email only).
+ * Used by the contact page form.
  */
-async function submitForm(formEl, btnEl, onSuccess, onError) {
+async function submitToEmail(formEl, btnEl, onSuccess, onError) {
   const originalText = btnEl.textContent;
   btnEl.textContent  = 'Sending…';
   btnEl.disabled     = true;
@@ -45,11 +50,6 @@ async function submitForm(formEl, btnEl, onSuccess, onError) {
       headers: { 'Content-Type': 'text/plain' }, // text/plain avoids preflight
       body:    JSON.stringify(data),
     });
-
-    // Open WhatsApp with a pre-filled summary in a new tab.
-    const waUrl = buildWaUrl(data);
-    window.open(waUrl, '_blank');
-
     onSuccess();
   } catch (err) {
     console.error('Form submission error:', err);
@@ -59,7 +59,21 @@ async function submitForm(formEl, btnEl, onSuccess, onError) {
   }
 }
 
-/* ── CONTACT PAGE FORM ──────────────────────────────────────── */
+/**
+ * submitToWhatsApp — skips email entirely, opens WhatsApp directly
+ * with all entered fields pre-filled. Used by the product enquiry modal.
+ */
+function submitToWhatsApp(formEl, onSuccess) {
+  const data = { _source: window.location.pathname };
+  new FormData(formEl).forEach((val, key) => { data[key] = val; });
+
+  const waUrl = buildWaUrl(data);
+  window.open(waUrl, '_blank');
+
+  onSuccess();
+}
+
+/* ── CONTACT PAGE FORM (emails pat@harmonyif.com) ────────────── */
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', function (e) {
@@ -67,7 +81,7 @@ if (contactForm) {
     const btn        = document.getElementById('cf-submit');
     const successDiv = document.getElementById('form-success');
 
-    submitForm(
+    submitToEmail(
       this,
       btn,
       () => {
@@ -83,26 +97,17 @@ if (contactForm) {
   });
 }
 
-/* ── PRODUCTS PAGE MODAL FORM ───────────────────────────────── */
+/* ── PRODUCT ENQUIRY MODAL (opens WhatsApp directly, no email) ── */
 const modalForm = document.getElementById('modal-form');
 if (modalForm) {
   modalForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    const btn        = document.getElementById('modal-submit');
     const successDiv = document.getElementById('modal-success');
-    const lang       = document.documentElement.getAttribute('data-lang') || 'en';
 
-    submitForm(
-      this,
-      btn,
-      () => {
-        modalForm.querySelectorAll('.form-group, .form-row, button[type=submit]')
-          .forEach(el => el.style.display = 'none');
-        successDiv.style.display = 'block';
-      },
-      () => {
-        btn.textContent = lang === 'cn' ? '发送失败，请重试' : 'Error — please try again';
-      }
-    );
+    submitToWhatsApp(this, () => {
+      modalForm.querySelectorAll('.form-group, .form-row, button[type=submit]')
+        .forEach(el => el.style.display = 'none');
+      successDiv.style.display = 'block';
+    });
   });
 }
