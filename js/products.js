@@ -452,32 +452,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (e.target.id === 'enquiry-modal') closeEnquiry();
   });
 
-  // Modal form → mailto (opens mail app with all fields pre-filled)
-  document.getElementById('modal-form')?.addEventListener('submit', e => {
-    e.preventDefault();
-    const f = id => document.getElementById(id)?.value.trim() || '';
-    const name = f('modal-name'), email = f('modal-email');
-    if (!name || !email) { alert('Please fill in your name and email.'); return; }
-
-    const subject = encodeURIComponent(`Enquiry from ${name}${f('modal-company') ? ' — '+f('modal-company') : ''}`);
-    const body = encodeURIComponent(
-`New Enquiry — Harmony International Food
-
-Name:     ${name}
-Company:  ${f('modal-company') || '—'}
-Email:    ${email}
-Phone:    ${f('modal-phone') || '—'}
-
-Product Interest:   ${f('modal-product') || '—'}
-Weekly Volume:      ${f('modal-volume') || '—'}
-
-Notes:
-${f('modal-message') || '—'}
-
----
-Sent via harmonyif.com.sg`
-    );
-    window.location.href = `mailto:pat@harmonyif.com?subject=${subject}&body=${body}`;
-    closeEnquiry();
-  });
+  // Note: modal-form submission is handled exclusively by js/form_handler.js
+  // (opens WhatsApp with pre-filled details). Do not add another submit
+  // listener here — it will fire alongside form_handler.js's listener.
 });
