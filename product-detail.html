@@ -189,10 +189,21 @@
   <script src="js/form_handler.js"></script>
   <script>
     function openEnquiry(name) {
-      const m = document.getElementById('enquiry-modal');
-      const f = document.getElementById('modal-product');
-      if (f && name) f.value = name;
-      m.style.display = 'flex';
+      const modal   = document.getElementById('enquiry-modal');
+      const field   = document.getElementById('modal-product');
+      const form    = document.getElementById('modal-form');
+      const success = document.getElementById('modal-success');
+
+      // Reset form so back-to-back enquiries work without page refresh
+      if (form) {
+        form.reset();
+        form.querySelectorAll('.form-group, .form-row, button[type=submit]')
+          .forEach(el => el.style.display = '');
+      }
+      if (success) success.style.display = 'none';
+
+      if (field && name) field.value = name;
+      modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
     function closeEnquiry() {

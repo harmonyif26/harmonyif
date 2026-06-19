@@ -376,8 +376,21 @@
   <script>
     /* Modal open/close */
     function openEnquiry(productName) {
-      const modal = document.getElementById('enquiry-modal');
-      const field = document.getElementById('modal-product');
+      const modal   = document.getElementById('enquiry-modal');
+      const field   = document.getElementById('modal-product');
+      const form    = document.getElementById('modal-form');
+      const success = document.getElementById('modal-success');
+
+      // Reset form back to its initial state (in case a previous
+      // enquiry was just submitted) so back-to-back enquiries work
+      // without needing a page refresh.
+      if (form) {
+        form.reset();
+        form.querySelectorAll('.form-group, .form-row, button[type=submit]')
+          .forEach(el => el.style.display = '');
+      }
+      if (success) success.style.display = 'none';
+
       if (field && productName) field.value = productName;
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
