@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Credit Application — Harmony International Food</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --ink:    #1A1916;
+  --ink2:   #2C2C2A;
+  --mist:   #888780;
+  --stone:  #B4B2A9;
+  --cream:  #F5F0E8;
+  --cream2: #EDE8DF;
+  --page:   #F9F6F1;
+  --gold:   #EF9F27;
+  --coral:  #D85A30;
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'Inter', system-ui, sans-serif;
+  --a4-w:   794px;
+  --a4-h:   1123px;
+  --margin: 52px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--sans); background: #DDDBD6; color: var(--ink); padding: calc(48px + 2rem) 2rem 2rem; }
+a { color: inherit; text-decoration: none; }
+
+/* ── NAV ─────────────────────────────────────────────────── */
+.pl-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  background: rgba(26,25,22,0.97); backdrop-filter: blur(10px);
+  height: 48px; display: flex; align-items: center; padding: 0 2rem; gap: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.pl-nav__brand { font-family: var(--serif); font-size: 1.1rem; color: var(--cream); margin-right: auto; }
+.pl-nav a { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); white-space: nowrap; transition: color 0.2s; }
+.pl-nav a:hover { color: var(--cream); }
+.pl-nav__save {
+  background: var(--ink2); color: var(--gold) !important;
+  border: 1px solid rgba(239,159,39,0.35); padding: 0.35rem 1rem; font-weight: 600 !important;
+}
+.pl-nav__submit {
+  background: var(--gold) !important; color: var(--ink) !important;
+  border: none; padding: 0.35rem 1.1rem; font-weight: 600 !important; cursor: pointer;
+}
+
+/* ── PAGE SHELL ──────────────────────────────────────────── */
+.page {
+  width: var(--a4-w); min-height: var(--a4-h); background: white;
+  margin: 0 auto 2rem; position: relative; overflow: hidden;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+}
+
+/* ── COVER PAGE ──────────────────────────────────────────── */
+.cover-page { background: var(--ink); display: flex; flex-direction: column; }
+.cover-page::after {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 5px; height: 100%;
+  background: linear-gradient(to bottom, var(--gold), transparent 70%);
+}
+.cover-main {
+  flex: 1; padding: var(--margin); padding-top: calc(var(--margin) * 2);
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.cover-eyebrow {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 2.5rem;
+}
+.cover-headline {
+  font-family: var(--serif); font-weight: 300; font-size: 7rem;
+  line-height: 0.9; color: var(--cream); letter-spacing: -0.02em;
+}
+.cover-headline em { font-style: italic; color: var(--gold); display: block; }
+.cover-rule { width: 40px; height: 1.5px; background: var(--gold); margin: 2rem 0; }
+.cover-meta { font-size: 0.65rem; color: var(--stone); line-height: 2; letter-spacing: 0.03em; }
+.cover-meta strong { color: var(--cream); }
+
+.cover-infobox {
+  margin-top: 2.5rem; border: 1px solid rgba(180,178,169,0.15);
+  padding: 1.25rem 1.5rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 2rem;
+}
+.cover-infobox-label {
+  font-size: 0.52rem; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--mist); margin-bottom: 0.4rem;
+}
+.cover-infobox-value {
+  font-size: 0.7rem; color: var(--stone); border-bottom: 1px solid rgba(180,178,169,0.2);
+  padding-bottom: 0.3rem; min-height: 1.4rem;
+}
+.cover-infobox-value.gold { color: var(--gold); font-weight: 500; }
+
+.cover-steps {
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(180,178,169,0.1);
+  padding-top: 1.25rem;
+  display: flex; gap: 2rem;
+}
+.cover-step { flex: 1; }
+.cover-step-num {
+  font-family: var(--serif); font-size: 2rem; font-weight: 300;
+  color: var(--gold); line-height: 1; margin-bottom: 0.3rem;
+}
+.cover-step-label {
+  font-size: 0.55rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--cream); margin-bottom: 0.2rem;
+}
+.cover-step-desc { font-size: 0.6rem; color: var(--mist); line-height: 1.6; }
+
+.cover-foot {
+  border-top: 1px solid rgba(180,178,169,0.1);
+  padding: 1rem var(--margin);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cover-foot-brand { font-family: var(--serif); font-size: 1.2rem; color: var(--cream); }
+.cover-foot-contacts { font-size: 0.58rem; color: var(--stone); letter-spacing: 0.04em; display: flex; gap: 1.5rem; }
+.cover-foot-uen { font-size: 0.55rem; color: var(--mist); opacity: 0.6; }
+
+/* ── FORM PAGES ──────────────────────────────────────────── */
+.form-page { display: flex; flex-direction: column; background: var(--page); }
+
+.form-head {
+  background: var(--ink); border-top: 3px solid var(--gold);
+  padding: 1.2rem var(--margin) 1rem;
+  display: flex; justify-content: space-between; align-items: flex-end; flex-shrink: 0;
+}
+.form-head-en {
+  font-family: var(--serif); font-size: 2.4rem; font-weight: 300;
+  color: var(--cream); line-height: 1; letter-spacing: -0.01em;
+}
+.form-head-cn { font-family: var(--serif); font-size: 0.8rem; color: var(--gold); margin-top: 0.2rem; letter-spacing: 0.05em; }
+.form-head-right { text-align: right; }
+.form-head-doc { font-size: 0.58rem; color: var(--mist); letter-spacing: 0.04em; margin-bottom: 0.2rem; }
+.form-head-ref {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 300;
+  color: var(--stone); line-height: 1;
+}
+
+.form-notice {
+  background: var(--ink2); padding: 0.4rem var(--margin);
+  font-size: 0.56rem; color: var(--mist); letter-spacing: 0.03em;
+  display: flex; justify-content: space-between; flex-shrink: 0;
+}
+
+.form-body { padding: 0 var(--margin); flex: 1; }
+
+/* ── SECTIONS ────────────────────────────────────────────── */
+.section { margin-top: 1.15rem; }
+.section-head {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1.5px solid var(--gold);
+  margin-bottom: 0.85rem;
+}
+.section-num {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 300;
+  color: var(--gold); line-height: 1; flex-shrink: 0;
+}
+.section-title {
+  font-size: 0.58rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink2); line-height: 1.2;
+}
+.section-title span {
+  font-family: var(--serif); font-weight: 400; font-size: 0.7rem;
+  letter-spacing: 0.04em; color: var(--mist); text-transform: none; display: block; margin-top: 0.1rem;
+}
+
+/* ── FIELD GRID ──────────────────────────────────────────── */
+.field-grid { display: grid; gap: 0.6rem 1.2rem; }
+.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.cols-2 { grid-template-columns: 1fr 1fr; }
+.cols-1 { grid-template-columns: 1fr; }
+.cols-2-1 { grid-template-columns: 2fr 1fr; }
+.cols-1-2 { grid-template-columns: 1fr 2fr; }
+.span-2 { grid-column: span 2; }
+.span-3 { grid-column: span 3; }
+
+.field { display: flex; flex-direction: column; gap: 0.2rem; }
+.field-label {
+  font-size: 0.5rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--mist);
+}
+.field-label span { font-family: var(--serif); font-weight: 400; font-size: 0.6rem; letter-spacing: 0.02em; text-transform: none; color: var(--stone); margin-left: 0.3rem; }
+.field input, .field select, .field textarea {
+  background: white; border: none; border-bottom: 1.5px solid var(--cream2);
+  border-radius: 0; font-family: var(--sans); font-size: 0.7rem; color: var(--ink);
+  padding: 0.35rem 0.4rem 0.3rem; outline: none; width: 100%;
+  transition: border-color 0.15s; -webkit-appearance: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-bottom-color: var(--gold);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--stone); opacity: 0.6; }
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888780' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.4rem center; padding-right: 1.5rem; cursor: pointer; }
+.field textarea { resize: none; }
+.field-hint { font-size: 0.5rem; color: var(--mist); margin-top: 0.05rem; }
+
+/* Checkbox */
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 0.1rem; }
+.checkbox-item { display: flex; align-items: center; gap: 0.35rem; cursor: pointer; }
+.checkbox-item input[type="checkbox"] { width: 11px; height: 11px; border: 1.5px solid var(--stone); border-radius: 0; background: white; -webkit-appearance: none; cursor: pointer; flex-shrink: 0; position: relative; }
+.checkbox-item input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
+.checkbox-item input[type="checkbox"]:checked::after { content: ''; position: absolute; top: 1px; left: 3px; width: 3px; height: 6px; border: 1.5px solid white; border-top: none; border-left: none; transform: rotate(45deg); }
+.checkbox-item label { font-size: 0.62rem; color: var(--ink); cursor: pointer; line-height: 1.2; }
+.checkbox-item label span { display: block; font-size: 0.5rem; color: var(--mist); margin-top: 0.05rem; }
+
+/* ── BANK / TRADE TABLE ──────────────────────────────────── */
+.ref-table { width: 100%; border-collapse: collapse; margin-top: 0.2rem; }
+.ref-table th {
+  background: var(--cream2); font-size: 0.5rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--mist);
+  padding: 0.45rem 0.5rem; text-align: left; border-bottom: 1.5px solid var(--stone);
+}
+.ref-table th:not(:first-child) { text-align: center; }
+.ref-table td { padding: 0.2rem 0.4rem; border-bottom: 1px solid rgba(180,178,169,0.15); vertical-align: middle; }
+.ref-table tr:last-child td { border-bottom: none; }
+.ref-table .row-label {
+  font-size: 0.52rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--mist); width: 22%; padding-right: 0.5rem;
+}
+.ref-table .row-label span { display: block; font-family: var(--serif); font-weight: 400; font-size: 0.62rem; letter-spacing: 0.02em; text-transform: none; color: var(--stone); margin-top: 0.08rem; }
+.ref-table input {
+  background: transparent; border: none; border-bottom: 1px solid var(--cream2);
+  width: 100%; font-family: var(--sans); font-size: 0.62rem; color: var(--ink);
+  padding: 0.25rem 0.25rem 0.2rem; outline: none; text-align: center;
+  transition: border-color 0.15s;
+}
+.ref-table input:focus { border-bottom-color: var(--gold); background: rgba(239,159,39,0.03); }
+.ref-table tr:nth-child(even) td { background: rgba(237,232,223,0.28); }
+
+/* ── SIGNATURE BLOCK ─────────────────────────────────────── */
+.sig-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+.sig-box { border: 1px solid var(--cream2); padding: 0.75rem; }
+.sig-box-label { font-size: 0.52rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.5rem; }
+.sig-box-label span { font-family: var(--serif); text-transform: none; font-size: 0.6rem; letter-spacing: 0.02em; color: var(--stone); font-weight: 400; margin-left: 0.3rem; }
+.sig-line { border-bottom: 1.5px solid var(--cream2); height: 2.2rem; margin-bottom: 0.3rem; position: relative; }
+.sig-line-label { font-size: 0.47rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); }
+
+/* ── DECLARATION ─────────────────────────────────────────── */
+.decl-box {
+  border: 1px solid rgba(239,159,39,0.3); background: rgba(239,159,39,0.04);
+  padding: 0.85rem 1rem; margin-top: 0.8rem;
+}
+.decl-text {
+  font-size: 0.6rem; color: var(--mist); line-height: 1.8;
+}
+.decl-text strong { color: var(--ink); }
+
+/* ── FORM FOOTER ─────────────────────────────────────────── */
+.form-foot {
+  background: var(--ink); padding: 0.9rem var(--margin);
+  display: grid; grid-template-columns: 1fr auto; gap: 2rem;
+  align-items: center; flex-shrink: 0; margin-top: auto;
+}
+.form-foot-co { font-family: var(--serif); font-size: 0.85rem; color: var(--cream); margin-bottom: 0.25rem; }
+.form-foot-contacts { font-size: 0.56rem; color: var(--stone); letter-spacing: 0.03em; line-height: 1.8; }
+.form-foot-sub {
+  background: var(--ink); border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 0.35rem var(--margin); font-size: 0.5rem; color: var(--stone); opacity: 0.45; flex-shrink: 0;
+}
+
+/* ── SUBMIT PAGE (last) ──────────────────────────────────── */
+.submit-page { background: var(--ink); border-top: 3px solid var(--gold); display: grid; grid-template-columns: 1fr 1fr; min-height: var(--a4-h); }
+.submit-left { padding: var(--margin); display: flex; flex-direction: column; gap: 0; }
+.submit-label { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+.submit-title { font-family: var(--serif); font-weight: 300; font-size: 4rem; color: var(--cream); line-height: 1; letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+.submit-sub { font-size: 0.68rem; color: var(--mist); margin-bottom: 2rem; line-height: 1.8; }
+.submit-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 1.75rem; font-family: var(--sans); font-size: 0.65rem;
+  font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; width: fit-content; border: none; margin-bottom: 0.9rem;
+  transition: opacity 0.2s;
+}
+.submit-btn:hover { opacity: 0.88; }
+.submit-btn-wa { background: #25D366; color: white; }
+.submit-btn-email { background: var(--gold); color: var(--ink); }
+.submit-btn-pdf { background: transparent; color: var(--stone); border: 1px solid rgba(180,178,169,0.3) !important; font-size: 0.6rem; }
+.submit-note { font-size: 0.58rem; color: var(--mist); line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.2rem; margin-top: 1rem; }
+.submit-right {
+  border-left: 1px solid rgba(255,255,255,0.06); padding: var(--margin);
+  display: flex; flex-direction: column; justify-content: flex-start; gap: 2.5rem;
+}
+.submit-brand { font-family: var(--serif); font-size: 2.8rem; font-weight: 400; color: var(--cream); letter-spacing: -0.01em; }
+.submit-co { font-size: 0.6rem; color: var(--mist); letter-spacing: 0.03em; line-height: 2; margin-top: 0.4rem; }
+.submit-qr-title { font-size: 0.55rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.6rem; }
+.submit-qr { display: block; width: 180px; height: 180px; border: 3px solid rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; background: white; }
+.submit-qr img { width: 100%; height: 100%; display: block; }
+.submit-qr-sub { font-size: 0.55rem; color: var(--mist); margin-top: 0.5rem; }
+
+/* ── SPACER ──────────────────────────────────────────────── */
+.spacer { height: 12px; flex-shrink: 0; }
+
+/* ── TOAST ───────────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
+  background: var(--ink2); color: var(--cream); font-size: 0.65rem; letter-spacing: 0.04em;
+  padding: 0.75rem 1.5rem; border-left: 3px solid var(--gold); opacity: 0;
+  transition: opacity 0.3s, transform 0.3s; pointer-events: none; z-index: 9999;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── PRINT ───────────────────────────────────────────────── */
+@media print {
+  @page { size: A4; margin: 0; }
+  body { background: white !important; padding: 0 !important; }
+  .pl-nav { display: none !important; }
+  #toast { display: none !important; }
+  .page {
+    width: 210mm; min-height: 297mm; height: 297mm;
+    margin: 0 !important; box-shadow: none !important;
+    page-break-after: always; break-after: page; overflow: hidden;
+  }
+  .cover-page, .form-head, .form-notice, .form-foot, .form-foot-sub, .submit-page {
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .field input, .field select, .field textarea,
+  .ref-table input {
+    background: transparent !important;
+    border-bottom: 1px solid #CCCCCC !important;
+  }
+  .checkbox-item input[type="checkbox"]:checked { background: #1A1916 !important; }
+  .submit-btn { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────────────────────────── -->
+<nav class="pl-nav">
+  <a href="index.html" class="pl-nav__brand">Harmony.</a>
+  <a href="#form-p1">Applicant</a>
+  <a href="#form-p2">Company Info</a>
+  <a href="#form-p3">Banking & Trade</a>
+  <a href="#submit">Submit</a>
+  <a href="#" onclick="window.print();return false;" class="pl-nav__save">↓ Save as PDF</a>
+  <a href="#" onclick="handleSubmitAll(event)" class="pl-nav__submit">Submit Application</a>
+</nav>
+
+<div id="pl-root">
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 1 — COVER
+══════════════════════════════════════════════════════════ -->
+<div class="page cover-page">
+  <div class="cover-main">
+    <div>
+      <div class="cover-eyebrow">Harmony International Food &nbsp;·&nbsp; 2026</div>
+      <h1 class="cover-headline">Business<em>Credit Application</em></h1>
+      <div class="cover-rule"></div>
+      <div class="cover-meta">
+        Please complete all sections in English &nbsp;·&nbsp; Incomplete forms will not be processed<br>
+        For queries, contact <strong>pat@harmonyif.com</strong> or <strong>+65 8795 3309</strong>
+      </div>
+
+      <div class="cover-infobox">
+        <div>
+          <div class="cover-infobox-label">Submitted by</div>
+          <div class="cover-infobox-value" id="cv-name">—</div>
+        </div>
+        <div>
+          <div class="cover-infobox-label">Company</div>
+          <div class="cover-infobox-value" id="cv-company">—</div>
+        </div>
+        <div>
+          <div class="cover-infobox-label">UEN / Tax ID</div>
+          <div class="cover-infobox-value" id="cv-uen">—</div>
+        </div>
+        <div>
+          <div class="cover-infobox-label">Date</div>
+          <div class="cover-infobox-value gold" id="cv-date"></div>
+        </div>
+      </div>
+
+      <div class="cover-steps">
+        <div class="cover-step">
+          <div class="cover-step-num">01</div>
+          <div class="cover-step-label">Complete the form</div>
+          <div class="cover-step-desc">Fill in all fields across the 3 form pages. All sections are required.</div>
+        </div>
+        <div class="cover-step">
+          <div class="cover-step-num">02</div>
+          <div class="cover-step-label">Submit your application</div>
+          <div class="cover-step-desc">Use the Submit button to send your details via WhatsApp or email.</div>
+        </div>
+        <div class="cover-step">
+          <div class="cover-step-num">03</div>
+          <div class="cover-step-label">Save a copy</div>
+          <div class="cover-step-desc">Use "Save as PDF" in the top nav to archive a signed copy for your records.</div>
+        </div>
+        <div class="cover-step">
+          <div class="cover-step-num">04</div>
+          <div class="cover-step-label">Approval in 2–3 days</div>
+          <div class="cover-step-desc">Our team will review and respond with your credit terms by email or WhatsApp.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-foot">
+    <div class="cover-foot-brand">Harmony.</div>
+    <div class="cover-foot-contacts">
+      <span>+65 8795 3309</span>
+      <span>pat@harmonyif.com</span>
+      <span>www.harmonyif.sg</span>
+    </div>
+    <div class="cover-foot-uen">UEN 202608797N</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 2 — APPLICANT DETAILS
+══════════════════════════════════════════════════════════ -->
+<div class="page form-page" id="form-p1">
+  <div class="form-head">
+    <div>
+      <div class="form-head-en">Applicant Details</div>
+      <div class="form-head-cn">申请人信息</div>
+    </div>
+    <div class="form-head-right">
+      <div class="form-head-doc">Credit Application · Harmony International Food</div>
+      <div class="form-head-ref">Section I — II</div>
+    </div>
+  </div>
+  <div class="form-notice">
+    <span>All fields are required unless marked optional &nbsp;·&nbsp; Use English throughout</span>
+    <span>Page 1 of 3</span>
+  </div>
+  <div class="spacer"></div>
+
+  <div class="form-body">
+
+    <!-- I. Personal Details -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">I</div>
+        <div class="section-title">Personal Details <span>个人信息 — Contact person making this application</span></div>
+      </div>
+      <div class="field-grid cols-3">
+        <div class="field">
+          <div class="field-label">Last Name <span>姓</span></div>
+          <input type="text" id="f-lastname" placeholder="Tan" oninput="updateCover()"/>
+        </div>
+        <div class="field">
+          <div class="field-label">First Name <span>名</span></div>
+          <input type="text" id="f-firstname" placeholder="Wei Ming" oninput="updateCover()"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Middle Initial <span>中间名首字母</span></div>
+          <input type="text" id="f-middle" placeholder="Optional"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Job Title / Position <span>职位</span></div>
+          <input type="text" id="f-jobtitle" placeholder="Finance Manager"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Direct Phone / WhatsApp <span>直线 / WhatsApp</span></div>
+          <input type="tel" id="f-phone" placeholder="+65 9XXX XXXX"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Email Address <span>电邮地址</span></div>
+          <input type="email" id="f-email" placeholder="you@company.com"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- II. Business Details -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">II</div>
+        <div class="section-title">Business Details <span>企业信息</span></div>
+      </div>
+      <div class="field-grid cols-1">
+        <div class="field">
+          <div class="field-label">Business / Company Name <span>企业名称</span></div>
+          <input type="text" id="f-bizname" placeholder="ABC Restaurant Pte Ltd" oninput="updateCover()"/>
+        </div>
+      </div>
+      <div class="field-grid cols-2" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">UEN / Business Registration No. <span>企业注册编号</span></div>
+          <input type="text" id="f-uen" placeholder="202XXXXXXN" oninput="updateCover()"/>
+        </div>
+        <div class="field">
+          <div class="field-label">GST Registration No. <span>消费税登记编号 (if applicable)</span></div>
+          <input type="text" id="f-gst" placeholder="M9-XXXXXXX-X or N/A"/>
+        </div>
+      </div>
+      <div class="field-grid cols-1" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">Registered Business Address <span>企业注册地址</span></div>
+          <input type="text" id="f-addr" placeholder="Block / Unit, Street Name, Singapore XXXXXX"/>
+        </div>
+      </div>
+      <div class="field-grid cols-3" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">Business Contact No. <span>企业电话</span></div>
+          <input type="tel" id="f-bizphone" placeholder="+65 6XXX XXXX"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Business Email <span>企业电邮</span></div>
+          <input type="email" id="f-bizemail" placeholder="accounts@company.com"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Website <span>网址 (optional)</span></div>
+          <input type="text" id="f-website" placeholder="www.company.com.sg"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- III. Company Information -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">III</div>
+        <div class="section-title">Company Information <span>公司资料</span></div>
+      </div>
+      <div class="field-grid cols-2-1">
+        <div class="field">
+          <div class="field-label">Type of Business Activity <span>主要业务类型</span></div>
+          <select id="f-biztype">
+            <option value="">— Select —</option>
+            <option>Hot Pot Restaurant / 火锅餐厅</option>
+            <option>BBQ Restaurant / 烧烤餐厅</option>
+            <option>Food & Beverage Operator / 餐饮业者</option>
+            <option>Commercial Kitchen / 商业厨房</option>
+            <option>Caterer / 外卖餐饮</option>
+            <option>Supermarket / Retail / 超市 / 零售</option>
+            <option>Distributor / Wholesaler / 分销商 / 批发商</option>
+            <option>Other / 其他</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Year Established <span>成立年份</span></div>
+          <input type="text" id="f-yearest" placeholder="e.g. 2018"/>
+        </div>
+      </div>
+      <div class="field-grid cols-1" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">Legal Structure <span>企业法律形式</span></div>
+          <div class="checkbox-group" style="margin-top:0.3rem">
+            <label class="checkbox-item"><input type="checkbox" name="legal" value="Sole Proprietorship"/> <label>Sole Proprietorship <span>独资企业</span></label></label>
+            <label class="checkbox-item"><input type="checkbox" name="legal" value="Partnership"/> <label>Partnership <span>合伙企业</span></label></label>
+            <label class="checkbox-item"><input type="checkbox" name="legal" value="Private Limited Company"/> <label>Private Limited <span>私人有限公司</span></label></label>
+            <label class="checkbox-item"><input type="checkbox" name="legal" value="LLP"/> <label>LLP <span>有限责任合伙</span></label></label>
+            <label class="checkbox-item"><input type="checkbox" name="legal" value="Other"/> <label>Other <span>其他</span></label></label>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid cols-2-1" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">Parent Company Name <span>母公司名称 (if branch / subsidiary)</span></div>
+          <input type="text" id="f-parent" placeholder="N/A if not applicable"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Parent Co. Year Established <span>母公司成立年份</span></div>
+          <input type="text" id="f-parentyear" placeholder="N/A"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- IV. Authorised Signatories -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">IV</div>
+        <div class="section-title">Authorised Signatories <span>授权负责人 — Up to 2 persons</span></div>
+      </div>
+      <div class="field-grid cols-3">
+        <div class="field">
+          <div class="field-label">Person 1 — Full Name <span>授权人 1 — 姓名</span></div>
+          <input type="text" id="f-auth1name" placeholder="Full name as per NRIC / Passport"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Job Title <span>职位</span></div>
+          <input type="text" id="f-auth1title" placeholder="Director / Owner"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Contact No. <span>联系电话</span></div>
+          <input type="tel" id="f-auth1phone" placeholder="+65 9XXX XXXX"/>
+        </div>
+        <div class="field span-3">
+          <div class="field-label">Address <span>地址</span></div>
+          <input type="text" id="f-auth1addr" placeholder="Home / business address"/>
+        </div>
+      </div>
+      <div class="field-grid cols-3" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">Person 2 — Full Name <span>授权人 2 — 姓名 (optional)</span></div>
+          <input type="text" id="f-auth2name" placeholder="Optional"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Job Title <span>职位</span></div>
+          <input type="text" id="f-auth2title" placeholder="Optional"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Contact No. <span>联系电话</span></div>
+          <input type="tel" id="f-auth2phone" placeholder="Optional"/>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-body -->
+
+  <div class="spacer"></div>
+  <div class="form-foot">
+    <div>
+      <div class="form-foot-co">Harmony International Food Pte Ltd</div>
+      <div class="form-foot-contacts">+65 8795 3309 &nbsp;·&nbsp; pat@harmonyif.com &nbsp;·&nbsp; www.harmonyif.sg</div>
+    </div>
+  </div>
+  <div class="form-foot-sub">CREDIT APPLICATION &nbsp;·&nbsp; PAGE 1 OF 3 &nbsp;·&nbsp; Harmony International Food Pte Ltd &nbsp;·&nbsp; UEN 202608797N</div>
+</div><!-- /page -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 3 — BANKING & TRADE REFERENCES
+══════════════════════════════════════════════════════════ -->
+<div class="page form-page" id="form-p2">
+  <div class="form-head">
+    <div>
+      <div class="form-head-en">Banking &amp; Trade References</div>
+      <div class="form-head-cn">银行及业务往来参考资料</div>
+    </div>
+    <div class="form-head-right">
+      <div class="form-head-doc">Credit Application · Harmony International Food</div>
+      <div class="form-head-ref">Section V — VI</div>
+    </div>
+  </div>
+  <div class="form-notice">
+    <span>Provide at least 2 banking references and 2 trade references</span>
+    <span>Page 2 of 3</span>
+  </div>
+  <div class="spacer"></div>
+
+  <div class="form-body">
+
+    <!-- V. Banking References -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">V</div>
+        <div class="section-title">Banking References <span>银行参考资料</span></div>
+      </div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Bank 1 &nbsp;银行 1</th>
+            <th>Bank 2 &nbsp;银行 2</th>
+            <th>Bank 3 &nbsp;银行 3 <span style="font-weight:400;font-size:0.45rem;text-transform:none;letter-spacing:0;color:var(--stone)">(optional)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Bank Name &amp; Branch<span>银行名称及分行</span></td>
+            <td><input type="text" id="b1-name" placeholder="e.g. DBS Bank, Orchard"/></td>
+            <td><input type="text" id="b2-name" placeholder="e.g. OCBC Bank, Tampines"/></td>
+            <td><input type="text" id="b3-name" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Current / Cheque Acct No.<span>往来/支票账户号</span></td>
+            <td><input type="text" id="b1-current" placeholder="XXX-XXXXX-X"/></td>
+            <td><input type="text" id="b2-current" placeholder="XXX-XXXXX-X"/></td>
+            <td><input type="text" id="b3-current" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Savings Acct No.<span>储蓄账户号</span></td>
+            <td><input type="text" id="b1-savings" placeholder="XXX-XXXXX-X"/></td>
+            <td><input type="text" id="b2-savings" placeholder="XXX-XXXXX-X"/></td>
+            <td><input type="text" id="b3-savings" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Loan / Financing Facilities<span>贷款/融资情况</span></td>
+            <td><input type="text" id="b1-loan" placeholder="None / Term Loan etc."/></td>
+            <td><input type="text" id="b2-loan" placeholder="None / OD etc."/></td>
+            <td><input type="text" id="b3-loan" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Total Outstanding Balance<span>未偿余额</span></td>
+            <td><input type="text" id="b1-bal" placeholder="SGD X,XXX"/></td>
+            <td><input type="text" id="b2-bal" placeholder="SGD X,XXX"/></td>
+            <td><input type="text" id="b3-bal" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Bank Contact No.<span>银行电话</span></td>
+            <td><input type="text" id="b1-contact" placeholder="+65 XXXX XXXX"/></td>
+            <td><input type="text" id="b2-contact" placeholder="+65 XXXX XXXX"/></td>
+            <td><input type="text" id="b3-contact" placeholder="Optional"/></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VI. Trade References -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">VI</div>
+        <div class="section-title">Trade References <span>业务往来参考资料 — Current suppliers or business partners</span></div>
+      </div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Supplier / Company 1 &nbsp;往来企业 1</th>
+            <th>Supplier / Company 2 &nbsp;往来企业 2</th>
+            <th>Supplier / Company 3 &nbsp;往来企业 3 <span style="font-weight:400;font-size:0.45rem;text-transform:none;letter-spacing:0;color:var(--stone)">(optional)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Company Name<span>企业名称</span></td>
+            <td><input type="text" id="t1-name" placeholder="Company name"/></td>
+            <td><input type="text" id="t2-name" placeholder="Company name"/></td>
+            <td><input type="text" id="t3-name" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Contact Person<span>联系人</span></td>
+            <td><input type="text" id="t1-contact" placeholder="Name"/></td>
+            <td><input type="text" id="t2-contact" placeholder="Name"/></td>
+            <td><input type="text" id="t3-contact" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Contact No.<span>联系电话</span></td>
+            <td><input type="text" id="t1-phone" placeholder="+65 XXXX XXXX"/></td>
+            <td><input type="text" id="t2-phone" placeholder="+65 XXXX XXXX"/></td>
+            <td><input type="text" id="t3-phone" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Relationship Since<span>合作起始年份</span></td>
+            <td><input type="text" id="t1-since" placeholder="e.g. 2021"/></td>
+            <td><input type="text" id="t2-since" placeholder="e.g. 2020"/></td>
+            <td><input type="text" id="t3-since" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Credit Limit Granted<span>授予信用额度</span></td>
+            <td><input type="text" id="t1-limit" placeholder="SGD X,XXX"/></td>
+            <td><input type="text" id="t2-limit" placeholder="SGD X,XXX"/></td>
+            <td><input type="text" id="t3-limit" placeholder="Optional"/></td>
+          </tr>
+          <tr>
+            <td class="row-label">Current Outstanding<span>当前未结金额</span></td>
+            <td><input type="text" id="t1-outstanding" placeholder="SGD X,XXX or NIL"/></td>
+            <td><input type="text" id="t2-outstanding" placeholder="SGD X,XXX or NIL"/></td>
+            <td><input type="text" id="t3-outstanding" placeholder="Optional"/></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /form-body -->
+
+  <div class="spacer"></div>
+  <div class="form-foot">
+    <div>
+      <div class="form-foot-co">Harmony International Food Pte Ltd</div>
+      <div class="form-foot-contacts">+65 8795 3309 &nbsp;·&nbsp; pat@harmonyif.com &nbsp;·&nbsp; www.harmonyif.sg</div>
+    </div>
+  </div>
+  <div class="form-foot-sub">CREDIT APPLICATION &nbsp;·&nbsp; PAGE 2 OF 3 &nbsp;·&nbsp; Harmony International Food Pte Ltd &nbsp;·&nbsp; UEN 202608797N</div>
+</div><!-- /page -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 4 — CREDIT TERMS & DECLARATION
+══════════════════════════════════════════════════════════ -->
+<div class="page form-page" id="form-p3">
+  <div class="form-head">
+    <div>
+      <div class="form-head-en">Credit Terms &amp; Declaration</div>
+      <div class="form-head-cn">信用条款及声明</div>
+    </div>
+    <div class="form-head-right">
+      <div class="form-head-doc">Credit Application · Harmony International Food</div>
+      <div class="form-head-ref">Section VII — VIII</div>
+    </div>
+  </div>
+  <div class="form-notice">
+    <span>Read the declaration carefully before signing &nbsp;·&nbsp; All fields required</span>
+    <span>Page 3 of 3</span>
+  </div>
+  <div class="spacer"></div>
+
+  <div class="form-body">
+
+    <!-- VII. Credit Requested -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">VII</div>
+        <div class="section-title">Credit Terms Requested <span>申请信用条款</span></div>
+      </div>
+      <div class="field-grid cols-3">
+        <div class="field">
+          <div class="field-label">Credit Limit Requested <span>申请信用额度 (SGD)</span></div>
+          <input type="text" id="f-creditlimit" placeholder="e.g. SGD 5,000"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Payment Terms Requested <span>付款条款</span></div>
+          <select id="f-payterms">
+            <option value="">— Select —</option>
+            <option>7 days</option>
+            <option>14 days</option>
+            <option>30 days</option>
+            <option>45 days</option>
+            <option>60 days</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Estimated Monthly Order Value <span>预计月均采购额 (SGD)</span></div>
+          <input type="text" id="f-monthlyval" placeholder="e.g. SGD 3,000"/>
+        </div>
+      </div>
+      <div class="field-grid cols-1" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">Primary Products of Interest <span>主要采购品类</span></div>
+          <div class="checkbox-group" style="margin-top:0.3rem">
+            <label class="checkbox-item"><input type="checkbox" name="prod" value="Pork"/> <label>Pork &nbsp;猪肉</label></label>
+            <label class="checkbox-item"><input type="checkbox" name="prod" value="Beef & Lamb"/> <label>Beef &amp; Lamb &nbsp;牛羊肉</label></label>
+            <label class="checkbox-item"><input type="checkbox" name="prod" value="Chicken & Duck"/> <label>Chicken &amp; Duck &nbsp;鸡鸭</label></label>
+            <label class="checkbox-item"><input type="checkbox" name="prod" value="Seafood"/> <label>Seafood &nbsp;海鲜</label></label>
+            <label class="checkbox-item"><input type="checkbox" name="prod" value="Processed & Hotpot"/> <label>Processed &amp; Hotpot &nbsp;加工食品</label></label>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid cols-1" style="margin-top:0.6rem">
+        <div class="field">
+          <div class="field-label">Additional Notes <span>备注 (optional)</span></div>
+          <textarea id="f-notes" rows="2" placeholder="Any additional information relevant to this application..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIII. Declaration -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">VIII</div>
+        <div class="section-title">Declaration &amp; Authorisation <span>声明与授权</span></div>
+      </div>
+
+      <div class="decl-box">
+        <div class="decl-text">
+          I hereby certify that all information given in this application is <strong>true, complete and correct</strong> in all respects. I understand and agree that the information provided will be used to assess my/our application and determine the credit terms and limit to be granted. I further authorise any bank, financial institution, trade creditor or company named in this form to provide any necessary information or references regarding my/our business and financial standing to <strong>Harmony International Food Pte Ltd</strong>, for the purpose of verification and credit assessment.
+          <br/><br/>
+          本人特此声明，本申请表所填写的所有信息均属真实、完整且准确无误。本人理解并同意，所提供的信息将用于评估申请资格，并确定授信条款及信用额度。本人同时授权本表格中所列的任何银行、金融机构、往来供应商或企业，可向<strong>和谐国际食品私人有限公司</strong>提供有关本人/本公司业务及财务状况的必要资料与证明，以供资料核实及信用评估之用。
+        </div>
+      </div>
+
+      <div class="sig-grid" style="margin-top:1rem">
+        <div class="sig-box">
+          <div class="sig-box-label">Authorised Signatory 1 <span>授权签署人 1</span></div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Signature &nbsp;签名</div>
+          <div class="field-grid cols-1" style="margin-top:0.7rem">
+            <div class="field">
+              <div class="field-label">Full Name <span>全名</span></div>
+              <input type="text" id="f-sig1name" placeholder="As per NRIC / Passport"/>
+            </div>
+          </div>
+          <div class="field-grid cols-2" style="margin-top:0.5rem">
+            <div class="field">
+              <div class="field-label">Designation <span>职位</span></div>
+              <input type="text" id="f-sig1title" placeholder="Director / Owner"/>
+            </div>
+            <div class="field">
+              <div class="field-label">Date <span>日期</span></div>
+              <input type="text" id="f-sig1date" placeholder="DD/MM/YYYY"/>
+            </div>
+          </div>
+          <div class="field-grid cols-1" style="margin-top:0.5rem">
+            <div class="field">
+              <div class="field-label">Company Stamp <span>公司盖章 (if applicable)</span></div>
+              <div style="height:2rem;border:1px dashed var(--cream2);display:flex;align-items:center;justify-content:center">
+                <span style="font-size:0.5rem;color:var(--stone);letter-spacing:0.08em;text-transform:uppercase">Affix stamp here</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sig-box">
+          <div class="sig-box-label">Authorised Signatory 2 <span>授权签署人 2 (if applicable)</span></div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Signature &nbsp;签名</div>
+          <div class="field-grid cols-1" style="margin-top:0.7rem">
+            <div class="field">
+              <div class="field-label">Full Name <span>全名</span></div>
+              <input type="text" id="f-sig2name" placeholder="Optional"/>
+            </div>
+          </div>
+          <div class="field-grid cols-2" style="margin-top:0.5rem">
+            <div class="field">
+              <div class="field-label">Designation <span>职位</span></div>
+              <input type="text" id="f-sig2title" placeholder="Optional"/>
+            </div>
+            <div class="field">
+              <div class="field-label">Date <span>日期</span></div>
+              <input type="text" id="f-sig2date" placeholder="DD/MM/YYYY"/>
+            </div>
+          </div>
+          <div class="field-grid cols-1" style="margin-top:0.5rem">
+            <div class="field">
+              <div class="field-label">Company Stamp <span>公司盖章 (if applicable)</span></div>
+              <div style="height:2rem;border:1px dashed var(--cream2);display:flex;align-items:center;justify-content:center">
+                <span style="font-size:0.5rem;color:var(--stone);letter-spacing:0.08em;text-transform:uppercase">Affix stamp here</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /form-body -->
+
+  <div class="spacer"></div>
+  <div class="form-foot">
+    <div>
+      <div class="form-foot-co">Harmony International Food Pte Ltd</div>
+      <div class="form-foot-contacts">+65 8795 3309 &nbsp;·&nbsp; pat@harmonyif.com &nbsp;·&nbsp; www.harmonyif.sg</div>
+    </div>
+  </div>
+  <div class="form-foot-sub">CREDIT APPLICATION &nbsp;·&nbsp; PAGE 3 OF 3 &nbsp;·&nbsp; Harmony International Food Pte Ltd &nbsp;·&nbsp; UEN 202608797N</div>
+</div><!-- /page -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 5 — SUBMIT
+══════════════════════════════════════════════════════════ -->
+<div class="page submit-page" id="submit">
+  <div class="submit-left">
+    <div class="submit-label">All done? Submit your application.</div>
+    <div class="submit-title">Submit &amp;<br>we'll be in<br>touch.</div>
+    <div class="submit-sub">
+      Choose how you'd like to send your application to Harmony. We recommend sending via both WhatsApp and email for fastest processing. Our team will review and respond within 2–3 business days.
+    </div>
+
+    <button class="submit-btn submit-btn-wa" onclick="submitWhatsApp()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Send via WhatsApp
+    </button>
+
+    <button class="submit-btn submit-btn-email" onclick="submitEmail()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      Send via Email
+    </button>
+
+    <button class="submit-btn submit-btn-pdf" onclick="submitToServer()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Submit to Harmony Server (Auto-Save to Drive)
+    </button>
+
+    <div class="submit-note">
+      <strong style="color:var(--stone)">After submitting:</strong> Use the <span style="color:var(--gold)">"↓ Save as PDF"</span> button in the top navigation to download a completed copy for your own records. Please print and physically sign page 3 before sending the PDF to us.
+    </div>
+  </div>
+
+  <div class="submit-right">
+    <div>
+      <div class="submit-brand">Harmony.</div>
+      <div class="submit-co">
+        Harmony International Food Pte Ltd<br>
+        和谐国际食品私人有限公司<br>
+        UEN: 202608797N
+      </div>
+    </div>
+    <div>
+      <div class="submit-qr-title">Scan to WhatsApp us directly</div>
+      <a href="https://wa.me/6587953309" target="_blank" class="submit-qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https%3A%2F%2Fwa.me%2F6587953309%3Ftext%3DHi%2520Harmony%252C%2520I%2520would%2520like%2520to%2520submit%2520a%2520Credit%2520Application.&bgcolor=ffffff&color=1A1916&margin=12" alt="WhatsApp QR"/>
+      </a>
+      <div class="submit-qr-sub">Or tap if you're on mobile</div>
+    </div>
+  </div>
+</div><!-- /page -->
+
+</div><!-- /pl-root -->
+
+<div id="toast"></div>
+
+<script>
+// ── APPS SCRIPT ENDPOINT ─────────────────────────────────────
+// Replace with your deployed Google Apps Script Web App URL
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwq7Q2DA_HZMXRT1rqLs-4hAvcBS5f1TfyYCUfP2_AtXNeNeuqFUg5qc7fAkh6tmf3yzg/exec';
+
+// ── DATE INIT ────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  const d = new Date();
+  const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+  document.getElementById('cv-date').textContent = d.toLocaleDateString('en-SG', opts);
+  document.getElementById('f-sig1date').placeholder = d.toLocaleDateString('en-GB').replace(/\//g, '/');
+});
+
+// ── COVER LIVE-UPDATE ────────────────────────────────────────
+function updateCover() {
+  const first = val('f-firstname');
+  const last  = val('f-lastname');
+  const name  = (first || last) ? [first, last].filter(Boolean).join(' ') : '—';
+  document.getElementById('cv-name').textContent    = name;
+  document.getElementById('cv-company').textContent = val('f-bizname') || '—';
+  document.getElementById('cv-uen').textContent     = val('f-uen')     || '—';
+}
+
+// ── HELPERS ──────────────────────────────────────────────────
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function checkboxVals(name) {
+  return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked'))
+    .map(function(cb) { return cb.value; }).join(', ') || '—';
+}
+
+function collectFormData() {
+  return {
+    // Personal
+    lastName:   val('f-lastname'),
+    firstName:  val('f-firstname'),
+    middle:     val('f-middle'),
+    jobTitle:   val('f-jobtitle'),
+    phone:      val('f-phone'),
+    email:      val('f-email'),
+    // Business
+    bizName:    val('f-bizname'),
+    uen:        val('f-uen'),
+    gst:        val('f-gst'),
+    address:    val('f-addr'),
+    bizPhone:   val('f-bizphone'),
+    bizEmail:   val('f-bizemail'),
+    website:    val('f-website'),
+    // Company
+    bizType:    val('f-biztype'),
+    yearEst:    val('f-yearest'),
+    legalStruct: checkboxVals('legal'),
+    parent:     val('f-parent'),
+    parentYear: val('f-parentyear'),
+    // Auth signatories
+    auth1Name:  val('f-auth1name'), auth1Title: val('f-auth1title'), auth1Phone: val('f-auth1phone'), auth1Addr: val('f-auth1addr'),
+    auth2Name:  val('f-auth2name'), auth2Title: val('f-auth2title'), auth2Phone: val('f-auth2phone'),
+    // Banking
+    b1Name: val('b1-name'), b1Current: val('b1-current'), b1Savings: val('b1-savings'), b1Loan: val('b1-loan'), b1Bal: val('b1-bal'), b1Contact: val('b1-contact'),
+    b2Name: val('b2-name'), b2Current: val('b2-current'), b2Savings: val('b2-savings'), b2Loan: val('b2-loan'), b2Bal: val('b2-bal'), b2Contact: val('b2-contact'),
+    b3Name: val('b3-name'), b3Current: val('b3-current'), b3Savings: val('b3-savings'), b3Loan: val('b3-loan'), b3Bal: val('b3-bal'), b3Contact: val('b3-contact'),
+    // Trade refs
+    t1Name: val('t1-name'), t1Contact: val('t1-contact'), t1Phone: val('t1-phone'), t1Since: val('t1-since'), t1Limit: val('t1-limit'), t1Out: val('t1-outstanding'),
+    t2Name: val('t2-name'), t2Contact: val('t2-contact'), t2Phone: val('t2-phone'), t2Since: val('t2-since'), t2Limit: val('t2-limit'), t2Out: val('t2-outstanding'),
+    t3Name: val('t3-name'), t3Contact: val('t3-contact'), t3Phone: val('t3-phone'), t3Since: val('t3-since'), t3Limit: val('t3-limit'), t3Out: val('t3-outstanding'),
+    // Credit terms
+    creditLimit:  val('f-creditlimit'),
+    payTerms:     val('f-payterms'),
+    monthlyVal:   val('f-monthlyval'),
+    products:     checkboxVals('prod'),
+    notes:        val('f-notes'),
+    // Signatures
+    sig1Name: val('f-sig1name'), sig1Title: val('f-sig1title'), sig1Date: val('f-sig1date'),
+    sig2Name: val('f-sig2name'), sig2Title: val('f-sig2title'), sig2Date: val('f-sig2date'),
+    _source: 'credit-application-form',
+  };
+}
+
+function buildSummaryText(d) {
+  var lines = [];
+  lines.push('*CREDIT APPLICATION — Harmony International Food*');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('*APPLICANT*');
+  lines.push('Name: ' + [d.firstName, d.lastName].filter(Boolean).join(' '));
+  lines.push('Title: ' + (d.jobTitle || '—'));
+  lines.push('Phone: ' + (d.phone || '—'));
+  lines.push('Email: ' + (d.email || '—'));
+  lines.push('');
+  lines.push('*BUSINESS*');
+  lines.push('Company: ' + (d.bizName || '—'));
+  lines.push('UEN: ' + (d.uen || '—'));
+  lines.push('GST: ' + (d.gst || '—'));
+  lines.push('Address: ' + (d.address || '—'));
+  lines.push('Type: ' + (d.bizType || '—'));
+  lines.push('Year Est.: ' + (d.yearEst || '—'));
+  lines.push('Legal Structure: ' + (d.legalStruct || '—'));
+  lines.push('');
+  lines.push('*CREDIT REQUEST*');
+  lines.push('Limit: ' + (d.creditLimit || '—'));
+  lines.push('Terms: ' + (d.payTerms || '—'));
+  lines.push('Monthly Value: ' + (d.monthlyVal || '—'));
+  lines.push('Products: ' + (d.products || '—'));
+  lines.push('');
+  lines.push('*BANKING REFERENCES*');
+  lines.push('Bank 1: ' + (d.b1Name || '—') + ' | Acct: ' + (d.b1Current || '—'));
+  lines.push('Bank 2: ' + (d.b2Name || '—') + ' | Acct: ' + (d.b2Current || '—'));
+  if (d.b3Name) lines.push('Bank 3: ' + d.b3Name + ' | Acct: ' + (d.b3Current || '—'));
+  lines.push('');
+  lines.push('*TRADE REFERENCES*');
+  lines.push('1: ' + (d.t1Name || '—') + ' | Since: ' + (d.t1Since || '—') + ' | Limit: ' + (d.t1Limit || '—'));
+  lines.push('2: ' + (d.t2Name || '—') + ' | Since: ' + (d.t2Since || '—') + ' | Limit: ' + (d.t2Limit || '—'));
+  if (d.t3Name) lines.push('3: ' + d.t3Name + ' | Since: ' + (d.t3Since || '—') + ' | Limit: ' + (d.t3Limit || '—'));
+  if (d.notes) { lines.push(''); lines.push('Notes: ' + d.notes); }
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('Submitted via harmonyif.sg credit application form');
+  return lines.join('\n');
+}
+
+// ── WHATSAPP ─────────────────────────────────────────────────
+function submitWhatsApp() {
+  var d    = collectFormData();
+  var text = buildSummaryText(d);
+  var url  = 'https://wa.me/6587953309?text=' + encodeURIComponent(text);
+  window.open(url, '_blank');
+  showToast('Opening WhatsApp…');
+}
+
+// ── EMAIL (mailto fallback, GAS for full version) ─────────────
+function submitEmail() {
+  var d = collectFormData();
+  var subject = 'Credit Application — ' + (d.bizName || 'New Applicant');
+  var body = buildSummaryText(d).replace(/\*/g, '');
+  var mailto = 'mailto:pat@harmonyif.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+  showToast('Opening email client…');
+}
+
+// ── SERVER SUBMIT (Google Apps Script) ───────────────────────
+function submitToServer() {
+  var d = collectFormData();
+  d.form_type = 'credit_application';
+
+  showToast('Submitting to Harmony server…');
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode:   'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(d),
+  })
+  .then(function() {
+    showToast('✓ Submitted! Harmony will be in touch within 2–3 business days.');
+  })
+  .catch(function(err) {
+    showToast('Server error. Please use WhatsApp or email instead.');
+  });
+}
+
+// ── COMBINED SUBMIT ──────────────────────────────────────────
+function handleSubmitAll(e) {
+  e.preventDefault();
+  var d = collectFormData();
+  if (!d.bizName || !d.uen || !d.email) {
+    showToast('Please fill in Company Name, UEN, and Email before submitting.');
+    return;
+  }
+  document.getElementById('submit').scrollIntoView({ behavior: 'smooth' });
+  showToast('Scroll down to choose your submission method.');
+}
+
+// ── TOAST ────────────────────────────────────────────────────
+var toastTimer;
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { t.classList.remove('show'); }, 4000);
+}
+</script>
+</body>
+</html>
