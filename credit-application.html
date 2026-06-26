@@ -176,33 +176,36 @@ input.invalid,select.invalid,textarea.invalid{border-bottom-color:var(--coral)!i
 .form-foot-sub{background:var(--ink);border-top:1px solid rgba(255,255,255,0.05);padding:0.3rem var(--margin);font-size:0.5rem;color:var(--stone);opacity:0.4;flex-shrink:0}
 
 /* FINAL PAGE */
-.final-page{background:var(--ink);border-top:3px solid var(--gold);display:flex;flex-direction:column;min-height:var(--a4-h)}
-.final-inner{display:grid;grid-template-columns:1fr 1fr;flex:1}
-.final-left{padding:var(--margin);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,0.06)}
-.final-label{font-size:0.58rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.9rem}
-.final-title{font-family:var(--serif);font-weight:300;font-size:3.5rem;color:var(--cream);line-height:1;margin-bottom:0.7rem;letter-spacing:-0.01em}
-.final-sub{font-size:0.65rem;color:var(--mist);line-height:1.8;margin-bottom:1.5rem;text-align:justify}
-.final-step{display:flex;gap:0.65rem;align-items:flex-start;margin-bottom:1rem}
-.final-step-num{font-family:var(--serif);font-size:1.6rem;color:var(--gold);font-weight:300;line-height:1;flex-shrink:0;width:1.8rem}
-.final-step-title{font-size:0.56rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--cream);margin-bottom:0.22rem}
-.final-step-desc{font-size:0.6rem;color:var(--mist);line-height:1.7;text-align:justify}
+.final-page{background:var(--ink);border-top:3px solid var(--gold);display:flex;flex-direction:column;width:100%;min-height:var(--a4-h);overflow:hidden}
+.final-inner{display:grid;grid-template-columns:55% 45%;flex:1;min-height:0}
+.final-left{padding:var(--margin);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,0.06);overflow:hidden}
+.final-label{font-size:0.58rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.7rem}
+.final-title{font-family:var(--serif);font-weight:300;font-size:3rem;color:var(--cream);line-height:1;margin-bottom:0.6rem;letter-spacing:-0.01em}
+.final-sub{font-size:0.63rem;color:var(--mist);line-height:1.75;margin-bottom:1.1rem;text-align:justify}
+.final-step{display:flex;gap:0.6rem;align-items:flex-start;margin-bottom:0}
+.final-step-num{font-family:var(--serif);font-size:1.5rem;color:var(--gold);font-weight:300;line-height:1;flex-shrink:0;width:1.6rem}
+.final-step-body{flex:1;padding-bottom:0.55rem}
+.final-step-title{font-size:0.55rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--cream);margin-bottom:0.18rem}
+.final-step-desc{font-size:0.58rem;color:var(--mist);line-height:1.65;text-align:justify}
 .final-step-desc strong{color:var(--gold)}
 .final-step-desc em{color:var(--cream);font-style:normal}
-.final-btns{display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem}
-.final-btn{display:inline-flex;align-items:center;gap:0.45rem;padding:0.75rem 1.4rem;font-family:var(--sans);font-size:0.63rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border:none;transition:opacity 0.2s;width:fit-content}
-.final-btn:hover{opacity:0.85}
+/* inline button rows between steps */
+.final-btn-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.45rem 0 0.55rem 2.2rem}
+.final-btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.6rem 1.1rem;font-family:var(--sans);font-size:0.6rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border:none;transition:opacity 0.2s;white-space:nowrap}
+.final-btn:hover{opacity:0.82}
 .final-btn-submit{background:var(--gold);color:var(--ink)}
+.final-btn-pdf{background:rgba(255,255,255,0.1);color:var(--cream);border:1px solid rgba(255,255,255,0.2)!important}
 .final-btn-wa{background:#25D366;color:white}
-.final-btn-email{background:rgba(255,255,255,0.08);color:var(--cream);border:1px solid rgba(255,255,255,0.15)!important}
-.final-note{font-size:0.56rem;color:var(--mist);line-height:1.7;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.9rem;margin-top:auto;text-align:justify}
-.final-right{padding:var(--margin);display:flex;flex-direction:column;justify-content:space-between}
-.final-brand{font-family:var(--serif);font-size:2.6rem;color:var(--cream);margin-bottom:0.3rem}
-.final-co{font-size:0.6rem;color:var(--mist);line-height:2;letter-spacing:0.02em}
-.final-qr-title{font-size:0.52rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.55rem}
-.final-qr{display:block;width:150px;height:150px;border:3px solid rgba(255,255,255,0.1);border-radius:6px;overflow:hidden;background:white}
+.final-btn-email{background:rgba(255,255,255,0.08);color:var(--cream);border:1px solid rgba(255,255,255,0.2)!important}
+.final-note{font-size:0.54rem;color:var(--mist);line-height:1.65;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.75rem;margin-top:auto;text-align:justify}
+.final-right{padding:var(--margin);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.final-brand{font-family:var(--serif);font-size:2.4rem;color:var(--cream);margin-bottom:0.25rem}
+.final-co{font-size:0.58rem;color:var(--mist);line-height:2;letter-spacing:0.02em}
+.final-qr-title{font-size:0.5rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.5rem}
+.final-qr{display:block;width:130px;height:130px;border:3px solid rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;background:white}
 .final-qr img{width:100%;height:100%;display:block}
-.final-qr-sub{font-size:0.52rem;color:var(--mist);margin-top:0.4rem}
-.final-contacts{font-size:0.6rem;color:var(--stone);line-height:2;letter-spacing:0.02em;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem}
+.final-qr-sub{font-size:0.5rem;color:var(--mist);margin-top:0.35rem}
+.final-contacts{font-size:0.58rem;color:var(--stone);line-height:2.1;letter-spacing:0.02em;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.85rem}
 
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(26,25,22,0.88);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s}
@@ -230,31 +233,43 @@ input.invalid,select.invalid,textarea.invalid{border-bottom-color:var(--coral)!i
   @page{size:A4;margin:0}
   html{font-size:13px}
   body{background:white!important;padding:0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .pl-nav,#toast,#error-banner,.modal-overlay,.sig-actions,.stamp-remove{display:none!important}
+  .pl-nav,#toast,#error-banner,.modal-overlay,.sig-actions,.stamp-remove,.final-btn-row{display:none!important}
   .page{width:210mm;min-height:297mm;height:297mm;margin:0!important;box-shadow:none!important;page-break-after:always;break-after:page;overflow:hidden;display:flex;flex-direction:column}
   .cover-page,.form-head,.form-notice,.form-foot,.form-foot-sub,.final-page,.decl-box{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .field input,.field select{background:transparent!important;border-bottom:1px solid #C0BDB4!important;font-size:0.8rem!important;padding:0.2rem 0.3rem!important}
-  .field textarea{background:transparent!important;border:none!important;border-bottom:1px solid #C0BDB4!important;font-size:0.8rem!important;resize:none!important;overflow:visible!important;height:auto!important}
+  .field input,.field select{background:transparent!important;border-bottom:1px solid #C0BDB4!important;font-size:0.78rem!important;padding:0.18rem 0.3rem!important}
+  /* Notes: show ALL content — use scrollHeight trick via pre-wrap */
+  .field textarea{background:transparent!important;border:none!important;border-bottom:1px solid #C0BDB4!important;font-size:0.78rem!important;resize:none!important;overflow:visible!important;height:auto!important;min-height:0!important;max-height:none!important;white-space:pre-wrap!important;word-wrap:break-word!important;display:block!important}
   .ref-table input{background:transparent!important;border-bottom:1px solid #C0BDB4!important}
   .cb-item input[type="checkbox"]:checked{background:#1A1916!important;-webkit-print-color-adjust:exact}
   .same-as-above{display:none!important}
-  .final-btns{display:none!important}
   .sig-placeholder{display:none!important}
-  .sig-canvas-wrap canvas{display:block!important}
-  .stamp-preview{display:block!important;max-height:90px}
-  .stamp-area{border-style:dashed!important}
-  .stamp-area.has-stamp{border-style:solid!important;border-color:var(--gold)!important}
+  .sig-canvas-wrap{border:1px solid #C0BDB4!important;background:white!important}
+  .sig-canvas-wrap canvas{display:block!important;width:100%!important;height:90px!important}
+  /* Signature + stamp: fixed proportional layout */
+  .sig-stamp-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0.6rem!important}
+  .stamp-area{min-height:70px!important;border:1px dashed #C0BDB4!important;background:white!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;padding:0.3rem!important}
+  .stamp-area.has-stamp{border:1px solid #EF9F27!important;-webkit-print-color-adjust:exact}
+  .stamp-preview{display:block!important;max-width:90%!important;max-height:80px!important;object-fit:contain!important}
+  .stamp-ph{display:none!important}
   .stamp-ph.hide{display:none!important}
+  /* sig-grid: if only one sig, it still shows cleanly */
+  .sig-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0.8rem!important;break-inside:avoid}
+  .sig-box{border:1px solid #E8E4DC!important;padding:0.5rem!important;background:white!important;break-inside:avoid}
+  /* section breaks */
   .section{break-inside:avoid}
-  .sig-grid{break-inside:avoid}
   .ref-table tr{break-inside:avoid}
-  /* ensure textarea shows full content */
-  .field textarea{white-space:pre-wrap;word-wrap:break-word}
-  /* fix right margin clipping */
-  .form-body{padding:0 10mm}
-  .form-head,.form-notice,.form-foot,.form-foot-sub{padding-left:10mm;padding-right:10mm}
-  .cover-main{padding:8mm}
-  .cover-foot{padding:4mm 10mm}
+  /* body/head margins — 10mm each side */
+  .form-body{padding:0 10mm!important}
+  .form-head,.form-notice,.form-foot,.form-foot-sub{padding-left:10mm!important;padding-right:10mm!important}
+  .cover-main{padding:8mm!important}
+  .cover-foot{padding:4mm 10mm!important}
+  /* FINAL PAGE print fix */
+  .final-page{background:#1A1916!important;width:210mm!important;min-height:297mm!important;height:297mm!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;border-top:3px solid #EF9F27!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .final-inner{display:grid!important;grid-template-columns:55% 45%!important;flex:1!important;height:calc(297mm - 3px)!important;overflow:hidden!important}
+  .final-left{padding:10mm!important;display:flex!important;flex-direction:column!important;border-right:1px solid rgba(255,255,255,0.06)!important;overflow:hidden!important}
+  .final-right{padding:10mm!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;overflow:hidden!important}
+  .final-title{font-size:2.4rem!important}
+  .final-brand,.final-co,.final-contacts,.final-qr-title,.final-qr,.final-qr-sub,.final-label,.final-title,.final-sub,.final-step,.final-note{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 
 /* MOBILE */
@@ -271,9 +286,16 @@ input.invalid,select.invalid,textarea.invalid{border-bottom-color:var(--coral)!i
   .sig-grid{grid-template-columns:1fr}
   .sig-stamp-row{grid-template-columns:1fr}
   .final-inner{grid-template-columns:1fr}
-  .final-right{border-top:1px solid rgba(255,255,255,0.06)}
+  .final-right{border-top:1px solid rgba(255,255,255,0.06);border-right:none}
   .cover-infobox{grid-template-columns:1fr}
   .cover-steps{grid-template-columns:1fr 1fr}
+}
+
+/* NOTES PRINT MIRROR */
+.notes-print-mirror{display:none;font-family:var(--sans);font-size:0.78rem;color:var(--ink);white-space:pre-wrap;word-wrap:break-word;line-height:1.6;padding:0.18rem 0.3rem;border-bottom:1px solid #C0BDB4;min-height:1.2rem}
+@media print{
+  #f-notes{display:none!important}
+  .notes-print-mirror{display:block!important}
 }
 </style>
 </head>
@@ -476,8 +498,11 @@ input.invalid,select.invalid,textarea.invalid{border-bottom-color:var(--coral)!i
         </div>
       </div>
       <div class="fg fg-1 mt">
-        <div class="field"><div class="field-label">Additional Notes <span>(optional)</span></div>
-          <textarea id="f-notes" rows="3" class="auto-expand" placeholder="Any additional information relevant to this application…" oninput="autoExpand(this)"></textarea>
+        <div class="field">
+          <div class="field-label">Additional Notes <span>(optional)</span></div>
+          <textarea id="f-notes" rows="4" class="auto-expand" placeholder="Any additional information relevant to this application…" oninput="autoExpand(this);syncNotesDiv()"></textarea>
+          <!-- Print-only mirror div that shows ALL content with no clipping -->
+          <div id="f-notes-print" class="notes-print-mirror" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -592,53 +617,59 @@ input.invalid,select.invalid,textarea.invalid{border-bottom-color:var(--coral)!i
     <div class="final-left">
       <div class="final-label">Application complete — what's next</div>
       <div class="final-title">Submit your<br>application.</div>
-      <div class="final-sub">Follow these steps in order to send your credit application to Harmony International Food. Our team will review and respond within 2–3 business days.</div>
+      <div class="final-sub">Follow these three steps in order. Our team will review and respond within 2–3 business days.</div>
 
+      <!-- STEP 1 -->
       <div class="final-step">
         <div class="final-step-num">1</div>
-        <div>
+        <div class="final-step-body">
           <div class="final-step-title">Submit to our system</div>
-          <div class="final-step-desc">Click <strong>Submit Application</strong> below. This logs your details to our database and triggers a confirmation email to our team. Required before saving the PDF.</div>
+          <div class="final-step-desc">Click <strong>Submit</strong> to log your application to our database and send our team a notification. Do this before saving the PDF.</div>
         </div>
       </div>
+      <div class="final-btn-row">
+        <button class="final-btn final-btn-submit" onclick="handleSubmit()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Submit
+        </button>
+      </div>
 
+      <!-- STEP 2 -->
       <div class="final-step">
         <div class="final-step-num">2</div>
-        <div>
+        <div class="final-step-body">
           <div class="final-step-title">Save as PDF</div>
-          <div class="final-step-desc">After submitting, click <strong>Save as PDF</strong> below. Your browser opens a print dialog — set destination to <em>Save as PDF</em>. This produces a properly formatted A4 document with your signature included.</div>
+          <div class="final-step-desc">Click <strong>Save as PDF</strong> — your browser opens a print dialog. Set the destination to <em>Save as PDF</em>. This captures your completed form including signatures.</div>
         </div>
       </div>
-
-      <div class="final-step">
-        <div class="final-step-num">3</div>
-        <div>
-          <div class="final-step-title">Send PDF to Harmony</div>
-          <div class="final-step-desc">Send the saved PDF file to Pat via <strong>WhatsApp</strong> or <strong>Email</strong> using the buttons below. Attach the PDF file you just saved — do not just send the link.</div>
-        </div>
-      </div>
-
-      <div class="final-btns">
-        <button class="final-btn final-btn-submit" onclick="handleSubmit()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          Submit Application
-        </button>
-        <button class="final-btn" style="background:rgba(255,255,255,0.08);color:var(--cream);border:1px solid rgba(255,255,255,0.15)" onclick="window.print()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+      <div class="final-btn-row">
+        <button class="final-btn final-btn-pdf" onclick="window.print()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
           Save as PDF
         </button>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="final-step">
+        <div class="final-step-num">3</div>
+        <div class="final-step-body">
+          <div class="final-step-title">Send PDF to Pat</div>
+          <div class="final-step-desc">Open <strong>WhatsApp</strong> or <strong>Email</strong> and attach the PDF you just saved. Do not just send the link — attach the actual file.</div>
+        </div>
+      </div>
+      <div class="final-btn-row">
         <button class="final-btn final-btn-wa" onclick="openWhatsApp()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp Pat
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
         </button>
         <button class="final-btn final-btn-email" onclick="openEmail()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-          Email Pat
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Email
         </button>
       </div>
 
       <div class="final-note">
-        Harmony International Food Pte Ltd reviews all applications within 2–3 business days. You will be contacted via the email or phone number provided. All information submitted is kept strictly confidential and used solely for credit assessment purposes.
+        Harmony International Food Pte Ltd reviews all applications within 2–3 business days. You will be contacted via the email or phone number you provided. All information is kept strictly confidential and used solely for credit assessment.
       </div>
     </div>
 
@@ -648,16 +679,16 @@ input.invalid,select.invalid,textarea.invalid{border-bottom-color:var(--coral)!i
         <div class="final-co">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</div>
       </div>
       <div>
-        <div class="final-qr-title">WhatsApp us directly</div>
+        <div class="final-qr-title">Scan to WhatsApp us directly</div>
         <a href="https://wa.me/6587953309" target="_blank" class="final-qr">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https%3A%2F%2Fwa.me%2F6587953309%3Ftext%3DHi%2520Harmony%252C%2520I%2520have%2520completed%2520my%2520Credit%2520Application%2520and%2520would%2520like%2520to%2520send%2520it%2520over.&bgcolor=ffffff&color=1A1916&margin=12" alt="WhatsApp QR"/>
         </a>
-        <div class="final-qr-sub">Scan to open WhatsApp on mobile</div>
+        <div class="final-qr-sub">Or tap if you're on mobile</div>
       </div>
       <div class="final-contacts">
-        <div>📞 &nbsp;+65 8795 3309</div>
-        <div>✉️ &nbsp;pat@harmonyif.com</div>
-        <div>🌐 &nbsp;www.harmonyif.sg</div>
+        <div>+65 8795 3309</div>
+        <div>pat@harmonyif.com</div>
+        <div>www.harmonyif.sg</div>
       </div>
     </div>
   </div>
@@ -705,7 +736,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Auto-expand all textareas on load
   document.querySelectorAll('textarea.auto-expand').forEach(function(ta) { autoExpand(ta); });
+  syncNotesDiv();
 });
+
+// Sync notes mirror just before printing to catch any last edits
+window.addEventListener('beforeprint', function() { syncNotesDiv(); });
 
 // ── LIVE COVER UPDATE ─────────────────────────────────────────
 function liveUpdate() {
@@ -746,6 +781,14 @@ function fillSameAsContact() {
 function autoExpand(el) {
   el.style.height = 'auto';
   el.style.height = el.scrollHeight + 'px';
+}
+
+// ── SYNC NOTES TO PRINT MIRROR ────────────────────────────────
+// The textarea clips in print; this hidden div shows ALL content
+function syncNotesDiv() {
+  var ta  = document.getElementById('f-notes');
+  var div = document.getElementById('f-notes-print');
+  if (ta && div) div.textContent = ta.value;
 }
 
 // ── SIGNATURE CANVASES ────────────────────────────────────────
