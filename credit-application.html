@@ -9,303 +9,271 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-/* ── DESIGN TOKENS ───────────────────────────────────────── */
 :root {
-  --ink:    #1A1916;
-  --ink2:   #2C2C2A;
-  --mist:   #888780;
-  --stone:  #B4B2A9;
-  --cream:  #F5F0E8;
-  --cream2: #EDE8DF;
-  --page:   #F9F6F1;
-  --gold:   #EF9F27;
-  --coral:  #D85A30;
-  --serif:  'Cormorant Garamond', Georgia, serif;
-  --sans:   'Inter', system-ui, sans-serif;
-  --a4-w:   794px;
-  --a4-h:   1123px;
-  --margin: 52px;
+  --ink:#1A1916; --ink2:#2C2C2A; --mist:#888780; --stone:#B4B2A9;
+  --cream:#F5F0E8; --cream2:#EDE8DF; --page:#F9F6F1;
+  --gold:#EF9F27; --coral:#D85A30;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --a4-w:794px; --a4-h:1123px; --margin:44px;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 14px; -webkit-font-smoothing: antialiased; }
-body { font-family: var(--sans); background: #DDDBD6; color: var(--ink); padding: calc(48px + 2rem) 2rem 2rem; }
-a { color: inherit; text-decoration: none; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:#DDDBD6;color:var(--ink);padding:calc(48px + 1.5rem) 1.5rem 2rem}
+a{color:inherit;text-decoration:none}
 
-/* ── NAV ─────────────────────────────────────────────────── */
-.pl-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-  background: rgba(26,25,22,0.97); backdrop-filter: blur(10px);
-  height: 48px; display: flex; align-items: center; padding: 0 1.5rem; gap: 1.2rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.pl-nav__brand { font-family: var(--serif); font-size: 1.1rem; color: var(--cream); margin-right: auto; }
-.pl-nav a { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); white-space: nowrap; transition: color 0.2s; }
-.pl-nav a:hover { color: var(--cream); }
-.pl-nav__save {
-  background: var(--ink2); color: var(--gold) !important;
-  border: 1px solid rgba(239,159,39,0.35); padding: 0.35rem 1rem; font-weight: 600 !important;
-}
-.pl-nav__submit {
-  background: var(--gold); color: var(--ink) !important;
-  padding: 0.35rem 1.1rem; font-weight: 600 !important; cursor: pointer;
-  border: none; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
-}
+/* NAV */
+.pl-nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(26,25,22,0.97);backdrop-filter:blur(10px);height:48px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+.pl-nav__brand{font-family:var(--serif);font-size:1.1rem;color:var(--cream);margin-right:auto}
+.pl-nav a{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);white-space:nowrap;transition:color 0.2s}
+.pl-nav a:hover{color:var(--cream)}
 
-/* ── PAGE SHELL ──────────────────────────────────────────── */
-.page {
-  width: var(--a4-w); min-height: var(--a4-h); background: white;
-  margin: 0 auto 2rem; position: relative; overflow: hidden;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-}
+/* PAGE */
+.page{width:var(--a4-w);min-height:var(--a4-h);background:white;margin:0 auto 2rem;position:relative;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.18)}
 
-/* ── COVER PAGE ──────────────────────────────────────────── */
-.cover-page { background: var(--ink); display: flex; flex-direction: column; }
-.cover-page::after {
-  content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%;
-  background: linear-gradient(to bottom, var(--gold), transparent 70%);
-}
-.cover-main {
-  flex: 1; padding: var(--margin); padding-top: calc(var(--margin) * 1.8);
-  display: flex; flex-direction: column; justify-content: space-between;
-}
-.cover-eyebrow { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
-.cover-headline { font-family: var(--serif); font-weight: 300; font-size: 6.5rem; line-height: 0.9; color: var(--cream); letter-spacing: -0.02em; }
-.cover-headline em { font-style: italic; color: var(--gold); display: block; }
-.cover-rule { width: 40px; height: 1.5px; background: var(--gold); margin: 1.5rem 0; }
-.cover-meta { font-size: 0.63rem; color: var(--stone); line-height: 2; letter-spacing: 0.03em; }
-.cover-meta strong { color: var(--cream); }
-.cover-infobox {
-  margin-top: 2rem; border: 1px solid rgba(180,178,169,0.15);
-  padding: 1.1rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem;
-}
-.cover-infobox-label { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.3rem; }
-.cover-infobox-value { font-size: 0.68rem; color: var(--stone); border-bottom: 1px solid rgba(180,178,169,0.2); padding-bottom: 0.25rem; min-height: 1.3rem; }
-.cover-infobox-value.gold { color: var(--gold); font-weight: 500; }
-.cover-steps { margin-top: 1.4rem; border-top: 1px solid rgba(180,178,169,0.1); padding-top: 1.1rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
-.cover-step-num { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 0.25rem; }
-.cover-step-label { font-size: 0.52rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); margin-bottom: 0.15rem; }
-.cover-step-desc { font-size: 0.57rem; color: var(--mist); line-height: 1.6; }
-.cover-foot { border-top: 1px solid rgba(180,178,169,0.1); padding: 0.9rem var(--margin); display: flex; justify-content: space-between; align-items: center; }
-.cover-foot-brand { font-family: var(--serif); font-size: 1.2rem; color: var(--cream); }
-.cover-foot-contacts { font-size: 0.56rem; color: var(--stone); letter-spacing: 0.04em; display: flex; gap: 1.5rem; }
-.cover-foot-uen { font-size: 0.53rem; color: var(--mist); opacity: 0.6; }
+/* COVER */
+.cover-page{background:var(--ink);display:flex;flex-direction:column}
+.cover-page::after{content:'';position:absolute;top:0;right:0;width:5px;height:100%;background:linear-gradient(to bottom,var(--gold),transparent 70%)}
+.cover-main{flex:1;padding:var(--margin);padding-top:calc(var(--margin)*1.8);display:flex;flex-direction:column;justify-content:space-between}
+.cover-eyebrow{font-size:0.62rem;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
+.cover-headline{font-family:var(--serif);font-weight:300;font-size:6.5rem;line-height:0.88;color:var(--cream);letter-spacing:-0.02em}
+.cover-headline em{font-style:italic;color:var(--gold);display:block}
+.cover-rule{width:40px;height:1.5px;background:var(--gold);margin:1.6rem 0}
+.cover-meta{font-size:0.68rem;color:var(--stone);line-height:2;letter-spacing:0.03em;text-align:justify}
+.cover-meta strong{color:var(--cream)}
+.cover-infobox{margin-top:1.8rem;border:1px solid rgba(180,178,169,0.15);padding:1.1rem 1.4rem;display:grid;grid-template-columns:1fr 1fr;gap:0.9rem 2rem}
+.cover-infobox-label{font-size:0.52rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:0.25rem}
+.cover-infobox-value{font-size:0.72rem;color:var(--stone);border-bottom:1px solid rgba(180,178,169,0.2);padding-bottom:0.25rem;min-height:1.3rem}
+.cover-infobox-value.gold{color:var(--gold);font-weight:500}
+.cover-steps{margin-top:1.4rem;border-top:1px solid rgba(180,178,169,0.1);padding-top:1.1rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.cover-step-num{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:0.2rem}
+.cover-step-label{font-size:0.52rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--cream);margin-bottom:0.12rem}
+.cover-step-desc{font-size:0.6rem;color:var(--mist);line-height:1.65;text-align:justify}
+.cover-foot{border-top:1px solid rgba(180,178,169,0.1);padding:0.85rem var(--margin);display:flex;justify-content:space-between;align-items:center}
+.cover-foot-brand{font-family:var(--serif);font-size:1.2rem;color:var(--cream)}
+.cover-foot-contacts{font-size:0.58rem;color:var(--stone);letter-spacing:0.04em;display:flex;gap:1.5rem}
+.cover-foot-uen{font-size:0.53rem;color:var(--mist);opacity:0.6}
 
-/* ── FORM PAGES ──────────────────────────────────────────── */
-.form-page { display: flex; flex-direction: column; background: var(--page); }
-.form-head {
-  background: var(--ink); border-top: 3px solid var(--gold);
-  padding: 1rem var(--margin) 0.9rem;
-  display: flex; justify-content: space-between; align-items: flex-end; flex-shrink: 0;
-}
-.form-head-en { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; color: var(--cream); line-height: 1; }
-.form-head-cn { font-family: var(--serif); font-size: 0.78rem; color: var(--gold); margin-top: 0.18rem; letter-spacing: 0.05em; }
-.form-head-right { text-align: right; }
-.form-head-doc { font-size: 0.56rem; color: var(--mist); letter-spacing: 0.04em; margin-bottom: 0.18rem; }
-.form-head-ref { font-family: var(--serif); font-size: 1rem; font-weight: 300; color: var(--stone); }
-.form-notice { background: var(--ink2); padding: 0.38rem var(--margin); font-size: 0.54rem; color: var(--mist); letter-spacing: 0.03em; display: flex; justify-content: space-between; flex-shrink: 0; }
-.form-body { padding: 0 var(--margin); flex: 1; }
-.spacer { height: 10px; flex-shrink: 0; }
+/* FORM PAGES */
+.form-page{display:flex;flex-direction:column;background:var(--page)}
+.form-head{background:var(--ink);border-top:3px solid var(--gold);padding:0.9rem var(--margin) 0.8rem;display:flex;justify-content:space-between;align-items:flex-end;flex-shrink:0}
+.form-head-en{font-family:var(--serif);font-size:2.1rem;font-weight:300;color:var(--cream);line-height:1}
+.form-head-cn{font-family:var(--serif);font-size:0.78rem;color:var(--gold);margin-top:0.15rem;letter-spacing:0.05em}
+.form-head-right{text-align:right}
+.form-head-doc{font-size:0.56rem;color:var(--mist);letter-spacing:0.04em;margin-bottom:0.15rem}
+.form-head-ref{font-family:var(--serif);font-size:1rem;font-weight:300;color:var(--stone)}
+.form-notice{background:var(--ink2);padding:0.35rem var(--margin);font-size:0.56rem;color:var(--mist);letter-spacing:0.03em;display:flex;justify-content:space-between;flex-shrink:0}
+.form-body{padding:0 var(--margin);flex:1}
+.spacer{height:10px;flex-shrink:0}
 
-/* ── SECTIONS ────────────────────────────────────────────── */
-.section { margin-top: 1rem; }
-.section-head { display: flex; align-items: center; gap: 0.7rem; padding-bottom: 0.45rem; border-bottom: 1.5px solid var(--gold); margin-bottom: 0.75rem; }
-.section-num { font-family: var(--serif); font-size: 1.4rem; font-weight: 300; color: var(--gold); line-height: 1; flex-shrink: 0; }
-.section-title { font-size: 0.56rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink2); line-height: 1.2; }
-.section-title span { font-family: var(--serif); font-weight: 400; font-size: 0.67rem; letter-spacing: 0.04em; color: var(--mist); text-transform: none; display: block; margin-top: 0.08rem; }
+/* SECTIONS */
+.section{margin-top:0.9rem}
+.section-head{display:flex;align-items:center;gap:0.65rem;padding-bottom:0.4rem;border-bottom:1.5px solid var(--gold);margin-bottom:0.7rem}
+.section-num{font-family:var(--serif);font-size:1.35rem;font-weight:300;color:var(--gold);line-height:1;flex-shrink:0}
+.section-title{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink2);line-height:1.2}
+.section-title span{font-family:var(--serif);font-weight:400;font-size:0.68rem;letter-spacing:0.04em;color:var(--mist);text-transform:none;display:block;margin-top:0.06rem}
 
-/* ── FIELD GRID ──────────────────────────────────────────── */
-.fg { display: grid; gap: 0.55rem 1.1rem; }
-.fg-3 { grid-template-columns: 1fr 1fr 1fr; }
-.fg-2 { grid-template-columns: 1fr 1fr; }
-.fg-1 { grid-template-columns: 1fr; }
-.fg-21 { grid-template-columns: 2fr 1fr; }
-.fg-12 { grid-template-columns: 1fr 2fr; }
-.fg-211 { grid-template-columns: 2fr 1fr 1fr; }
-.s2 { grid-column: span 2; }
-.s3 { grid-column: span 3; }
-.mt { margin-top: 0.55rem; }
+/* FIELD GRID */
+.fg{display:grid;gap:0.6rem 1rem}
+.fg-3{grid-template-columns:1fr 1fr 1fr}
+.fg-2{grid-template-columns:1fr 1fr}
+.fg-1{grid-template-columns:1fr}
+.fg-21{grid-template-columns:2fr 1fr}
+.fg-12{grid-template-columns:1fr 2fr}
+.fg-211{grid-template-columns:2fr 1fr 1fr}
+.fg-31{grid-template-columns:3fr 1fr}
+.s2{grid-column:span 2}
+.s3{grid-column:span 3}
+.mt{margin-top:0.6rem}
+.mt2{margin-top:0.35rem}
 
-.field { display: flex; flex-direction: column; gap: 0.18rem; }
-.field-label { font-size: 0.48rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); }
-.field-label span { font-family: var(--serif); font-weight: 400; font-size: 0.58rem; letter-spacing: 0.02em; text-transform: none; color: var(--stone); margin-left: 0.25rem; }
-.field input, .field select, .field textarea {
-  background: white; border: none; border-bottom: 1.5px solid var(--cream2);
-  border-radius: 0; font-family: var(--sans); font-size: 0.68rem; color: var(--ink);
-  padding: 0.32rem 0.38rem 0.28rem; outline: none; width: 100%; transition: border-color 0.15s; -webkit-appearance: none;
-}
-.field input:focus, .field select:focus, .field textarea:focus { border-bottom-color: var(--gold); }
-.field input::placeholder, .field textarea::placeholder { color: var(--stone); opacity: 0.55; }
-.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888780' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.4rem center; padding-right: 1.4rem; cursor: pointer; }
-.field textarea { resize: none; }
+/* FIELDS */
+.field{display:flex;flex-direction:column;gap:0.2rem}
+.field-label{font-size:0.52rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--mist)}
+.field-label span{font-family:var(--serif);font-weight:400;font-size:0.62rem;letter-spacing:0.02em;text-transform:none;color:var(--stone);margin-left:0.22rem}
+.field input,.field select,.field textarea{background:white;border:none;border-bottom:1.5px solid var(--cream2);border-radius:0;font-family:var(--sans);font-size:0.82rem;color:var(--ink);padding:0.38rem 0.4rem 0.32rem;outline:none;width:100%;transition:border-color 0.15s;-webkit-appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-bottom-color:var(--gold)}
+.field input::placeholder,.field textarea::placeholder{color:var(--stone);opacity:0.5;font-size:0.75rem}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888780' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.4rem center;padding-right:1.4rem;cursor:pointer}
+.field textarea{resize:none;min-height:3rem}
+.field textarea.auto-expand{overflow:hidden}
+.req::after{content:' *';color:var(--coral);font-size:0.55rem}
+input.invalid,select.invalid,textarea.invalid{border-bottom-color:var(--coral)!important;background:rgba(216,90,48,0.03)!important}
 
-/* required marker */
-.req::after { content: ' *'; color: var(--coral); font-size: 0.55rem; }
-input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
+/* CHECKBOXES */
+.cb-group{display:flex;flex-wrap:wrap;gap:0.5rem 1rem;margin-top:0.25rem}
+.cb-item{display:flex;align-items:flex-start;gap:0.35rem;cursor:pointer}
+.cb-item input[type="checkbox"]{width:13px;height:13px;min-width:13px;border:1.5px solid var(--stone);border-radius:0;background:white;-webkit-appearance:none;cursor:pointer;position:relative;margin-top:2px}
+.cb-item input[type="checkbox"]:checked{background:var(--ink);border-color:var(--ink)}
+.cb-item input[type="checkbox"]:checked::after{content:'';position:absolute;top:1px;left:3.5px;width:3.5px;height:7px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg)}
+.cb-item label{font-size:0.72rem;color:var(--ink);cursor:pointer;line-height:1.35}
+.cb-item label small{display:block;font-size:0.56rem;color:var(--mist);margin-top:0.03rem}
 
-/* checkboxes */
-.cb-group { display: flex; flex-wrap: wrap; gap: 0.45rem 0.9rem; margin-top: 0.2rem; }
-.cb-item { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; }
-.cb-item input[type="checkbox"] { width: 11px; height: 11px; border: 1.5px solid var(--stone); border-radius: 0; background: white; -webkit-appearance: none; cursor: pointer; flex-shrink: 0; position: relative; }
-.cb-item input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
-.cb-item input[type="checkbox"]:checked::after { content: ''; position: absolute; top: 1px; left: 3px; width: 3px; height: 6px; border: 1.5px solid white; border-top: none; border-left: none; transform: rotate(45deg); }
-.cb-item label { font-size: 0.6rem; color: var(--ink); cursor: pointer; }
-.cb-item label small { display: block; font-size: 0.48rem; color: var(--mist); margin-top: 0.03rem; }
+/* SAME AS ABOVE checkbox */
+.same-as-above{display:flex;align-items:center;gap:0.4rem;margin-bottom:0.6rem;padding:0.45rem 0.6rem;background:rgba(239,159,39,0.06);border:1px solid rgba(239,159,39,0.2);cursor:pointer}
+.same-as-above input[type="checkbox"]{width:13px;height:13px;min-width:13px;border:1.5px solid var(--gold);border-radius:0;background:white;-webkit-appearance:none;cursor:pointer;position:relative}
+.same-as-above input[type="checkbox"]:checked{background:var(--gold);border-color:var(--gold)}
+.same-as-above input[type="checkbox"]:checked::after{content:'';position:absolute;top:1px;left:3.5px;width:3.5px;height:7px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg)}
+.same-as-above label{font-size:0.66rem;font-weight:500;color:var(--ink2);cursor:pointer;letter-spacing:0.02em}
+.same-as-above label span{color:var(--mist);font-weight:400;font-size:0.62rem;margin-left:0.3rem}
 
-/* ── REF TABLES ──────────────────────────────────────────── */
-.ref-table { width: 100%; border-collapse: collapse; margin-top: 0.15rem; }
-.ref-table th { background: var(--cream2); font-size: 0.48rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mist); padding: 0.42rem 0.45rem; text-align: left; border-bottom: 1.5px solid var(--stone); }
-.ref-table th:not(:first-child) { text-align: center; }
-.ref-table td { padding: 0.18rem 0.35rem; border-bottom: 1px solid rgba(180,178,169,0.15); vertical-align: middle; }
-.ref-table tr:last-child td { border-bottom: none; }
-.ref-table .rl { font-size: 0.49rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mist); width: 21%; padding-right: 0.4rem; }
-.ref-table .rl small { display: block; font-family: var(--serif); font-weight: 400; font-size: 0.58rem; letter-spacing: 0.02em; text-transform: none; color: var(--stone); margin-top: 0.06rem; }
-.ref-table input { background: transparent; border: none; border-bottom: 1px solid var(--cream2); width: 100%; font-family: var(--sans); font-size: 0.6rem; color: var(--ink); padding: 0.22rem 0.22rem 0.18rem; outline: none; text-align: center; transition: border-color 0.15s; }
-.ref-table input:focus { border-bottom-color: var(--gold); background: rgba(239,159,39,0.03); }
-.ref-table tr:nth-child(even) td { background: rgba(237,232,223,0.28); }
+/* REF TABLES */
+.ref-table{width:100%;border-collapse:collapse;margin-top:0.15rem}
+.ref-table th{background:var(--cream2);font-size:0.5rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist);padding:0.45rem 0.5rem;text-align:left;border-bottom:1.5px solid var(--stone)}
+.ref-table th:not(:first-child){text-align:center}
+.ref-table td{padding:0.22rem 0.38rem;border-bottom:1px solid rgba(180,178,169,0.15);vertical-align:middle}
+.ref-table tr:last-child td{border-bottom:none}
+.ref-table .rl{font-size:0.5rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);width:20%;padding-right:0.4rem;vertical-align:top;padding-top:0.5rem}
+.ref-table .rl small{display:block;font-family:var(--serif);font-weight:400;font-size:0.6rem;letter-spacing:0.02em;text-transform:none;color:var(--stone);margin-top:0.06rem}
+.ref-table input{background:transparent;border:none;border-bottom:1px solid var(--cream2);width:100%;font-family:var(--sans);font-size:0.72rem;color:var(--ink);padding:0.28rem 0.25rem;outline:none;text-align:center;transition:border-color 0.15s}
+.ref-table input:focus{border-bottom-color:var(--gold);background:rgba(239,159,39,0.03)}
+.ref-table tr:nth-child(even) td{background:rgba(237,232,223,0.28)}
+.ref-note{font-size:0.58rem;color:var(--mist);background:rgba(239,159,39,0.05);border-left:2px solid var(--gold);padding:0.5rem 0.7rem;margin-bottom:0.6rem;line-height:1.7;text-align:justify}
+.ref-note strong{color:var(--ink2)}
 
-/* ── SIGNATURE PAD ───────────────────────────────────────── */
-.sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 0.5rem; }
-.sig-box { border: 1px solid var(--cream2); padding: 0.7rem; background: white; }
-.sig-box-label { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.5rem; }
-.sig-box-label span { font-family: var(--serif); text-transform: none; font-size: 0.58rem; letter-spacing: 0.02em; color: var(--stone); font-weight: 400; margin-left: 0.25rem; }
-.sig-canvas-wrap { position: relative; border: 1.5px dashed var(--cream2); background: #FDFCFA; border-radius: 2px; cursor: crosshair; transition: border-color 0.15s; }
-.sig-canvas-wrap:hover { border-color: var(--stone); }
-.sig-canvas-wrap.has-sig { border-style: solid; border-color: var(--gold); }
-.sig-canvas-wrap canvas { display: block; width: 100%; touch-action: none; }
-.sig-placeholder { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 0.52rem; color: var(--stone); letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none; text-align: center; line-height: 1.6; }
-.sig-placeholder svg { display: block; margin: 0 auto 0.3rem; opacity: 0.4; }
-.sig-actions { display: flex; gap: 0.5rem; margin-top: 0.4rem; }
-.sig-btn { font-family: var(--sans); font-size: 0.5rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.28rem 0.7rem; cursor: pointer; border: 1px solid var(--cream2); background: white; color: var(--mist); transition: all 0.15s; }
-.sig-btn:hover { border-color: var(--stone); color: var(--ink); }
-.sig-btn.confirm { background: var(--ink); border-color: var(--ink); color: var(--cream); }
-.sig-btn.confirm:hover { background: var(--ink2); }
-.sig-btn.confirmed { background: rgba(239,159,39,0.1); border-color: var(--gold); color: var(--gold); cursor: default; }
-.sig-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; }
+/* SIGNATURE */
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem}
+.sig-box{border:1px solid var(--cream2);padding:0.7rem;background:white}
+.sig-box-label{font-size:0.52rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.45rem}
+.sig-box-label span{font-family:var(--serif);text-transform:none;font-size:0.6rem;letter-spacing:0.02em;color:var(--stone);font-weight:400;margin-left:0.22rem}
+.sig-canvas-wrap{position:relative;border:1.5px dashed var(--cream2);background:#FDFCFA;cursor:crosshair;transition:border-color 0.15s;border-radius:2px}
+.sig-canvas-wrap:hover{border-color:var(--stone)}
+.sig-canvas-wrap.has-sig{border-style:solid;border-color:var(--gold)}
+.sig-canvas-wrap canvas{display:block;width:100%;touch-action:none}
+.sig-placeholder{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.54rem;color:var(--stone);letter-spacing:0.06em;text-transform:uppercase;pointer-events:none;text-align:center;line-height:1.7}
+.sig-placeholder svg{display:block;margin:0 auto 0.3rem;opacity:0.35}
+.sig-actions{display:flex;gap:0.45rem;margin-top:0.35rem}
+.sig-btn{font-family:var(--sans);font-size:0.52rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;cursor:pointer;border:1px solid var(--cream2);background:white;color:var(--mist);transition:all 0.15s}
+.sig-btn:hover{border-color:var(--stone);color:var(--ink)}
+.sig-btn.primary{background:var(--ink);border-color:var(--ink);color:var(--cream)}
+.sig-btn.confirmed{background:rgba(239,159,39,0.1);border-color:var(--gold);color:var(--gold);cursor:default}
 
-/* ── STAMP UPLOAD ────────────────────────────────────────── */
-.stamp-box { border: 1.5px dashed var(--cream2); padding: 0.6rem; display: flex; align-items: center; gap: 0.7rem; background: #FDFCFA; cursor: pointer; transition: border-color 0.15s; margin-top: 0.5rem; }
-.stamp-box:hover { border-color: var(--stone); }
-.stamp-box.has-stamp { border-style: solid; border-color: var(--gold); }
-.stamp-preview { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; display: none; }
-.stamp-preview.show { display: block; }
-.stamp-placeholder { width: 52px; height: 52px; border: 1px dashed var(--stone); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.stamp-placeholder.hide { display: none; }
-.stamp-placeholder svg { opacity: 0.35; }
-.stamp-text { flex: 1; }
-.stamp-text-title { font-size: 0.52rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mist); }
-.stamp-text-sub { font-size: 0.5rem; color: var(--stone); margin-top: 0.15rem; }
-.stamp-file-input { display: none; }
-.stamp-remove { font-size: 0.48rem; color: var(--coral); cursor: pointer; text-decoration: underline; margin-top: 0.15rem; display: none; }
-.stamp-remove.show { display: block; }
+/* SIG + STAMP row */
+.sig-stamp-row{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-top:0.55rem}
+.sig-fields{display:flex;flex-direction:column;gap:0.45rem}
+.stamp-area{border:1.5px dashed var(--cream2);background:#FDFCFA;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;cursor:pointer;transition:border-color 0.15s;padding:0.5rem}
+.stamp-area:hover{border-color:var(--stone)}
+.stamp-area.has-stamp{border-style:solid;border-color:var(--gold);background:white}
+.stamp-preview{max-width:100%;max-height:90px;object-fit:contain;display:none}
+.stamp-preview.show{display:block}
+.stamp-ph{font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);text-align:center}
+.stamp-ph svg{display:block;margin:0 auto 0.3rem;opacity:0.3}
+.stamp-ph.hide{display:none}
+.stamp-file-input{display:none}
+.stamp-remove{font-size:0.5rem;color:var(--coral);cursor:pointer;text-decoration:underline;display:none;margin-top:0.2rem}
+.stamp-remove.show{display:block}
+.stamp-label{font-size:0.52rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--mist);margin-bottom:0.3rem}
 
-/* ── DECLARATION ─────────────────────────────────────────── */
-.decl-box { border: 1px solid rgba(239,159,39,0.28); background: rgba(239,159,39,0.03); padding: 0.75rem 0.9rem; margin-top: 0.7rem; }
-.decl-text { font-size: 0.57rem; color: var(--mist); line-height: 1.85; }
-.decl-text strong { color: var(--ink); }
+/* DECLARATION */
+.decl-box{border:1px solid rgba(239,159,39,0.28);background:rgba(239,159,39,0.03);padding:0.75rem 0.9rem;margin-top:0.65rem}
+.decl-text{font-size:0.62rem;color:var(--mist);line-height:1.9;text-align:justify}
+.decl-text strong{color:var(--ink)}
 
-/* ── FORM FOOTER ─────────────────────────────────────────── */
-.form-foot { background: var(--ink); padding: 0.85rem var(--margin); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; margin-top: auto; }
-.form-foot-co { font-family: var(--serif); font-size: 0.82rem; color: var(--cream); }
-.form-foot-contacts { font-size: 0.54rem; color: var(--stone); letter-spacing: 0.03em; }
-.form-foot-sub { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.05); padding: 0.32rem var(--margin); font-size: 0.49rem; color: var(--stone); opacity: 0.4; flex-shrink: 0; }
+/* FORM FOOTER */
+.form-foot{background:var(--ink);padding:0.8rem var(--margin);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;margin-top:auto}
+.form-foot-co{font-family:var(--serif);font-size:0.82rem;color:var(--cream)}
+.form-foot-contacts{font-size:0.56rem;color:var(--stone);letter-spacing:0.03em}
+.form-foot-sub{background:var(--ink);border-top:1px solid rgba(255,255,255,0.05);padding:0.3rem var(--margin);font-size:0.5rem;color:var(--stone);opacity:0.4;flex-shrink:0}
 
-/* ── SUBMIT PAGE ─────────────────────────────────────────── */
-.submit-page { background: var(--ink); border-top: 3px solid var(--gold); display: grid; grid-template-columns: 1fr 1fr; min-height: var(--a4-h); }
-.submit-left { padding: var(--margin); display: flex; flex-direction: column; }
-.submit-label { font-size: 0.56rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
-.submit-title { font-family: var(--serif); font-weight: 300; font-size: 3.8rem; color: var(--cream); line-height: 1; margin-bottom: 0.7rem; }
-.submit-sub { font-size: 0.65rem; color: var(--mist); margin-bottom: 1.8rem; line-height: 1.8; }
-.submit-step { display: flex; gap: 0.7rem; align-items: flex-start; margin-bottom: 1rem; }
-.submit-step-num { font-family: var(--serif); font-size: 1.6rem; color: var(--gold); font-weight: 300; line-height: 1; flex-shrink: 0; width: 1.8rem; }
-.submit-step-body {}
-.submit-step-title { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream); margin-bottom: 0.2rem; }
-.submit-step-desc { font-size: 0.58rem; color: var(--mist); line-height: 1.6; }
-.submit-btn {
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  padding: 0.8rem 1.5rem; font-family: var(--sans); font-size: 0.62rem;
-  font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-  cursor: pointer; width: fit-content; border: none; margin-top: 0.5rem; transition: opacity 0.2s;
-}
-.submit-btn:hover { opacity: 0.88; }
-.submit-btn-wa { background: #25D366; color: white; }
-.submit-btn-email { background: var(--gold); color: var(--ink); margin-top: 0.6rem; }
-.submit-right { border-left: 1px solid rgba(255,255,255,0.06); padding: var(--margin); display: flex; flex-direction: column; justify-content: flex-start; gap: 2.2rem; }
-.submit-brand { font-family: var(--serif); font-size: 2.6rem; color: var(--cream); }
-.submit-co { font-size: 0.58rem; color: var(--mist); line-height: 2; margin-top: 0.35rem; }
-.submit-qr-title { font-size: 0.52rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.55rem; }
-.submit-qr { display: block; width: 170px; height: 170px; border: 3px solid rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; background: white; }
-.submit-qr img { width: 100%; height: 100%; display: block; }
-.submit-qr-sub { font-size: 0.52rem; color: var(--mist); margin-top: 0.45rem; }
+/* FINAL PAGE */
+.final-page{background:var(--ink);border-top:3px solid var(--gold);display:flex;flex-direction:column;min-height:var(--a4-h)}
+.final-inner{display:grid;grid-template-columns:1fr 1fr;flex:1}
+.final-left{padding:var(--margin);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,0.06)}
+.final-label{font-size:0.58rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.9rem}
+.final-title{font-family:var(--serif);font-weight:300;font-size:3.5rem;color:var(--cream);line-height:1;margin-bottom:0.7rem;letter-spacing:-0.01em}
+.final-sub{font-size:0.65rem;color:var(--mist);line-height:1.8;margin-bottom:1.5rem;text-align:justify}
+.final-step{display:flex;gap:0.65rem;align-items:flex-start;margin-bottom:1rem}
+.final-step-num{font-family:var(--serif);font-size:1.6rem;color:var(--gold);font-weight:300;line-height:1;flex-shrink:0;width:1.8rem}
+.final-step-title{font-size:0.56rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--cream);margin-bottom:0.22rem}
+.final-step-desc{font-size:0.6rem;color:var(--mist);line-height:1.7;text-align:justify}
+.final-step-desc strong{color:var(--gold)}
+.final-step-desc em{color:var(--cream);font-style:normal}
+.final-btns{display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem}
+.final-btn{display:inline-flex;align-items:center;gap:0.45rem;padding:0.75rem 1.4rem;font-family:var(--sans);font-size:0.63rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border:none;transition:opacity 0.2s;width:fit-content}
+.final-btn:hover{opacity:0.85}
+.final-btn-submit{background:var(--gold);color:var(--ink)}
+.final-btn-wa{background:#25D366;color:white}
+.final-btn-email{background:rgba(255,255,255,0.08);color:var(--cream);border:1px solid rgba(255,255,255,0.15)!important}
+.final-note{font-size:0.56rem;color:var(--mist);line-height:1.7;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.9rem;margin-top:auto;text-align:justify}
+.final-right{padding:var(--margin);display:flex;flex-direction:column;justify-content:space-between}
+.final-brand{font-family:var(--serif);font-size:2.6rem;color:var(--cream);margin-bottom:0.3rem}
+.final-co{font-size:0.6rem;color:var(--mist);line-height:2;letter-spacing:0.02em}
+.final-qr-title{font-size:0.52rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.55rem}
+.final-qr{display:block;width:150px;height:150px;border:3px solid rgba(255,255,255,0.1);border-radius:6px;overflow:hidden;background:white}
+.final-qr img{width:100%;height:100%;display:block}
+.final-qr-sub{font-size:0.52rem;color:var(--mist);margin-top:0.4rem}
+.final-contacts{font-size:0.6rem;color:var(--stone);line-height:2;letter-spacing:0.02em;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem}
 
-/* ── MODAL OVERLAY ───────────────────────────────────────── */
-.modal-overlay { position: fixed; inset: 0; background: rgba(26,25,22,0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal { background: white; padding: 1.5rem; width: 520px; max-width: 92vw; box-shadow: 0 12px 48px rgba(0,0,0,0.35); }
-.modal-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; color: var(--ink); margin-bottom: 0.3rem; }
-.modal-sub { font-size: 0.6rem; color: var(--mist); margin-bottom: 1rem; }
-.modal-canvas-wrap { border: 1.5px solid var(--cream2); background: #FDFCFA; cursor: crosshair; position: relative; }
-.modal-canvas-wrap canvas { display: block; width: 100%; touch-action: none; }
-.modal-actions { display: flex; gap: 0.6rem; margin-top: 0.9rem; justify-content: flex-end; }
-.modal-btn { font-family: var(--sans); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1.2rem; cursor: pointer; border: 1px solid var(--cream2); background: white; color: var(--mist); transition: all 0.15s; }
-.modal-btn:hover { border-color: var(--stone); color: var(--ink); }
-.modal-btn.primary { background: var(--ink); border-color: var(--ink); color: var(--cream); }
-.modal-btn.primary:hover { background: var(--ink2); }
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,25,22,0.88);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:white;padding:1.5rem;width:540px;max-width:92vw;box-shadow:0 12px 48px rgba(0,0,0,0.35)}
+.modal-title{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--ink);margin-bottom:0.25rem}
+.modal-sub{font-size:0.62rem;color:var(--mist);margin-bottom:0.9rem}
+.modal-canvas-wrap{border:1.5px solid var(--cream2);background:#FDFCFA;cursor:crosshair}
+.modal-canvas-wrap canvas{display:block;width:100%;touch-action:none}
+.modal-actions{display:flex;gap:0.55rem;margin-top:0.85rem;justify-content:flex-end}
+.modal-btn{font-family:var(--sans);font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:0.5rem 1.1rem;cursor:pointer;border:1px solid var(--cream2);background:white;color:var(--mist);transition:all 0.15s}
+.modal-btn:hover{border-color:var(--stone);color:var(--ink)}
+.modal-btn.primary{background:var(--ink);border-color:var(--ink);color:var(--cream)}
 
-/* ── TOAST ───────────────────────────────────────────────── */
-#toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--ink2); color: var(--cream); font-size: 0.63rem; letter-spacing: 0.04em; padding: 0.7rem 1.4rem; border-left: 3px solid var(--gold); opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; z-index: 9999; white-space: nowrap; }
-#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* ERROR BANNER */
+#error-banner{display:none;position:fixed;top:48px;left:0;right:0;z-index:600;background:var(--coral);padding:0.6rem 1.5rem;font-size:0.65rem;color:white;letter-spacing:0.03em;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+#error-banner.show{display:block}
 
-/* ── PRINT STYLES ────────────────────────────────────────── */
-@media print {
-  @page { size: A4; margin: 0; }
-  html { font-size: 14px; }
-  body { background: white !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .pl-nav, #toast, .modal-overlay, .sig-actions, .stamp-box .stamp-text-sub, .stamp-remove { display: none !important; }
-  .page {
-    width: 210mm; min-height: 297mm; height: 297mm;
-    margin: 0 !important; box-shadow: none !important;
-    page-break-after: always; break-after: page; overflow: hidden;
-    display: flex; flex-direction: column;
-  }
-  .cover-page, .form-head, .form-notice, .form-foot, .form-foot-sub,
-  .submit-page, .decl-box, .form-page { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .field input, .field select, .field textarea {
-    background: transparent !important; border-bottom: 1px solid #C8C5BB !important;
-    -webkit-print-color-adjust: exact;
-  }
-  .ref-table input { background: transparent !important; border-bottom: 1px solid #C8C5BB !important; }
-  .cb-item input[type="checkbox"]:checked { background: #1A1916 !important; -webkit-print-color-adjust: exact; }
-  .submit-btn, .stamp-box { display: none !important; }
-  /* Show confirmed signatures in print */
-  .sig-canvas-wrap canvas { display: block !important; }
-  .sig-placeholder { display: none !important; }
-  /* Show stamp image in print */
-  .stamp-preview { display: block !important; }
-  .stamp-placeholder { display: none !important; }
-  /* Ensure sections don't break badly */
-  .section { page-break-inside: avoid; break-inside: avoid; }
-  .sig-grid { page-break-inside: avoid; break-inside: avoid; }
-  .ref-table tr { page-break-inside: avoid; break-inside: avoid; }
+/* TOAST */
+#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink2);color:var(--cream);font-size:0.65rem;letter-spacing:0.03em;padding:0.7rem 1.4rem;border-left:3px solid var(--gold);opacity:0;transition:opacity 0.3s,transform 0.3s;pointer-events:none;z-index:9999;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* PRINT */
+@media print{
+  @page{size:A4;margin:0}
+  html{font-size:13px}
+  body{background:white!important;padding:0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pl-nav,#toast,#error-banner,.modal-overlay,.sig-actions,.stamp-remove{display:none!important}
+  .page{width:210mm;min-height:297mm;height:297mm;margin:0!important;box-shadow:none!important;page-break-after:always;break-after:page;overflow:hidden;display:flex;flex-direction:column}
+  .cover-page,.form-head,.form-notice,.form-foot,.form-foot-sub,.final-page,.decl-box{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .field input,.field select{background:transparent!important;border-bottom:1px solid #C0BDB4!important;font-size:0.8rem!important;padding:0.2rem 0.3rem!important}
+  .field textarea{background:transparent!important;border:none!important;border-bottom:1px solid #C0BDB4!important;font-size:0.8rem!important;resize:none!important;overflow:visible!important;height:auto!important}
+  .ref-table input{background:transparent!important;border-bottom:1px solid #C0BDB4!important}
+  .cb-item input[type="checkbox"]:checked{background:#1A1916!important;-webkit-print-color-adjust:exact}
+  .same-as-above{display:none!important}
+  .final-btns{display:none!important}
+  .sig-placeholder{display:none!important}
+  .sig-canvas-wrap canvas{display:block!important}
+  .stamp-preview{display:block!important;max-height:90px}
+  .stamp-area{border-style:dashed!important}
+  .stamp-area.has-stamp{border-style:solid!important;border-color:var(--gold)!important}
+  .stamp-ph.hide{display:none!important}
+  .section{break-inside:avoid}
+  .sig-grid{break-inside:avoid}
+  .ref-table tr{break-inside:avoid}
+  /* ensure textarea shows full content */
+  .field textarea{white-space:pre-wrap;word-wrap:break-word}
+  /* fix right margin clipping */
+  .form-body{padding:0 10mm}
+  .form-head,.form-notice,.form-foot,.form-foot-sub{padding-left:10mm;padding-right:10mm}
+  .cover-main{padding:8mm}
+  .cover-foot{padding:4mm 10mm}
 }
 
-/* ── MOBILE ──────────────────────────────────────────────── */
-@media (max-width: 860px) {
-  body { padding: calc(48px + 1rem) 0.5rem 1rem; }
-  .pl-nav { padding: 0 1rem; gap: 0.7rem; }
-  .pl-nav a:not(.pl-nav__brand):not(.pl-nav__save):not(.pl-nav__submit) { display: none; }
-  .page { width: 100%; min-height: auto; border-radius: 0; }
-  :root { --margin: 1.1rem; }
-  .cover-headline { font-size: 4rem; }
-  .cover-steps { grid-template-columns: 1fr 1fr; }
-  .fg-3 { grid-template-columns: 1fr 1fr; }
-  .fg-3 .s3 { grid-column: span 2; }
-  .fg-211 { grid-template-columns: 1fr 1fr; }
-  .sig-grid { grid-template-columns: 1fr; }
-  .submit-page { grid-template-columns: 1fr; }
-  .submit-right { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
-  .ref-table { font-size: 0.55rem; }
-  .ref-table th, .ref-table td { padding: 0.2rem 0.25rem; }
-  .cover-infobox { grid-template-columns: 1fr; }
+/* MOBILE */
+@media(max-width:860px){
+  body{padding:calc(48px + 0.8rem) 0.3rem 1rem}
+  .pl-nav{padding:0 0.8rem;gap:0.6rem}
+  .page{width:100%;min-height:auto}
+  :root{--margin:1rem}
+  .cover-headline{font-size:3.8rem}
+  .cover-steps{grid-template-columns:1fr 1fr}
+  .fg-3{grid-template-columns:1fr 1fr}
+  .fg-3 .s3{grid-column:span 2}
+  .fg-211{grid-template-columns:1fr 1fr}
+  .sig-grid{grid-template-columns:1fr}
+  .sig-stamp-row{grid-template-columns:1fr}
+  .final-inner{grid-template-columns:1fr}
+  .final-right{border-top:1px solid rgba(255,255,255,0.06)}
+  .cover-infobox{grid-template-columns:1fr}
+  .cover-steps{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -313,26 +281,20 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
 
 <nav class="pl-nav">
   <a href="index.html" class="pl-nav__brand">Harmony.</a>
-  <a href="#form-p1">Applicant</a>
-  <a href="#form-p2">References</a>
-  <a href="#form-p3">Declaration</a>
-  <a href="#" onclick="window.print();return false;" class="pl-nav__save">↓ Save as PDF</a>
-  <button class="pl-nav__submit" onclick="handleNavSubmit()">Submit</button>
 </nav>
+
+<div id="error-banner"></div>
 
 <div id="pl-root">
 
-<!-- PAGE 1 — COVER -->
+<!-- PAGE 1: COVER -->
 <div class="page cover-page">
   <div class="cover-main">
     <div>
       <div class="cover-eyebrow">Harmony International Food &nbsp;·&nbsp; Credit Application</div>
       <h1 class="cover-headline">Business<em>Credit<br>Application</em></h1>
       <div class="cover-rule"></div>
-      <div class="cover-meta">
-        Please complete all sections &nbsp;·&nbsp; Incomplete forms will not be processed<br>
-        Queries: <strong>pat@harmonyif.com</strong> &nbsp;·&nbsp; <strong>+65 8795 3309</strong>
-      </div>
+      <div class="cover-meta">Please complete all sections in full. Incomplete or unsigned forms will not be processed. For assistance, contact <strong>pat@harmonyif.com</strong> or <strong>+65 8795 3309</strong>.</div>
       <div class="cover-infobox">
         <div><div class="cover-infobox-label">Submitted by</div><div class="cover-infobox-value" id="cv-name">—</div></div>
         <div><div class="cover-infobox-label">Company</div><div class="cover-infobox-value" id="cv-company">—</div></div>
@@ -341,9 +303,9 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
       </div>
       <div class="cover-steps">
         <div class="cover-step"><div class="cover-step-num">01</div><div class="cover-step-label">Complete the form</div><div class="cover-step-desc">Fill all fields across 3 pages. Sections marked * are required.</div></div>
-        <div class="cover-step"><div class="cover-step-num">02</div><div class="cover-step-label">Sign &amp; stamp</div><div class="cover-step-desc">Draw your signature in the box on page 3 and upload your company stamp.</div></div>
-        <div class="cover-step"><div class="cover-step-num">03</div><div class="cover-step-label">Save as PDF</div><div class="cover-step-desc">Click "↓ Save as PDF" in the top nav to download the completed form.</div></div>
-        <div class="cover-step"><div class="cover-step-num">04</div><div class="cover-step-label">Send to Harmony</div><div class="cover-step-desc">WhatsApp or email the PDF to Pat. Approval in 2–3 business days.</div></div>
+        <div class="cover-step"><div class="cover-step-num">02</div><div class="cover-step-label">Sign &amp; stamp</div><div class="cover-step-desc">Draw your signature on page 3 and upload your company stamp if applicable.</div></div>
+        <div class="cover-step"><div class="cover-step-num">03</div><div class="cover-step-label">Submit to Harmony</div><div class="cover-step-desc">Click Submit on the final page. This logs your application to our system.</div></div>
+        <div class="cover-step"><div class="cover-step-num">04</div><div class="cover-step-label">Save &amp; send PDF</div><div class="cover-step-desc">Save as PDF and WhatsApp or email it to Pat for fastest processing.</div></div>
       </div>
     </div>
   </div>
@@ -354,7 +316,7 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
   </div>
 </div>
 
-<!-- PAGE 2 — APPLICANT & COMPANY -->
+<!-- PAGE 2: APPLICANT DETAILS -->
 <div class="page form-page" id="form-p1">
   <div class="form-head">
     <div><div class="form-head-en">Applicant Details</div><div class="form-head-cn">申请人信息</div></div>
@@ -369,7 +331,7 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
       <div class="fg fg-3">
         <div class="field"><div class="field-label req">Last Name</div><input id="f-lastname" type="text" placeholder="Tan" oninput="liveUpdate()"/></div>
         <div class="field"><div class="field-label req">First Name</div><input id="f-firstname" type="text" placeholder="Wei Ming" oninput="liveUpdate()"/></div>
-        <div class="field"><div class="field-label">Middle Initial</div><input id="f-middle" type="text" placeholder="Optional"/></div>
+        <div class="field"><div class="field-label">Middle Initial / Other Names</div><input id="f-middle" type="text" placeholder="Optional"/></div>
         <div class="field"><div class="field-label req">Job Title / Position</div><input id="f-jobtitle" type="text" placeholder="Finance Manager"/></div>
         <div class="field"><div class="field-label req">Direct Phone / WhatsApp</div><input id="f-phone" type="tel" placeholder="+65 9XXX XXXX"/></div>
         <div class="field"><div class="field-label req">Email Address</div><input id="f-email" type="email" placeholder="you@company.com"/></div>
@@ -382,9 +344,9 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
         <div class="field"><div class="field-label req">Business / Company Name <span>企业名称</span></div><input id="f-bizname" type="text" placeholder="ABC Restaurant Pte Ltd" oninput="liveUpdate()"/></div>
       </div>
       <div class="fg fg-3 mt">
-        <div class="field"><div class="field-label req">UEN / Business Reg. No. <span>注册编号</span></div><input id="f-uen" type="text" placeholder="202XXXXXXN" oninput="liveUpdate()"/></div>
-        <div class="field"><div class="field-label">GST Reg. No. <span>消费税编号</span></div><input id="f-gst" type="text" placeholder="M9-XXXXXXX-X or N/A"/></div>
-        <div class="field"><div class="field-label req">Year Established <span>成立年份</span></div><input id="f-yearest" type="text" placeholder="e.g. 2018"/></div>
+        <div class="field"><div class="field-label req">UEN / Business Reg. No.</div><input id="f-uen" type="text" placeholder="202XXXXXXN" oninput="liveUpdate()"/></div>
+        <div class="field"><div class="field-label">GST Reg. No.</div><input id="f-gst" type="text" placeholder="M9-XXXXXXX-X or N/A"/></div>
+        <div class="field"><div class="field-label req">Year Established</div><input id="f-yearest" type="text" placeholder="e.g. 2018"/></div>
       </div>
       <div class="fg fg-1 mt">
         <div class="field"><div class="field-label req">Registered Business Address <span>注册地址</span></div><input id="f-addr" type="text" placeholder="Block / Unit, Street Name, Singapore XXXXXX"/></div>
@@ -412,25 +374,33 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
             <option>Other / 其他</option>
           </select>
         </div>
-        <div class="field"><div class="field-label">Parent Company <span>母公司 (if any)</span></div><input id="f-parent" type="text" placeholder="N/A"/></div>
+        <div class="field"><div class="field-label">Parent Company <span>母公司</span></div><input id="f-parent" type="text" placeholder="N/A if none"/></div>
       </div>
       <div class="fg fg-1 mt">
         <div class="field"><div class="field-label req">Legal Structure <span>企业法律形式</span></div>
-          <div class="cb-group" style="margin-top:0.25rem">
+          <div class="cb-group">
             <label class="cb-item"><input type="checkbox" name="legal" value="Sole Proprietorship"/><label>Sole Proprietorship<small>独资企业</small></label></label>
             <label class="cb-item"><input type="checkbox" name="legal" value="Partnership"/><label>Partnership<small>合伙企业</small></label></label>
-            <label class="cb-item"><input type="checkbox" name="legal" value="Private Limited"/><label>Private Limited (Pte Ltd)<small>私人有限公司</small></label></label>
+            <label class="cb-item"><input type="checkbox" name="legal" value="Private Limited (Pte Ltd)"/><label>Private Limited (Pte Ltd)<small>私人有限公司</small></label></label>
             <label class="cb-item"><input type="checkbox" name="legal" value="LLP"/><label>LLP<small>有限责任合伙</small></label></label>
             <label class="cb-item"><input type="checkbox" name="legal" value="Other"/><label>Other / 其他</label></label>
           </div>
         </div>
       </div>
-      <div class="section-head" style="margin-top:0.9rem"><div class="section-num" style="font-size:1rem">III–B</div><div class="section-title">Authorised Signatories<span>授权负责人 — Up to 2 persons</span></div></div>
+
+      <div class="section-head" style="margin-top:0.85rem"><div class="section-num" style="font-size:1rem;padding-top:0.1rem">III–B</div><div class="section-title">Authorised Signatories<span>授权负责人 — Up to 2 persons 最多 2 位</span></div></div>
+
+      <!-- SAME AS ABOVE -->
+      <label class="same-as-above" id="same-as-above-wrap">
+        <input type="checkbox" id="same-as-contact" onchange="fillSameAsContact()"/>
+        <label for="same-as-contact">Person 1 information is the same as Contact Person above <span>(auto-fills name, phone &amp; address)</span></label>
+      </label>
+
       <div class="fg fg-3">
         <div class="field"><div class="field-label req">Person 1 — Full Name</div><input id="f-auth1name" type="text" placeholder="As per NRIC / Passport"/></div>
         <div class="field"><div class="field-label req">Job Title</div><input id="f-auth1title" type="text" placeholder="Director / Owner"/></div>
         <div class="field"><div class="field-label req">Contact No.</div><input id="f-auth1phone" type="tel" placeholder="+65 9XXX XXXX"/></div>
-        <div class="field s3"><div class="field-label">Address <span>地址</span></div><input id="f-auth1addr" type="text" placeholder="Home / business address"/></div>
+        <div class="field s3"><div class="field-label">Address <span>地址</span></div><input id="f-auth1addr" type="text" placeholder="Residential or business address"/></div>
         <div class="field"><div class="field-label">Person 2 — Full Name <span>(optional)</span></div><input id="f-auth2name" type="text" placeholder="Optional"/></div>
         <div class="field"><div class="field-label">Job Title</div><input id="f-auth2title" type="text" placeholder="Optional"/></div>
         <div class="field"><div class="field-label">Contact No.</div><input id="f-auth2phone" type="tel" placeholder="Optional"/></div>
@@ -439,39 +409,41 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
 
   </div>
   <div class="spacer"></div>
-  <div class="form-foot"><div class="form-foot-co">Harmony International Food Pte Ltd</div><div class="form-foot-contacts">+65 8795 3309 · pat@harmonyif.com · www.harmonyif.sg</div></div>
-  <div class="form-foot-sub">CREDIT APPLICATION · PAGE 1 OF 3 · Harmony International Food Pte Ltd · UEN 202608797N</div>
+  <div class="form-foot"><div class="form-foot-co">Harmony International Food Pte Ltd</div><div class="form-foot-contacts">+65 8795 3309 &nbsp;·&nbsp; pat@harmonyif.com &nbsp;·&nbsp; www.harmonyif.sg</div></div>
+  <div class="form-foot-sub">CREDIT APPLICATION &nbsp;·&nbsp; PAGE 1 OF 3 &nbsp;·&nbsp; Harmony International Food Pte Ltd &nbsp;·&nbsp; UEN 202608797N</div>
 </div>
 
-<!-- PAGE 3 — BANKING & TRADE REFERENCES -->
+<!-- PAGE 3: BANKING & TRADE REFERENCES -->
 <div class="page form-page" id="form-p2">
   <div class="form-head">
     <div><div class="form-head-en">Banking &amp; Trade References</div><div class="form-head-cn">银行及业务往来参考资料</div></div>
-    <div class="form-head-right"><div class="form-head-doc">Credit Application · Harmony International Food</div><div class="form-head-ref">Section IV – V &nbsp;·&nbsp; Page 2 of 3</div></div>
+    <div class="form-head-right"><div class="form-head-doc">Credit Application · Harmony International Food</div><div class="form-head-ref">Section IV – VI &nbsp;·&nbsp; Page 2 of 3</div></div>
   </div>
-  <div class="form-notice"><span>Provide at least 2 banking and 2 trade references &nbsp;·&nbsp; All amounts in SGD</span><span>Harmony International Food Pte Ltd · UEN 202608797N</span></div>
+  <div class="form-notice"><span>Provide at least 2 banking references and 2 trade references &nbsp;·&nbsp; All amounts in SGD</span><span>Harmony International Food Pte Ltd · UEN 202608797N</span></div>
   <div class="spacer"></div>
   <div class="form-body">
 
     <div class="section">
       <div class="section-head"><div class="section-num">IV</div><div class="section-title">Banking References<span>银行参考资料</span></div></div>
+      <div class="ref-note"><strong>What to fill in:</strong> List the banks where your business holds accounts. Provide your account numbers, any existing loans or overdraft facilities, and the current outstanding balance on those facilities. At least 2 banks required. If you only have 1, fill Bank 1 and leave Bank 2 as "N/A".</div>
       <table class="ref-table">
-        <thead><tr><th></th><th>Bank 1 &nbsp;银行 1</th><th>Bank 2 &nbsp;银行 2</th><th>Bank 3 &nbsp;银行 3 <span style="font-weight:400;font-size:0.42rem;text-transform:none;letter-spacing:0;color:var(--stone)">(optional)</span></th></tr></thead>
+        <thead><tr><th style="width:20%"></th><th>Bank 1 &nbsp;银行 1</th><th>Bank 2 &nbsp;银行 2</th><th>Bank 3 &nbsp;银行 3 <small style="font-weight:400;font-size:0.44rem;text-transform:none;letter-spacing:0;color:var(--stone)">(opt.)</small></th></tr></thead>
         <tbody>
-          <tr><td class="rl">Bank Name &amp; Branch<small>银行名称及分行</small></td><td><input id="b1-name" placeholder="e.g. DBS Bank, Orchard"/></td><td><input id="b2-name" placeholder="e.g. OCBC Bank"/></td><td><input id="b3-name" placeholder="Optional"/></td></tr>
+          <tr><td class="rl">Bank Name &amp; Branch<small>银行名称及分行</small></td><td><input id="b1-name" placeholder="e.g. DBS Bank, Orchard"/></td><td><input id="b2-name" placeholder="e.g. OCBC, Tampines"/></td><td><input id="b3-name" placeholder="Optional"/></td></tr>
           <tr><td class="rl">Current / Cheque Acct<small>往来账户号</small></td><td><input id="b1-current" placeholder="XXX-XXXXX-X"/></td><td><input id="b2-current" placeholder="XXX-XXXXX-X"/></td><td><input id="b3-current" placeholder="Optional"/></td></tr>
           <tr><td class="rl">Savings Acct No.<small>储蓄账户号</small></td><td><input id="b1-savings" placeholder="XXX-XXXXX-X"/></td><td><input id="b2-savings" placeholder="XXX-XXXXX-X"/></td><td><input id="b3-savings" placeholder="Optional"/></td></tr>
-          <tr><td class="rl">Loan / Facilities<small>贷款情况</small></td><td><input id="b1-loan" placeholder="None / Term Loan"/></td><td><input id="b2-loan" placeholder="None / OD"/></td><td><input id="b3-loan" placeholder="Optional"/></td></tr>
-          <tr><td class="rl">Outstanding Balance<small>未偿余额</small></td><td><input id="b1-bal" placeholder="SGD 0 or amount"/></td><td><input id="b2-bal" placeholder="SGD 0 or amount"/></td><td><input id="b3-bal" placeholder="Optional"/></td></tr>
+          <tr><td class="rl">Loan / Facilities<small>贷款 / 授信</small></td><td><input id="b1-loan" placeholder="None / Term Loan / OD"/></td><td><input id="b2-loan" placeholder="None / Term Loan / OD"/></td><td><input id="b3-loan" placeholder="Optional"/></td></tr>
+          <tr><td class="rl">Outstanding Balance<small>当前未偿余额</small></td><td><input id="b1-bal" placeholder="SGD 0 or amount"/></td><td><input id="b2-bal" placeholder="SGD 0 or amount"/></td><td><input id="b3-bal" placeholder="Optional"/></td></tr>
           <tr><td class="rl">Bank Contact No.<small>银行电话</small></td><td><input id="b1-contact" placeholder="+65 XXXX XXXX"/></td><td><input id="b2-contact" placeholder="+65 XXXX XXXX"/></td><td><input id="b3-contact" placeholder="Optional"/></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="section">
-      <div class="section-head"><div class="section-num">V</div><div class="section-title">Trade References<span>业务往来参考资料 — Current suppliers or business partners</span></div></div>
+      <div class="section-head"><div class="section-num">V</div><div class="section-title">Trade References<span>业务往来参考资料</span></div></div>
+      <div class="ref-note"><strong>What to fill in:</strong> List current suppliers or business partners who can vouch for your payment record. Provide the credit limit they have extended to you and your current outstanding balance with them. At least 2 references required.</div>
       <table class="ref-table">
-        <thead><tr><th></th><th>Supplier 1 &nbsp;供应商 1</th><th>Supplier 2 &nbsp;供应商 2</th><th>Supplier 3 &nbsp;供应商 3 <span style="font-weight:400;font-size:0.42rem;text-transform:none;letter-spacing:0;color:var(--stone)">(optional)</span></th></tr></thead>
+        <thead><tr><th style="width:20%"></th><th>Supplier 1 &nbsp;供应商 1</th><th>Supplier 2 &nbsp;供应商 2</th><th>Supplier 3 &nbsp;供应商 3 <small style="font-weight:400;font-size:0.44rem;text-transform:none;letter-spacing:0;color:var(--stone)">(opt.)</small></th></tr></thead>
         <tbody>
           <tr><td class="rl">Company Name<small>企业名称</small></td><td><input id="t1-name" placeholder="Company name"/></td><td><input id="t2-name" placeholder="Company name"/></td><td><input id="t3-name" placeholder="Optional"/></td></tr>
           <tr><td class="rl">Contact Person<small>联系人</small></td><td><input id="t1-contact" placeholder="Name"/></td><td><input id="t2-contact" placeholder="Name"/></td><td><input id="t3-contact" placeholder="Optional"/></td></tr>
@@ -494,7 +466,7 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
       </div>
       <div class="fg fg-1 mt">
         <div class="field"><div class="field-label">Primary Products of Interest <span>主要采购品类</span></div>
-          <div class="cb-group" style="margin-top:0.25rem">
+          <div class="cb-group">
             <label class="cb-item"><input type="checkbox" name="prod" value="Pork"/><label>Pork 猪肉</label></label>
             <label class="cb-item"><input type="checkbox" name="prod" value="Beef & Lamb"/><label>Beef &amp; Lamb 牛羊肉</label></label>
             <label class="cb-item"><input type="checkbox" name="prod" value="Chicken & Duck"/><label>Chicken &amp; Duck 鸡鸭</label></label>
@@ -504,17 +476,19 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
         </div>
       </div>
       <div class="fg fg-1 mt">
-        <div class="field"><div class="field-label">Additional Notes <span>(optional)</span></div><textarea id="f-notes" rows="2" placeholder="Any additional information…"></textarea></div>
+        <div class="field"><div class="field-label">Additional Notes <span>(optional)</span></div>
+          <textarea id="f-notes" rows="3" class="auto-expand" placeholder="Any additional information relevant to this application…" oninput="autoExpand(this)"></textarea>
+        </div>
       </div>
     </div>
 
   </div>
   <div class="spacer"></div>
-  <div class="form-foot"><div class="form-foot-co">Harmony International Food Pte Ltd</div><div class="form-foot-contacts">+65 8795 3309 · pat@harmonyif.com · www.harmonyif.sg</div></div>
-  <div class="form-foot-sub">CREDIT APPLICATION · PAGE 2 OF 3 · Harmony International Food Pte Ltd · UEN 202608797N</div>
+  <div class="form-foot"><div class="form-foot-co">Harmony International Food Pte Ltd</div><div class="form-foot-contacts">+65 8795 3309 &nbsp;·&nbsp; pat@harmonyif.com &nbsp;·&nbsp; www.harmonyif.sg</div></div>
+  <div class="form-foot-sub">CREDIT APPLICATION &nbsp;·&nbsp; PAGE 2 OF 3 &nbsp;·&nbsp; Harmony International Food Pte Ltd &nbsp;·&nbsp; UEN 202608797N</div>
 </div>
 
-<!-- PAGE 4 — DECLARATION & SIGNATURES -->
+<!-- PAGE 4: DECLARATION & SIGNATURES -->
 <div class="page form-page" id="form-p3">
   <div class="form-head">
     <div><div class="form-head-en">Declaration &amp; Signatures</div><div class="form-head-cn">声明与签署</div></div>
@@ -534,77 +508,73 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
       </div>
 
       <div class="sig-grid">
-
         <!-- SIGNATORY 1 -->
         <div class="sig-box">
           <div class="sig-box-label">Authorised Signatory 1 <span>授权签署人 1</span></div>
-          <div class="sig-canvas-wrap" id="sig1-wrap">
-            <canvas id="sig1-canvas" height="90"></canvas>
+          <div class="sig-canvas-wrap" id="sig1-wrap" onclick="openSigModal(1)" style="cursor:pointer">
+            <canvas id="sig1-canvas" height="100"></canvas>
             <div class="sig-placeholder" id="sig1-ph">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
               Click or tap to sign
             </div>
           </div>
           <div class="sig-actions">
+            <button class="sig-btn primary" onclick="openSigModal(1)">Draw Signature</button>
             <button class="sig-btn" onclick="clearSig(1)">Clear</button>
-            <button class="sig-btn confirm" id="sig1-confirm" onclick="openSigModal(1)">Draw Signature</button>
           </div>
-          <div class="sig-name-row">
-            <div class="field"><div class="field-label req">Full Name</div><input id="f-sig1name" type="text" placeholder="As per NRIC / Passport"/></div>
-            <div class="field"><div class="field-label req">Date</div><input id="f-sig1date" type="text" placeholder="DD/MM/YYYY"/></div>
-          </div>
-          <div class="fg fg-1 mt">
-            <div class="field"><div class="field-label req">Designation <span>职位</span></div><input id="f-sig1title" type="text" placeholder="Director / Owner"/></div>
-          </div>
-          <!-- Stamp upload -->
-          <div style="margin-top:0.7rem">
-            <div class="field-label" style="margin-bottom:0.3rem">Company Stamp <span style="font-family:var(--serif);font-size:0.58rem;letter-spacing:0.02em;text-transform:none;color:var(--stone);font-weight:400;margin-left:0.25rem">公司盖章 (optional)</span></div>
-            <div class="stamp-box" id="stamp1-box" onclick="document.getElementById('stamp1-file').click()">
-              <div class="stamp-placeholder" id="stamp1-ph"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 12h8M12 8v8"/></svg></div>
-              <img class="stamp-preview" id="stamp1-img" src="" alt="Stamp"/>
-              <div class="stamp-text">
-                <div class="stamp-text-title">Upload Company Stamp</div>
-                <div class="stamp-text-sub">PNG or JPG · Tap to browse</div>
+          <div class="sig-stamp-row">
+            <div class="sig-fields">
+              <div class="field"><div class="field-label req">Full Name</div><input id="f-sig1name" type="text" placeholder="As per NRIC / Passport"/></div>
+              <div class="field"><div class="field-label req">Designation <span>职位</span></div><input id="f-sig1title" type="text" placeholder="Director / Owner"/></div>
+              <div class="field"><div class="field-label req">Date</div><input id="f-sig1date" type="text" placeholder="DD/MM/YYYY"/></div>
+            </div>
+            <div>
+              <div class="stamp-label">Company Stamp <span style="font-family:var(--serif);font-size:0.62rem;letter-spacing:0.02em;text-transform:none;color:var(--stone);font-weight:400">公司盖章 (optional)</span></div>
+              <div class="stamp-area" id="stamp1-box" onclick="document.getElementById('stamp1-file').click()">
+                <div class="stamp-ph" id="stamp1-ph">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+                  Tap to upload stamp
+                </div>
+                <img class="stamp-preview" id="stamp1-img" src="" alt="Company Stamp"/>
                 <div class="stamp-remove" id="stamp1-remove" onclick="removeStamp(event,1)">Remove</div>
               </div>
+              <input type="file" id="stamp1-file" class="stamp-file-input" accept="image/*" onchange="loadStamp(event,1)"/>
             </div>
-            <input type="file" id="stamp1-file" class="stamp-file-input" accept="image/*" onchange="loadStamp(event,1)"/>
           </div>
         </div>
 
         <!-- SIGNATORY 2 -->
         <div class="sig-box">
           <div class="sig-box-label">Authorised Signatory 2 <span>授权签署人 2 — if applicable</span></div>
-          <div class="sig-canvas-wrap" id="sig2-wrap">
-            <canvas id="sig2-canvas" height="90"></canvas>
+          <div class="sig-canvas-wrap" id="sig2-wrap" onclick="openSigModal(2)" style="cursor:pointer">
+            <canvas id="sig2-canvas" height="100"></canvas>
             <div class="sig-placeholder" id="sig2-ph">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              Click or tap to sign<br><small style="font-size:0.48rem;opacity:0.7">(optional)</small>
+              Click or tap to sign<br><small style="font-size:0.5rem;opacity:0.7">(optional)</small>
             </div>
           </div>
           <div class="sig-actions">
+            <button class="sig-btn primary" onclick="openSigModal(2)">Draw Signature</button>
             <button class="sig-btn" onclick="clearSig(2)">Clear</button>
-            <button class="sig-btn confirm" id="sig2-confirm" onclick="openSigModal(2)">Draw Signature</button>
           </div>
-          <div class="sig-name-row">
-            <div class="field"><div class="field-label">Full Name <span>(optional)</span></div><input id="f-sig2name" type="text" placeholder="Optional"/></div>
-            <div class="field"><div class="field-label">Date</div><input id="f-sig2date" type="text" placeholder="DD/MM/YYYY"/></div>
-          </div>
-          <div class="fg fg-1 mt">
-            <div class="field"><div class="field-label">Designation</div><input id="f-sig2title" type="text" placeholder="Optional"/></div>
-          </div>
-          <div style="margin-top:0.7rem">
-            <div class="field-label" style="margin-bottom:0.3rem">Company Stamp <span style="font-family:var(--serif);font-size:0.58rem;letter-spacing:0.02em;text-transform:none;color:var(--stone);font-weight:400;margin-left:0.25rem">公司盖章 (optional)</span></div>
-            <div class="stamp-box" id="stamp2-box" onclick="document.getElementById('stamp2-file').click()">
-              <div class="stamp-placeholder" id="stamp2-ph"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 12h8M12 8v8"/></svg></div>
-              <img class="stamp-preview" id="stamp2-img" src="" alt="Stamp"/>
-              <div class="stamp-text">
-                <div class="stamp-text-title">Upload Company Stamp</div>
-                <div class="stamp-text-sub">PNG or JPG · Tap to browse</div>
+          <div class="sig-stamp-row">
+            <div class="sig-fields">
+              <div class="field"><div class="field-label">Full Name <span>(optional)</span></div><input id="f-sig2name" type="text" placeholder="Optional"/></div>
+              <div class="field"><div class="field-label">Designation</div><input id="f-sig2title" type="text" placeholder="Optional"/></div>
+              <div class="field"><div class="field-label">Date</div><input id="f-sig2date" type="text" placeholder="DD/MM/YYYY"/></div>
+            </div>
+            <div>
+              <div class="stamp-label">Company Stamp <span style="font-family:var(--serif);font-size:0.62rem;letter-spacing:0.02em;text-transform:none;color:var(--stone);font-weight:400">公司盖章 (optional)</span></div>
+              <div class="stamp-area" id="stamp2-box" onclick="document.getElementById('stamp2-file').click()">
+                <div class="stamp-ph" id="stamp2-ph">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+                  Tap to upload stamp
+                </div>
+                <img class="stamp-preview" id="stamp2-img" src="" alt="Company Stamp"/>
                 <div class="stamp-remove" id="stamp2-remove" onclick="removeStamp(event,2)">Remove</div>
               </div>
+              <input type="file" id="stamp2-file" class="stamp-file-input" accept="image/*" onchange="loadStamp(event,2)"/>
             </div>
-            <input type="file" id="stamp2-file" class="stamp-file-input" accept="image/*" onchange="loadStamp(event,2)"/>
           </div>
         </div>
       </div>
@@ -612,53 +582,83 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
 
   </div>
   <div class="spacer"></div>
-  <div class="form-foot"><div class="form-foot-co">Harmony International Food Pte Ltd</div><div class="form-foot-contacts">+65 8795 3309 · pat@harmonyif.com · www.harmonyif.sg</div></div>
-  <div class="form-foot-sub">CREDIT APPLICATION · PAGE 3 OF 3 · Harmony International Food Pte Ltd · UEN 202608797N</div>
+  <div class="form-foot"><div class="form-foot-co">Harmony International Food Pte Ltd</div><div class="form-foot-contacts">+65 8795 3309 &nbsp;·&nbsp; pat@harmonyif.com &nbsp;·&nbsp; www.harmonyif.sg</div></div>
+  <div class="form-foot-sub">CREDIT APPLICATION &nbsp;·&nbsp; PAGE 3 OF 3 &nbsp;·&nbsp; Harmony International Food Pte Ltd &nbsp;·&nbsp; UEN 202608797N</div>
 </div>
 
-<!-- PAGE 5 — SUBMIT -->
-<div class="page submit-page" id="submit">
-  <div class="submit-left">
-    <div class="submit-label">All done? Here's what to do next.</div>
-    <div class="submit-title">Submit your<br>application.</div>
-    <div class="submit-sub">Follow the two steps below to get your credit application to our team. We'll review and respond within 2–3 business days.</div>
-    <div class="submit-step">
-      <div class="submit-step-num">1</div>
-      <div class="submit-step-body">
-        <div class="submit-step-title">Save as PDF</div>
-        <div class="submit-step-desc">Click <strong style="color:var(--gold)">"↓ Save as PDF"</strong> in the top nav bar. Your browser will open a print dialog — select <strong style="color:var(--cream)">Save as PDF</strong> as the destination. This saves your completed, signed form as a properly formatted A4 PDF.</div>
+<!-- PAGE 5: FINAL / SUBMIT -->
+<div class="page final-page" id="form-p4">
+  <div class="final-inner">
+    <div class="final-left">
+      <div class="final-label">Application complete — what's next</div>
+      <div class="final-title">Submit your<br>application.</div>
+      <div class="final-sub">Follow these steps in order to send your credit application to Harmony International Food. Our team will review and respond within 2–3 business days.</div>
+
+      <div class="final-step">
+        <div class="final-step-num">1</div>
+        <div>
+          <div class="final-step-title">Submit to our system</div>
+          <div class="final-step-desc">Click <strong>Submit Application</strong> below. This logs your details to our database and triggers a confirmation email to our team. Required before saving the PDF.</div>
+        </div>
+      </div>
+
+      <div class="final-step">
+        <div class="final-step-num">2</div>
+        <div>
+          <div class="final-step-title">Save as PDF</div>
+          <div class="final-step-desc">After submitting, click <strong>Save as PDF</strong> below. Your browser opens a print dialog — set destination to <em>Save as PDF</em>. This produces a properly formatted A4 document with your signature included.</div>
+        </div>
+      </div>
+
+      <div class="final-step">
+        <div class="final-step-num">3</div>
+        <div>
+          <div class="final-step-title">Send PDF to Harmony</div>
+          <div class="final-step-desc">Send the saved PDF file to Pat via <strong>WhatsApp</strong> or <strong>Email</strong> using the buttons below. Attach the PDF file you just saved — do not just send the link.</div>
+        </div>
+      </div>
+
+      <div class="final-btns">
+        <button class="final-btn final-btn-submit" onclick="handleSubmit()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Submit Application
+        </button>
+        <button class="final-btn" style="background:rgba(255,255,255,0.08);color:var(--cream);border:1px solid rgba(255,255,255,0.15)" onclick="window.print()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+          Save as PDF
+        </button>
+        <button class="final-btn final-btn-wa" onclick="openWhatsApp()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Pat
+        </button>
+        <button class="final-btn final-btn-email" onclick="openEmail()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Email Pat
+        </button>
+      </div>
+
+      <div class="final-note">
+        Harmony International Food Pte Ltd reviews all applications within 2–3 business days. You will be contacted via the email or phone number provided. All information submitted is kept strictly confidential and used solely for credit assessment purposes.
       </div>
     </div>
-    <div class="submit-step">
-      <div class="submit-step-num">2</div>
-      <div class="submit-step-body">
-        <div class="submit-step-title">Send the PDF to Harmony</div>
-        <div class="submit-step-desc">Send the saved PDF file to Pat via <strong style="color:#25D366">WhatsApp (+65 8795 3309)</strong> or by <strong style="color:var(--gold)">email (pat@harmonyif.com)</strong>. Use the buttons below to open the right app — then attach the PDF file you just saved.</div>
+
+    <div class="final-right">
+      <div>
+        <div class="final-brand">Harmony.</div>
+        <div class="final-co">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</div>
       </div>
-    </div>
-    <button class="submit-btn submit-btn-wa" onclick="openWhatsApp()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Open WhatsApp
-    </button>
-    <button class="submit-btn submit-btn-email" onclick="openEmail()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-      Open Email
-    </button>
-    <div style="margin-top:1.2rem;font-size:0.56rem;color:var(--mist);line-height:1.7;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem">
-      Also submitting to our server? Click <strong style="color:var(--stone)">"Submit"</strong> in the top nav to log your application to our Google Sheet and receive an email confirmation.
-    </div>
-  </div>
-  <div class="submit-right">
-    <div>
-      <div class="submit-brand">Harmony.</div>
-      <div class="submit-co">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</div>
-    </div>
-    <div>
-      <div class="submit-qr-title">WhatsApp us directly</div>
-      <a href="https://wa.me/6587953309" target="_blank" class="submit-qr">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https%3A%2F%2Fwa.me%2F6587953309%3Ftext%3DHi%2520Harmony%252C%2520I%2520have%2520completed%2520my%2520Credit%2520Application%2520and%2520would%2520like%2520to%2520send%2520it%2520over.&bgcolor=ffffff&color=1A1916&margin=12" alt="WhatsApp QR"/>
-      </a>
-      <div class="submit-qr-sub">Scan to open WhatsApp on mobile</div>
+      <div>
+        <div class="final-qr-title">WhatsApp us directly</div>
+        <a href="https://wa.me/6587953309" target="_blank" class="final-qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https%3A%2F%2Fwa.me%2F6587953309%3Ftext%3DHi%2520Harmony%252C%2520I%2520have%2520completed%2520my%2520Credit%2520Application%2520and%2520would%2520like%2520to%2520send%2520it%2520over.&bgcolor=ffffff&color=1A1916&margin=12" alt="WhatsApp QR"/>
+        </a>
+        <div class="final-qr-sub">Scan to open WhatsApp on mobile</div>
+      </div>
+      <div class="final-contacts">
+        <div>📞 &nbsp;+65 8795 3309</div>
+        <div>✉️ &nbsp;pat@harmonyif.com</div>
+        <div>🌐 &nbsp;www.harmonyif.sg</div>
+      </div>
     </div>
   </div>
 </div>
@@ -669,10 +669,8 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
 <div class="modal-overlay" id="sig-modal">
   <div class="modal">
     <div class="modal-title">Draw your signature</div>
-    <div class="modal-sub" id="modal-sub">Use your mouse or finger to sign in the box below. Click Confirm to apply.</div>
-    <div class="modal-canvas-wrap">
-      <canvas id="modal-canvas" height="200"></canvas>
-    </div>
+    <div class="modal-sub" id="modal-sub">Use your mouse or finger. Sign within the box below.</div>
+    <div class="modal-canvas-wrap"><canvas id="modal-canvas" height="200"></canvas></div>
     <div class="modal-actions">
       <button class="modal-btn" onclick="clearModalCanvas()">Clear</button>
       <button class="modal-btn" onclick="closeSigModal()">Cancel</button>
@@ -684,23 +682,32 @@ input.invalid, select.invalid { border-bottom-color: var(--coral) !important; }
 <div id="toast"></div>
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwq7Q2DA_HZMXRT1rqLs-4hAvcBS5f1TfyYCUfP2_AtXNeNeuqFUg5qc7fAkh6tmf3yzg/exec';
 
 // ── INIT ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
-  const d = new Date();
-  document.getElementById('cv-date').textContent = d.toLocaleDateString('en-SG', {day:'numeric',month:'long',year:'numeric'});
-  const ddmm = d.toLocaleDateString('en-GB');
-  document.getElementById('f-sig1date').placeholder = ddmm;
-  initSigCanvas('sig1-canvas', 'sig1-wrap', 'sig1-ph');
-  initSigCanvas('sig2-canvas', 'sig2-wrap', 'sig2-ph');
+  // Set today's date everywhere
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2,'0');
+  const mm = String(today.getMonth()+1).padStart(2,'0');
+  const yyyy = today.getFullYear();
+  const dateFormatted = dd + '/' + mm + '/' + yyyy;
+  const dateLong = today.toLocaleDateString('en-SG',{day:'numeric',month:'long',year:'numeric'});
+
+  document.getElementById('cv-date').textContent = dateLong;
+  document.getElementById('f-sig1date').value = dateFormatted;
+  document.getElementById('f-sig2date').value = dateFormatted;
+
+  initSigCanvases();
   initModalCanvas();
   resizeCanvases();
   window.addEventListener('resize', resizeCanvases);
+
+  // Auto-expand all textareas on load
+  document.querySelectorAll('textarea.auto-expand').forEach(function(ta) { autoExpand(ta); });
 });
 
-// ── LIVE COVER UPDATE ────────────────────────────────────────
+// ── LIVE COVER UPDATE ─────────────────────────────────────────
 function liveUpdate() {
   const first = v('f-firstname'), last = v('f-lastname');
   document.getElementById('cv-name').textContent    = (first||last) ? [first,last].filter(Boolean).join(' ') : '—';
@@ -709,34 +716,60 @@ function liveUpdate() {
 }
 
 function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
-function cbVals(name) { return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(c=>c.value).join(', ') || ''; }
+function cbVals(name) { return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(function(c){return c.value;}).join(', ') || ''; }
 
-// ── SIGNATURE CANVAS (inline small preview) ──────────────────
-const sigState = { 1: { drawing: false, hasData: false }, 2: { drawing: false, hasData: false } };
+// ── SAME AS CONTACT ───────────────────────────────────────────
+function fillSameAsContact() {
+  const checked = document.getElementById('same-as-contact').checked;
+  if (checked) {
+    const fullName = [v('f-firstname'), v('f-lastname')].filter(Boolean).join(' ');
+    document.getElementById('f-auth1name').value  = fullName;
+    document.getElementById('f-auth1phone').value = v('f-phone');
+    document.getElementById('f-auth1addr').value  = v('f-addr');
+    if (v('f-jobtitle')) document.getElementById('f-auth1title').value = v('f-jobtitle');
+    // disable those fields
+    ['f-auth1name','f-auth1phone','f-auth1addr','f-auth1title'].forEach(function(id) {
+      const el = document.getElementById(id);
+      el.style.color = 'var(--mist)';
+      el.readOnly = true;
+    });
+  } else {
+    ['f-auth1name','f-auth1phone','f-auth1addr','f-auth1title'].forEach(function(id) {
+      const el = document.getElementById(id);
+      el.style.color = '';
+      el.readOnly = false;
+    });
+  }
+}
 
-function initSigCanvas(canvasId, wrapId, phId) {
-  // Small preview canvases just show confirmed sig — clicking opens modal
-  const wrap = document.getElementById(wrapId);
-  wrap.addEventListener('click', function() {
-    const num = wrapId === 'sig1-wrap' ? 1 : 2;
-    openSigModal(num);
-  });
+// ── AUTO-EXPAND TEXTAREA ──────────────────────────────────────
+function autoExpand(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+// ── SIGNATURE CANVASES ────────────────────────────────────────
+const sigState = {1:{hasData:false},2:{hasData:false}};
+let currentSigTarget = 1;
+let modalDrawing = false;
+let modalCtx, modalCanvas;
+
+function initSigCanvases() {
+  // Small preview canvases just display the confirmed sig
 }
 
 function resizeCanvases() {
   [1,2].forEach(function(n) {
     const c = document.getElementById('sig'+n+'-canvas');
-    const w = c.parentElement.clientWidth;
-    if (w > 0) { c.width = w; }
+    if (c && c.parentElement) {
+      const w = c.parentElement.clientWidth;
+      if (w > 0) c.width = w;
+    }
   });
-  const mc = document.getElementById('modal-canvas');
-  if (mc.parentElement) { mc.width = mc.parentElement.clientWidth; }
+  if (modalCanvas && modalCanvas.parentElement) {
+    modalCanvas.width = modalCanvas.parentElement.clientWidth;
+  }
 }
-
-// ── MODAL SIGNATURE PAD ───────────────────────────────────────
-let currentSigTarget = 1;
-let modalDrawing = false;
-let modalCtx, modalCanvas;
 
 function initModalCanvas() {
   modalCanvas = document.getElementById('modal-canvas');
@@ -745,75 +778,72 @@ function initModalCanvas() {
 
 function setupModalCtx() {
   modalCtx.strokeStyle = '#1A1916';
-  modalCtx.lineWidth = 2;
+  modalCtx.lineWidth = 2.2;
   modalCtx.lineCap = 'round';
   modalCtx.lineJoin = 'round';
 }
 
 function getPos(e, canvas) {
   const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  if (e.touches) {
-    return { x: (e.touches[0].clientX - rect.left) * scaleX, y: (e.touches[0].clientY - rect.top) * scaleY };
-  }
-  return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+  const sx = canvas.width / rect.width;
+  const sy = canvas.height / rect.height;
+  if (e.touches) return {x:(e.touches[0].clientX-rect.left)*sx, y:(e.touches[0].clientY-rect.top)*sy};
+  return {x:(e.clientX-rect.left)*sx, y:(e.clientY-rect.top)*sy};
 }
 
 function openSigModal(num) {
   currentSigTarget = num;
-  modalCanvas.width = modalCanvas.parentElement.clientWidth;
-  clearModalCanvas();
-  // If existing sig, copy it in
-  const srcCanvas = document.getElementById('sig'+num+'-canvas');
-  if (sigState[num].hasData) {
-    modalCtx.drawImage(srcCanvas, 0, 0, modalCanvas.width, modalCanvas.height);
-  }
-  document.getElementById('modal-sub').textContent = 'Signatory ' + num + ' — use your mouse or finger to sign below.';
-  document.getElementById('sig-modal').classList.add('open');
-  setupModalCtx();
-
-  // Remove old listeners by cloning
-  const mc = modalCanvas;
+  // Resize modal canvas
+  const mc = document.getElementById('modal-canvas');
   const newMc = mc.cloneNode(true);
   mc.parentNode.replaceChild(newMc, mc);
   modalCanvas = newMc;
   modalCtx = modalCanvas.getContext('2d');
+  modalCanvas.width = modalCanvas.parentElement.clientWidth;
   setupModalCtx();
-  if (sigState[currentSigTarget].hasData) {
+
+  // Copy existing sig if any
+  const srcCanvas = document.getElementById('sig'+num+'-canvas');
+  if (sigState[num].hasData) {
     modalCtx.drawImage(srcCanvas, 0, 0, modalCanvas.width, modalCanvas.height);
   }
+
+  document.getElementById('modal-sub').textContent = 'Signatory ' + num + ' — draw your signature below using your mouse or finger.';
+  document.getElementById('sig-modal').classList.add('open');
 
   modalCanvas.addEventListener('mousedown',  startDraw);
   modalCanvas.addEventListener('mousemove',  draw);
   modalCanvas.addEventListener('mouseup',    stopDraw);
   modalCanvas.addEventListener('mouseleave', stopDraw);
-  modalCanvas.addEventListener('touchstart', function(e){e.preventDefault();startDraw(e);}, {passive:false});
-  modalCanvas.addEventListener('touchmove',  function(e){e.preventDefault();draw(e);}, {passive:false});
+  modalCanvas.addEventListener('touchstart', function(e){e.preventDefault();startDraw(e);},{passive:false});
+  modalCanvas.addEventListener('touchmove',  function(e){e.preventDefault();draw(e);},{passive:false});
   modalCanvas.addEventListener('touchend',   stopDraw);
 }
 
-function startDraw(e) { modalDrawing = true; const p=getPos(e,modalCanvas); modalCtx.beginPath(); modalCtx.moveTo(p.x,p.y); }
-function draw(e) { if (!modalDrawing) return; const p=getPos(e,modalCanvas); modalCtx.lineTo(p.x,p.y); modalCtx.stroke(); }
-function stopDraw() { modalDrawing = false; }
+function startDraw(e) { modalDrawing=true; const p=getPos(e,modalCanvas); modalCtx.beginPath(); modalCtx.moveTo(p.x,p.y); }
+function draw(e) { if(!modalDrawing) return; const p=getPos(e,modalCanvas); modalCtx.lineTo(p.x,p.y); modalCtx.stroke(); }
+function stopDraw() { modalDrawing=false; }
 function clearModalCanvas() { if(modalCtx) modalCtx.clearRect(0,0,modalCanvas.width,modalCanvas.height); }
 
 function confirmSig() {
   const n = currentSigTarget;
   const srcCanvas = document.getElementById('sig'+n+'-canvas');
   const ctx = srcCanvas.getContext('2d');
-  ctx.clearRect(0, 0, srcCanvas.width, srcCanvas.height);
-  ctx.drawImage(modalCanvas, 0, 0, srcCanvas.width, srcCanvas.height);
+  ctx.clearRect(0,0,srcCanvas.width,srcCanvas.height);
+  ctx.drawImage(modalCanvas,0,0,srcCanvas.width,srcCanvas.height);
   sigState[n].hasData = true;
   document.getElementById('sig'+n+'-ph').style.display = 'none';
   document.getElementById('sig'+n+'-wrap').classList.add('has-sig');
-  document.getElementById('sig'+n+'-confirm').textContent = 'Re-draw';
-  document.getElementById('sig'+n+'-confirm').classList.add('confirmed');
+  const btn = document.querySelector('#sig'+n+'-wrap').nextElementSibling.querySelector('.primary');
+  if(btn){btn.textContent='Re-draw';btn.classList.add('confirmed');}
   closeSigModal();
   showToast('Signature ' + n + ' confirmed ✓');
 }
 
 function closeSigModal() { document.getElementById('sig-modal').classList.remove('open'); }
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('sig-modal').addEventListener('click', function(e){ if(e.target===this) closeSigModal(); });
+});
 
 function clearSig(n) {
   const c = document.getElementById('sig'+n+'-canvas');
@@ -821,141 +851,145 @@ function clearSig(n) {
   sigState[n].hasData = false;
   document.getElementById('sig'+n+'-ph').style.display = '';
   document.getElementById('sig'+n+'-wrap').classList.remove('has-sig');
-  document.getElementById('sig'+n+'-confirm').textContent = 'Draw Signature';
-  document.getElementById('sig'+n+'-confirm').classList.remove('confirmed');
+  const btn = document.querySelector('#sig'+n+'-wrap').nextElementSibling.querySelector('.primary');
+  if(btn){btn.textContent='Draw Signature';btn.classList.remove('confirmed');}
 }
 
-// Close modal on overlay click
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('sig-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeSigModal();
-  });
-});
-
-// ── STAMP UPLOAD ──────────────────────────────────────────────
-function loadStamp(e, n) {
-  const file = e.target.files[0];
-  if (!file) return;
+// ── STAMP ─────────────────────────────────────────────────────
+function loadStamp(e,n) {
+  const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = function(ev) {
-    const img = document.getElementById('stamp'+n+'-img');
-    const ph  = document.getElementById('stamp'+n+'-ph');
-    const box = document.getElementById('stamp'+n+'-box');
-    const rem = document.getElementById('stamp'+n+'-remove');
-    img.src = ev.target.result;
-    img.classList.add('show');
-    ph.classList.add('hide');
-    box.classList.add('has-stamp');
-    rem.classList.add('show');
+    document.getElementById('stamp'+n+'-img').src = ev.target.result;
+    document.getElementById('stamp'+n+'-img').classList.add('show');
+    document.getElementById('stamp'+n+'-ph').classList.add('hide');
+    document.getElementById('stamp'+n+'-box').classList.add('has-stamp');
+    document.getElementById('stamp'+n+'-remove').classList.add('show');
     showToast('Company stamp uploaded ✓');
   };
   reader.readAsDataURL(file);
 }
 
-function removeStamp(e, n) {
+function removeStamp(e,n) {
   e.stopPropagation();
-  const img = document.getElementById('stamp'+n+'-img');
-  const ph  = document.getElementById('stamp'+n+'-ph');
-  const box = document.getElementById('stamp'+n+'-box');
-  const rem = document.getElementById('stamp'+n+'-remove');
-  const inp = document.getElementById('stamp'+n+'-file');
-  img.src = ''; img.classList.remove('show');
-  ph.classList.remove('hide');
-  box.classList.remove('has-stamp');
-  rem.classList.remove('show');
-  inp.value = '';
+  document.getElementById('stamp'+n+'-img').src = '';
+  document.getElementById('stamp'+n+'-img').classList.remove('show');
+  document.getElementById('stamp'+n+'-ph').classList.remove('hide');
+  document.getElementById('stamp'+n+'-box').classList.remove('has-stamp');
+  document.getElementById('stamp'+n+'-remove').classList.remove('show');
+  document.getElementById('stamp'+n+'-file').value = '';
 }
 
 // ── COLLECT DATA ──────────────────────────────────────────────
 function collectData() {
   return {
-    // Personal
-    lastName: v('f-lastname'), firstName: v('f-firstname'), middle: v('f-middle'),
-    jobTitle: v('f-jobtitle'), phone: v('f-phone'), email: v('f-email'),
-    // Business
-    bizName: v('f-bizname'), uen: v('f-uen'), gst: v('f-gst'),
-    yearest: v('f-yearest'), address: v('f-addr'),
-    bizPhone: v('f-bizphone'), bizEmail: v('f-bizemail'), website: v('f-website'),
-    // Company
-    bizType: v('f-biztype'), parent: v('f-parent'), legalStruct: cbVals('legal'),
-    auth1Name: v('f-auth1name'), auth1Title: v('f-auth1title'), auth1Phone: v('f-auth1phone'), auth1Addr: v('f-auth1addr'),
-    auth2Name: v('f-auth2name'), auth2Title: v('f-auth2title'), auth2Phone: v('f-auth2phone'),
-    // Banking
-    b1Name: v('b1-name'), b1Current: v('b1-current'), b1Savings: v('b1-savings'), b1Loan: v('b1-loan'), b1Bal: v('b1-bal'), b1Contact: v('b1-contact'),
-    b2Name: v('b2-name'), b2Current: v('b2-current'), b2Savings: v('b2-savings'), b2Loan: v('b2-loan'), b2Bal: v('b2-bal'), b2Contact: v('b2-contact'),
-    b3Name: v('b3-name'), b3Current: v('b3-current'), b3Savings: v('b3-savings'), b3Loan: v('b3-loan'), b3Bal: v('b3-bal'), b3Contact: v('b3-contact'),
-    // Trade
-    t1Name: v('t1-name'), t1Contact: v('t1-contact'), t1Phone: v('t1-phone'), t1Since: v('t1-since'), t1Limit: v('t1-limit'), t1Out: v('t1-out'),
-    t2Name: v('t2-name'), t2Contact: v('t2-contact'), t2Phone: v('t2-phone'), t2Since: v('t2-since'), t2Limit: v('t2-limit'), t2Out: v('t2-out'),
-    t3Name: v('t3-name'), t3Contact: v('t3-contact'), t3Phone: v('t3-phone'), t3Since: v('t3-since'), t3Limit: v('t3-limit'), t3Out: v('t3-out'),
-    // Credit
-    creditLimit: v('f-creditlimit'), payTerms: v('f-payterms'), monthlyVal: v('f-monthlyval'),
-    products: cbVals('prod'), notes: v('f-notes'),
-    // Sigs
-    sig1Name: v('f-sig1name'), sig1Title: v('f-sig1title'), sig1Date: v('f-sig1date'),
-    sig2Name: v('f-sig2name'), sig2Title: v('f-sig2title'), sig2Date: v('f-sig2date'),
-    form_type: 'credit_application',
-    submittedAt: new Date().toLocaleString('en-SG', {timeZone:'Asia/Singapore'}),
+    lastName:v('f-lastname'), firstName:v('f-firstname'), middle:v('f-middle'),
+    jobTitle:v('f-jobtitle'), phone:v('f-phone'), email:v('f-email'),
+    bizName:v('f-bizname'), uen:v('f-uen'), gst:v('f-gst'),
+    yearest:v('f-yearest'), address:v('f-addr'),
+    bizPhone:v('f-bizphone'), bizEmail:v('f-bizemail'), website:v('f-website'),
+    bizType:v('f-biztype'), parent:v('f-parent'), legalStruct:cbVals('legal'),
+    auth1Name:v('f-auth1name'), auth1Title:v('f-auth1title'), auth1Phone:v('f-auth1phone'), auth1Addr:v('f-auth1addr'),
+    auth2Name:v('f-auth2name'), auth2Title:v('f-auth2title'), auth2Phone:v('f-auth2phone'),
+    b1Name:v('b1-name'), b1Current:v('b1-current'), b1Savings:v('b1-savings'), b1Loan:v('b1-loan'), b1Bal:v('b1-bal'), b1Contact:v('b1-contact'),
+    b2Name:v('b2-name'), b2Current:v('b2-current'), b2Savings:v('b2-savings'), b2Loan:v('b2-loan'), b2Bal:v('b2-bal'), b2Contact:v('b2-contact'),
+    b3Name:v('b3-name'), b3Current:v('b3-current'), b3Savings:v('b3-savings'), b3Loan:v('b3-loan'), b3Bal:v('b3-bal'), b3Contact:v('b3-contact'),
+    t1Name:v('t1-name'), t1Contact:v('t1-contact'), t1Phone:v('t1-phone'), t1Since:v('t1-since'), t1Limit:v('t1-limit'), t1Out:v('t1-out'),
+    t2Name:v('t2-name'), t2Contact:v('t2-contact'), t2Phone:v('t2-phone'), t2Since:v('t2-since'), t2Limit:v('t2-limit'), t2Out:v('t2-out'),
+    t3Name:v('t3-name'), t3Contact:v('t3-contact'), t3Phone:v('t3-phone'), t3Since:v('t3-since'), t3Limit:v('t3-limit'), t3Out:v('t3-out'),
+    creditLimit:v('f-creditlimit'), payTerms:v('f-payterms'), monthlyVal:v('f-monthlyval'),
+    products:cbVals('prod'), notes:v('f-notes'),
+    sig1Name:v('f-sig1name'), sig1Title:v('f-sig1title'), sig1Date:v('f-sig1date'),
+    sig2Name:v('f-sig2name'), sig2Title:v('f-sig2title'), sig2Date:v('f-sig2date'),
+    form_type:'credit_application',
+    submittedAt: new Date().toLocaleString('en-SG',{timeZone:'Asia/Singapore'}),
   };
 }
 
 // ── VALIDATE ──────────────────────────────────────────────────
-const REQUIRED = ['f-lastname','f-firstname','f-jobtitle','f-phone','f-email','f-bizname','f-uen','f-yearest','f-addr','f-bizemail','f-auth1name','f-auth1title','f-auth1phone','f-creditlimit','f-payterms','f-sig1name','f-sig1title','f-sig1date'];
+const REQUIRED_FIELDS = [
+  {id:'f-lastname',    label:'Last Name'},
+  {id:'f-firstname',   label:'First Name'},
+  {id:'f-jobtitle',    label:'Job Title'},
+  {id:'f-phone',       label:'Phone / WhatsApp'},
+  {id:'f-email',       label:'Email Address'},
+  {id:'f-bizname',     label:'Company Name'},
+  {id:'f-uen',         label:'UEN / Reg. No.'},
+  {id:'f-yearest',     label:'Year Established'},
+  {id:'f-addr',        label:'Business Address'},
+  {id:'f-bizemail',    label:'Business Email'},
+  {id:'f-biztype',     label:'Type of Business'},
+  {id:'f-auth1name',   label:'Authorised Person 1 — Full Name'},
+  {id:'f-auth1title',  label:'Authorised Person 1 — Job Title'},
+  {id:'f-auth1phone',  label:'Authorised Person 1 — Contact No.'},
+  {id:'f-creditlimit', label:'Credit Limit Requested'},
+  {id:'f-payterms',    label:'Payment Terms'},
+  {id:'f-sig1name',    label:'Signatory 1 — Full Name'},
+  {id:'f-sig1title',   label:'Signatory 1 — Designation'},
+  {id:'f-sig1date',    label:'Signatory 1 — Date'},
+];
+
 function validate() {
-  let ok = true;
-  REQUIRED.forEach(function(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (!el.value.trim()) { el.classList.add('invalid'); ok = false; }
-    else el.classList.remove('invalid');
+  const missing = [];
+  // Clear all
+  REQUIRED_FIELDS.forEach(function(f) {
+    const el = document.getElementById(f.id);
+    if(el) el.classList.remove('invalid');
   });
-  if (!ok) showToast('Please fill in all required fields marked *');
-  return ok;
+
+  REQUIRED_FIELDS.forEach(function(f) {
+    const el = document.getElementById(f.id);
+    if(!el || !el.value.trim()) {
+      if(el) el.classList.add('invalid');
+      missing.push(f.label);
+    }
+  });
+
+  // Legal structure
+  if(!document.querySelectorAll('input[name="legal"]:checked').length) {
+    missing.push('Legal Structure');
+  }
+
+  if(missing.length > 0) {
+    const banner = document.getElementById('error-banner');
+    banner.textContent = '⚠ Please complete the following required fields: ' + missing.join(' · ');
+    banner.classList.add('show');
+    // Scroll to first invalid
+    const first = document.querySelector('input.invalid, select.invalid');
+    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(function(){ banner.classList.remove('show'); }, 8000);
+    return false;
+  }
+
+  document.getElementById('error-banner').classList.remove('show');
+  return true;
 }
 
-// ── SUBMIT TO GOOGLE SHEET ────────────────────────────────────
-function handleNavSubmit() {
-  if (!validate()) return;
+// ── SUBMIT ────────────────────────────────────────────────────
+function handleSubmit() {
+  if(!validate()) return;
   const d = collectData();
-  showToast('Saving to Harmony records…');
+  showToast('Submitting to Harmony records…');
   fetch(GAS_URL, {
-    method: 'POST', mode: 'no-cors',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(d),
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(d),
   }).then(function() {
-    showToast('✓ Saved! Now save as PDF and send to Harmony.');
+    showToast('✓ Submitted! Now save as PDF and send to Pat.');
   }).catch(function() {
-    showToast('Server error — please also send via WhatsApp or email.');
+    showToast('Could not reach server — please save PDF and send directly to Pat.');
   });
 }
 
 // ── WHATSAPP / EMAIL ──────────────────────────────────────────
 function openWhatsApp() {
-  const msg = 'Hi Harmony, I have completed my Credit Application form. Please find the PDF attached. — ' + (v('f-bizname') || v('f-firstname') + ' ' + v('f-lastname'));
-  window.open('https://wa.me/6587953309?text=' + encodeURIComponent(msg), '_blank');
+  const msg = 'Hi Harmony, I have completed my Credit Application. Please find the PDF attached.\n\nApplicant: ' + [v('f-firstname'),v('f-lastname')].filter(Boolean).join(' ') + '\nCompany: ' + (v('f-bizname')||'—') + '\nUEN: ' + (v('f-uen')||'—');
+  window.open('https://wa.me/6587953309?text='+encodeURIComponent(msg),'_blank');
 }
 function openEmail() {
-  const d = collectData();
-  const sub = encodeURIComponent('Credit Application — ' + (d.bizName || [d.firstName,d.lastName].filter(Boolean).join(' ')));
-  const body = encodeURIComponent('Hi Harmony,\n\nPlease find my completed Credit Application form attached as a PDF.\n\nApplicant: ' + [d.firstName,d.lastName].filter(Boolean).join(' ') + '\nCompany: ' + (d.bizName||'—') + '\nUEN: ' + (d.uen||'—') + '\n\nThank you.');
-  window.location.href = 'mailto:pat@harmonyif.com?subject=' + sub + '&body=' + body;
-}
-
-// ── NAV SUBMIT shortcut ───────────────────────────────────────
-function handleNavSubmit() {
-  if (!validate()) { document.getElementById('form-p1').scrollIntoView({behavior:'smooth'}); return; }
-  const d = collectData();
-  showToast('Saving to Harmony records…');
-  fetch(GAS_URL, {
-    method: 'POST', mode: 'no-cors',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(d),
-  }).then(function() {
-    document.getElementById('submit').scrollIntoView({behavior:'smooth'});
-    showToast('✓ Saved to records! Now save as PDF and send to Pat.');
-  }).catch(function() {
-    showToast('Could not reach server. Please save as PDF and send directly.');
-  });
+  const sub = encodeURIComponent('Credit Application — ' + (v('f-bizname') || [v('f-firstname'),v('f-lastname')].filter(Boolean).join(' ')));
+  const body = encodeURIComponent('Hi Pat,\n\nPlease find my completed Credit Application form attached as a PDF.\n\nApplicant: ' + [v('f-firstname'),v('f-lastname')].filter(Boolean).join(' ') + '\nCompany: ' + (v('f-bizname')||'—') + '\nUEN: ' + (v('f-uen')||'—') + '\n\nThank you.');
+  window.location.href = 'mailto:pat@harmonyif.com?subject='+sub+'&body='+body;
 }
 
 // ── TOAST ─────────────────────────────────────────────────────
@@ -964,7 +998,7 @@ function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 4500);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); },5000);
 }
 </script>
 </body>
