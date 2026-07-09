@@ -346,7 +346,7 @@ function renderProducts(products) {
     const placeholderStyle = p.imageUrl ? 'display:none;' : '';
 
     return `
-      <div class="product-card reveal" style="cursor:pointer;" onclick="window.location='product-detail.html?product=${slug}'">
+      <a href="product-detail.html?product=${slug}" class="product-card reveal" style="cursor:pointer;text-decoration:none;color:inherit;display:block;">
         <div class="product-card__image-wrap">
           ${imgHTML}
           <div class="product-card__placeholder" style="${placeholderStyle}">
@@ -380,7 +380,7 @@ function renderProducts(products) {
             ${lang === 'cn' ? '询价' : 'Enquire'}
           </button>
         </div>
-      </div>`;
+      </a>`;
   }).join('');
 
   setTimeout(() => {
