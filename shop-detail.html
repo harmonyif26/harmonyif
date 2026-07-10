@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Product — Harmony Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.min.css" />
+  <link rel="stylesheet" href="css/cart.css" />
+  <style>
+    .detail-loading { text-align:center; padding:var(--space-xl) 0; color:var(--mist); font-size:0.9rem; }
+    .detail-not-found { text-align:center; padding:var(--space-xl) 0; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html" data-en="Home" data-cn="首页">Home</a></li>
+        <li><a href="products.html" data-en="Wholesale" data-cn="批发">Wholesale</a></li>
+        <li><a href="about.html" data-en="About" data-cn="关于">About</a></li>
+        <li><a href="contact.html" data-en="Contact" data-cn="联系">Contact</a></li>
+        <li><a href="shop.html" class="active" data-en="Marketplace" data-cn="市集">Marketplace</a></li>
+      </ul>
+      <div class="nav__right">
+        <div class="lang-toggle">
+          <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
+        </div>
+        <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile">
+      <a href="index.html" data-en="Home" data-cn="首页">Home</a>
+      <a href="products.html" data-en="Wholesale" data-cn="批发">Wholesale</a>
+      <a href="about.html" data-en="About" data-cn="关于">About</a>
+      <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+      <a href="shop.html" data-en="Marketplace" data-cn="市集">Marketplace</a>
+      <div class="lang-toggle" style="margin-top:1.5rem;">
+        <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">EN</button>
+        <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="detail-back">
+    <div class="container">
+      <a href="shop.html" class="detail-back__link">← Back to Shop</a>
+    </div>
+  </div>
+
+  <div id="detail-root">
+    <div class="detail-loading container">Loading product…</div>
+  </div>
+
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    async function renderShopDetail() {
+      const params = new URLSearchParams(window.location.search);
+      const nameKey = decodeURIComponent(params.get('product') || '');
+      const products = await loadProducts();
+      const p = products.find(x => x.nameEN === nameKey);
+
+      if (!p) {
+        document.getElementById('detail-root').innerHTML = `
+          <div class="detail-not-found container">
+            <h2>Product not found</h2>
+            <a href="shop.html" class="btn btn-primary">Back to Shop</a>
+          </div>`;
+        return;
+      }
+
+      document.title = `Harmony Marketplace — ${p.nameEN}`;
+      const price = getDemoRetailPrice(p);
+      const origin = p.origin || '—';
+      const imgHTML = p.imageUrl
+        ? `<img class="detail-image" src="${p.imageUrl}" alt="${p.nameEN}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        : '';
+      const placeholderStyle = p.imageUrl ? 'display:none;' : '';
+
+      document.getElementById('detail-root').innerHTML = `
+        <section class="section">
+          <div class="container">
+            <div class="detail-grid">
+              <div class="detail-image-wrap">
+                ${imgHTML}
+                <div class="detail-image-placeholder" style="${placeholderStyle}"><span>Photo coming soon</span></div>
+                ${p.origin ? `<div class="detail-tag-badge">${p.origin}</div>` : ''}
+              </div>
+              <div>
+                <p class="product-card__origin" style="margin-bottom:0.3rem;">${p.nameCN}</p>
+                <h1 class="detail-name">${p.nameEN}</h1>
+                ${p.notes ? `<p class="detail-desc">${p.notes}</p>` : ''}
+                <div class="b2c-price-tag" style="font-size:1.7rem;margin:0.8rem 0;">
+                  $${price.toFixed(2)}<span style="font-size:0.8rem;color:var(--stone);font-weight:400;"> / ${p.uom || 'pkt'}</span>
+                </div>
+                <div class="detail-meta">
+                  <div class="detail-meta__item"><span class="detail-meta__label">Category</span><span class="detail-meta__value">${p.category.charAt(0).toUpperCase() + p.category.slice(1)}</span></div>
+                  <div class="detail-meta__item"><span class="detail-meta__label">Unit</span><span class="detail-meta__value">${p.uom}</span></div>
+                  ${p.packSize ? `<div class="detail-meta__item"><span class="detail-meta__label">Pack Size</span><span class="detail-meta__value">${p.packSize}</span></div>` : ''}
+                  <div class="detail-meta__item"><span class="detail-meta__label">Origin</span><span class="detail-meta__value">${origin}</span></div>
+                </div>
+                <div class="b2c-add-row" style="max-width:340px;margin-top:1.2rem;">
+                  <div class="b2c-qty-stepper">
+                    <button type="button" onclick="const i=this.nextElementSibling;i.value=Math.max(1,(parseInt(i.value)||1)-1);">−</button>
+                    <input type="number" min="1" value="1" id="shop-detail-qty">
+                    <button type="button" onclick="const i=this.previousElementSibling;i.value=(parseInt(i.value)||1)+1;">+</button>
+                  </div>
+                  <button class="b2c-add-btn" onclick="
+                    const q=document.getElementById('shop-detail-qty').value;
+                    addToCart('${encodeURIComponent(p.nameEN)}','${p.nameEN.replace(/'/g,"\\'")}',${price},q,'${p.uom || 'pkt'}');
+                    this.textContent='Added ✓';this.classList.add('added');
+                    setTimeout(()=>{this.textContent='Add to Cart';this.classList.remove('added');},1200);
+                  ">Add to Cart</button>
+                </div>
+                <p class="detail-note">Home delivery only. Orders ship next working day (T+1). Minimum order $60.</p>
+              </div>
+            </div>
+          </div>
+        </section>`;
+    }
+    document.addEventListener('DOMContentLoaded', renderShopDetail);
+  </script>
+</body>
+</html>

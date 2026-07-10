@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shop frozen and fresh food online — pork, beef, chicken, seafood and hotpot ingredients delivered to your door in Singapore." />
+  <title>Harmony Marketplace — Harmony International Food</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.min.css" />
+  <link rel="stylesheet" href="css/cart.css" />
+  <style>
+    .page-hero { text-align:center; }
+    .page-hero__label { font-size:0.7rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); display:block; margin-bottom:0.6rem; }
+    .filter-bar__inner { flex-wrap:wrap; gap:0.75rem 1.5rem; }
+    .search-wrap { flex:1; min-width:200px; max-width:280px; }
+    .search-input-wrap { position:relative; }
+    .search-input-wrap svg { position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); color:var(--mist); pointer-events:none; }
+    #shop-search { width:100%; padding:0.5rem 0.9rem 0.5rem 2.2rem; background:transparent; border:1px solid var(--border); color:var(--ink); font-family:var(--font-body); font-size:0.82rem; outline:none; }
+    #shop-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+    @media (max-width:1100px) { #shop-grid { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:750px)  { #shop-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px)  { #shop-grid { grid-template-columns:1fr; } }
+    .product-card { background:var(--cream-light); border:1px solid var(--border); overflow:hidden; transition:transform var(--transition), box-shadow var(--transition); }
+    .product-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(26,25,22,0.1); }
+    .product-card__image-wrap { position:relative; aspect-ratio:4/3; background:var(--cream); overflow:hidden; }
+    .product-card__image { width:100%; height:100%; object-fit:cover; }
+    .product-card__placeholder { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:var(--cream); color:var(--stone); font-size:0.75rem; }
+    .product-card__tag { position:absolute; top:0.6rem; left:0.6rem; font-size:0.62rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-dark); background:rgba(245,240,232,0.92); padding:2px 7px; }
+    .product-card__body { padding:1rem 1rem 0.9rem; }
+    .product-card__origin { font-size:0.82rem; color:var(--mist); margin-bottom:0.2rem; }
+    .product-card__name { font-family:var(--font-heading); font-size:1.1rem; color:var(--ink); line-height:1.2; margin-bottom:0.5rem; }
+    .b2c-min-banner { background:var(--gold); color:var(--ink); text-align:center; font-size:0.75rem; font-weight:500; padding:0.6rem 1rem; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html" data-en="Home" data-cn="首页">Home</a></li>
+        <li><a href="products.html" data-en="Wholesale" data-cn="批发">Wholesale</a></li>
+        <li><a href="about.html" data-en="About" data-cn="关于">About</a></li>
+        <li><a href="contact.html" data-en="Contact" data-cn="联系">Contact</a></li>
+        <li><a href="shop.html" class="active" data-en="Marketplace" data-cn="市集">Marketplace</a></li>
+      </ul>
+      <div class="nav__right">
+        <div class="lang-toggle">
+          <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
+        </div>
+        <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile">
+      <a href="index.html" data-en="Home" data-cn="首页">Home</a>
+      <a href="products.html" data-en="Wholesale" data-cn="批发">Wholesale</a>
+      <a href="about.html" data-en="About" data-cn="关于">About</a>
+      <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+      <a href="shop.html" data-en="Marketplace" data-cn="市集">Marketplace</a>
+      <div class="lang-toggle" style="margin-top:1.5rem;">
+        <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">EN</button>
+        <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="b2c-min-banner">🔧 PROTOTYPE — retail shop demo. Prices shown are placeholders pending confirmed B2C pricing.</div>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero__label">Harmony Marketplace</span>
+      <h1>Fresh & Frozen, Delivered</h1>
+      <p>Browse our retail range and check out in minutes. Minimum order $60, delivered next working day.</p>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="container">
+      <div class="filter-bar__inner">
+        <div class="filter-group">
+          <span class="filter-group__label">Category</span>
+          <div class="filter-group__btns" id="shop-filter-btns"></div>
+        </div>
+        <div class="search-wrap">
+          <div class="search-input-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="shop-search" type="text" placeholder="Search products…" autocomplete="off" oninput="shopSearch(this.value)" />
+          </div>
+        </div>
+        <div class="filter-bar__count" id="shop-count"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <section class="section products-section">
+    <div class="container">
+      <div id="shop-grid"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <div class="footer__logo">Harmony<span>.</span></div>
+          <p class="footer__tagline">Harmony International Food Pte Ltd<br>UEN: 202608797N</p>
+        </div>
+        <div class="footer__col">
+          <h5>Marketplace</h5>
+          <ul>
+            <li><a href="shop.html?category=pork">Pork</a></li>
+            <li><a href="shop.html?category=beef">Beef & Lamb</a></li>
+            <li><a href="shop.html?category=chicken">Chicken & Duck</a></li>
+            <li><a href="shop.html?category=seafood">Seafood</a></li>
+            <li><a href="shop.html?category=processed">Processed</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="products.html">Wholesale / B2B</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5>Contact</h5>
+          <div class="footer__contact-item"><span class="icon">✉</span><span><a href="mailto:pat@harmonyif.com" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">pat@harmonyif.com</a></span></div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 Harmony International Food Pte Ltd. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

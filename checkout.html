@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Checkout — Harmony International Food</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.min.css" />
+  <link rel="stylesheet" href="css/cart.css" />
+  <style>
+    .checkout-banner { background:var(--gold); color:var(--ink); text-align:center; font-size:0.75rem; font-weight:500; letter-spacing:0.03em; padding:0.6rem 1rem; }
+    .checkout-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:3rem; align-items:flex-start; }
+    @media (max-width:900px) { .checkout-grid { grid-template-columns:1fr; } }
+
+    .checkout-section { margin-bottom:2.2rem; }
+    .checkout-section h2 { font-family:var(--font-heading); font-size:1.3rem; color:var(--ink); margin-bottom:1rem; font-weight:500; }
+
+    .delivery-notice { background:var(--cream); border:1px solid var(--border); padding:1rem 1.2rem; font-size:0.85rem; color:var(--ink-mist); margin-bottom:1.5rem; line-height:1.5; }
+    .delivery-notice strong { color:var(--ink); }
+
+    .checkout-summary { background:var(--cream-light); border:1px solid var(--border); padding:1.6rem; position:sticky; top:100px; }
+    .checkout-summary h3 { font-family:var(--font-heading); font-size:1.2rem; margin-bottom:1rem; font-weight:500; }
+    .summary-line { display:flex; justify-content:space-between; font-size:0.85rem; padding:0.5rem 0; border-bottom:1px solid var(--border); }
+    .summary-line__name { color:var(--ink); }
+    .summary-line__qty { color:var(--stone); font-size:0.78rem; }
+    .summary-total { display:flex; justify-content:space-between; font-family:var(--font-heading); font-size:1.3rem; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border-dark); }
+
+    .checkout-empty { text-align:center; padding:4rem 1rem; }
+
+    .pay-btn { width:100%; text-align:center; margin-top:1.3rem; padding:0.9rem; }
+    .pay-note { font-size:0.7rem; color:var(--stone); text-align:center; margin-top:0.7rem; line-height:1.5; }
+
+    /* form-input/textarea in style.css are styled for dark sections (white text) —
+       override to dark text for this light checkout page */
+    #delivery-form .form-input,
+    #delivery-form .form-textarea,
+    #delivery-form .form-select {
+      color: var(--ink);
+      border-color: var(--border);
+      background: var(--cream-light);
+    }
+    #delivery-form .form-input::placeholder,
+    #delivery-form .form-textarea::placeholder {
+      color: var(--stone);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Wholesale</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="shop.html" class="active">Marketplace</a></li>
+      </ul>
+      <div class="nav__right">
+        <a href="shop.html" class="nav__cta">← Continue Shopping</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="checkout-banner">🔧 PROTOTYPE — cart &amp; checkout flow demo. Payment is not yet connected (HitPay integration is Phase 1 backend work).</div>
+
+  <section class="section">
+    <div class="container">
+      <h1 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:2rem;">Checkout</h1>
+
+      <div id="checkout-content"></div>
+    </div>
+  </section>
+
+  <script src="js/cart.js"></script>
+  <script>
+    function renderCheckout() {
+      const cart = getCart();
+      const container = document.getElementById('checkout-content');
+      const deliveryDate = getEarliestDeliveryDate();
+
+      if (!cart.length) {
+        container.innerHTML = `
+          <div class="checkout-empty">
+            <p style="color:var(--mist);margin-bottom:1.2rem;">Your cart is empty.</p>
+            <a href="shop.html" class="btn btn-primary">Browse Shop</a>
+          </div>`;
+        return;
+      }
+
+      const subtotal = getSubtotal();
+      const meetsMin = subtotal >= CART_MIN_ORDER;
+
+      container.innerHTML = `
+        <div class="checkout-grid">
+          <div>
+            <div class="checkout-section">
+              <h2>Delivery Details</h2>
+              <div class="delivery-notice">
+                We deliver only — no self-collection. Orders placed today are delivered from
+                <strong>${formatDeliveryDate(deliveryDate)}</strong> onwards (next working day, T+1).
+              </div>
+              <form id="delivery-form">
+                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input class="form-input" type="text" required placeholder="Jane Tan">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">WhatsApp / Phone *</label>
+                    <input class="form-input" type="tel" required placeholder="+65 9XXX XXXX">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-top:1rem;">
+                  <label class="form-label">Delivery Address *</label>
+                  <input class="form-input" type="text" required placeholder="Block, Street, Unit #">
+                </div>
+                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Postal Code *</label>
+                    <input class="form-input" type="text" required placeholder="123456">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Preferred Delivery Date *</label>
+                    <input class="form-input" type="date" id="delivery-date-input" required min="${deliveryDate.toISOString().slice(0,10)}" value="${deliveryDate.toISOString().slice(0,10)}">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-top:1rem;">
+                  <label class="form-label">Delivery Notes</label>
+                  <textarea class="form-textarea" rows="2" placeholder="Gate code, preferred time window, leave at guardhouse, etc."></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="checkout-summary">
+            <h3>Order Summary</h3>
+            ${cart.map(i => `
+              <div class="summary-line">
+                <span class="summary-line__name">${i.name} <span class="summary-line__qty">× ${i.qty}</span></span>
+                <span>$${(i.price * i.qty).toFixed(2)}</span>
+              </div>
+            `).join('')}
+            <div class="summary-total">
+              <span>Total</span>
+              <span>$${subtotal.toFixed(2)}</span>
+            </div>
+            ${!meetsMin ? `<p class="cart-min-warning" style="margin-top:0.8rem;">Add $${(CART_MIN_ORDER - subtotal).toFixed(2)} more to reach the $60 minimum order before you can pay.</p>` : ''}
+            <button class="btn btn-primary pay-btn" ${!meetsMin ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''} onclick="handlePayClick()">
+              Proceed to Payment
+            </button>
+            <p class="pay-note">Payment via HitPay (PayNow / cards) — connects here once Phase 1 backend is live. This prototype stops at this step.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function handlePayClick() {
+      const form = document.getElementById('delivery-form');
+      if (!form.reportValidity()) return;
+      alert('Prototype only: this is where HitPay checkout will launch once the backend (Apps Script + HitPay API) is connected. Your delivery details and cart would be sent there.');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCheckout);
+  </script>
+</body>
+</html>

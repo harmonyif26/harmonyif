@@ -298,6 +298,31 @@ function renderFilterBar() {
 }
 
 // ─────────────────────────────────────────────────
+// B2C DEMO PRICING
+// -----------------------------------------------------------
+// PROTOTYPE NOTE: The Sheet only has B2B "priceRange" text
+// (e.g. "$8 - $12"), not a single fixed retail price. Real B2C
+// prices need to be set by the owner (new "retailPrice" column
+// in the Sheet, one number per SKU). Until that exists, this
+// function derives a placeholder demo price so the cart flow
+// can be tested end-to-end. DO NOT use these numbers for real
+// checkout — swap this for a real `retailPrice` field later.
+// -----------------------------------------------------------
+function getDemoRetailPrice(p) {
+  if (p.retailPrice) return parseFloat(p.retailPrice); // future real field
+  const match = (p.priceRange || '').match(/[\d.]+/g);
+  if (match && match.length) {
+    const nums = match.map(Number);
+    const avg = nums.reduce((a, b) => a + b, 0) / nums.length;
+    return Math.round(avg * 1.15 * 100) / 100; // demo retail markup over B2B range
+  }
+  // deterministic fallback so the same product always shows the same demo price
+  let hash = 0;
+  for (let i = 0; i < p.nameEN.length; i++) hash = (hash * 31 + p.nameEN.charCodeAt(i)) % 1000;
+  return Math.round((8 + (hash % 38)) * 100) / 100;
+}
+
+// ─────────────────────────────────────────────────
 // RENDER PRODUCTS
 // ─────────────────────────────────────────────────
 /**
@@ -346,7 +371,7 @@ function renderProducts(products) {
     const placeholderStyle = p.imageUrl ? 'display:none;' : '';
 
     return `
-      <a href="product-detail.html?product=${slug}" class="product-card reveal" style="cursor:pointer;text-decoration:none;color:inherit;display:block;">
+      <div class="product-card reveal" style="cursor:pointer;" onclick="window.location='product-detail.html?product=${slug}'">
         <div class="product-card__image-wrap">
           ${imgHTML}
           <div class="product-card__placeholder" style="${placeholderStyle}">
@@ -380,7 +405,7 @@ function renderProducts(products) {
             ${lang === 'cn' ? '询价' : 'Enquire'}
           </button>
         </div>
-      </a>`;
+      </div>`;
   }).join('');
 
   setTimeout(() => {

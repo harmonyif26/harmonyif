@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Order Admin — Harmony</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.min.css" />
+  <style>
+    body { background: var(--cream); }
+
+    .admin-banner { background:var(--gold); color:var(--ink); text-align:center; font-size:0.75rem; font-weight:500; padding:0.6rem 1rem; }
+
+    .admin-header { padding: 2rem 0 1.2rem; }
+    .admin-header h1 { font-family:var(--font-heading); font-size:1.9rem; color:var(--ink); font-weight:500; }
+    .admin-header p { color:var(--mist); font-size:0.85rem; margin-top:0.3rem; }
+
+    .admin-stats { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; margin-bottom:1.8rem; }
+    .admin-stat { background:var(--cream-light); border:1px solid var(--border); padding:1rem 1.2rem; cursor:pointer; transition:border-color var(--transition); }
+    .admin-stat.active { border-color:var(--ink); }
+    .admin-stat__count { font-family:var(--font-heading); font-size:1.7rem; color:var(--ink); }
+    .admin-stat__label { font-size:0.72rem; color:var(--mist); text-transform:uppercase; letter-spacing:0.05em; margin-top:0.2rem; }
+    @media (max-width:900px) { .admin-stats { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:560px) { .admin-stats { grid-template-columns:repeat(2,1fr); } }
+
+    .admin-toolbar { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1rem; flex-wrap:wrap; }
+    .admin-search { flex:1; max-width:320px; padding:0.55rem 0.9rem; border:1px solid var(--border); background:var(--cream-light); color:var(--ink); font-family:var(--font-body); font-size:0.82rem; }
+
+    .order-card { background:var(--cream-light); border:1px solid var(--border); margin-bottom:1rem; }
+    .order-card__head { display:flex; justify-content:space-between; align-items:center; padding:1rem 1.3rem; cursor:pointer; flex-wrap:wrap; gap:0.6rem; }
+    .order-card__id { font-family:var(--font-heading); font-size:1.1rem; color:var(--ink); }
+    .order-card__meta { font-size:0.78rem; color:var(--mist); margin-top:0.15rem; }
+    .order-card__right { display:flex; align-items:center; gap:1rem; }
+    .order-card__total { font-family:var(--font-heading); font-size:1.05rem; color:var(--ink); }
+
+    .status-pill { font-size:0.65rem; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; padding:0.3rem 0.7rem; border-radius:20px; white-space:nowrap; }
+    .status-pending  { background:#f3e6c9; color:#8a6a1f; }
+    .status-paid     { background:#dbe8db; color:#3d6b3d; }
+    .status-preparing{ background:#e3ddf0; color:#5c4a94; }
+    .status-out      { background:#d9e6f2; color:#2e5f8a; }
+    .status-delivered{ background:#d7ecd7; color:#2e6b2e; }
+    .status-cancelled{ background:#f0dada; color:#a13d3d; }
+
+    .order-card__body { display:none; padding:0 1.3rem 1.4rem; border-top:1px solid var(--border); }
+    .order-card.open .order-card__body { display:block; }
+    .order-card__chevron { transition:transform var(--transition); color:var(--mist); }
+    .order-card.open .order-card__chevron { transform:rotate(180deg); }
+
+    .order-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:1.2rem; }
+    @media (max-width:800px) { .order-detail-grid { grid-template-columns:1fr; } }
+
+    .order-section h4 { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--mist); margin-bottom:0.6rem; }
+    .order-line { display:flex; justify-content:space-between; font-size:0.85rem; padding:0.35rem 0; color:var(--ink); }
+    .order-line__qty { color:var(--stone); font-size:0.78rem; }
+
+    .cust-detail { font-size:0.85rem; color:var(--ink); line-height:1.7; }
+    .cust-detail strong { color:var(--ink); }
+
+    /* Shopee-style stage tracker */
+    .stage-tracker { display:flex; align-items:flex-start; margin: 1.6rem 0; }
+    .stage { flex:1; text-align:center; position:relative; }
+    .stage__dot { width:26px; height:26px; border-radius:50%; background:var(--border); border:2px solid var(--border); margin:0 auto 0.5rem; display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:var(--cream); font-weight:600; }
+    .stage.done .stage__dot { background:var(--ink); border-color:var(--ink); }
+    .stage.current .stage__dot { background:var(--coral); border-color:var(--coral); }
+    .stage__label { font-size:0.7rem; color:var(--mist); }
+    .stage.done .stage__label, .stage.current .stage__label { color:var(--ink); font-weight:500; }
+    .stage__line { position:absolute; top:13px; left:-50%; width:100%; height:2px; background:var(--border); z-index:-1; }
+    .stage.done .stage__line { background:var(--ink); }
+    .stage:first-child .stage__line { display:none; }
+
+    .stage-actions { display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:1rem; }
+    .stage-btn { padding:0.55rem 1rem; font-size:0.72rem; font-weight:500; letter-spacing:0.03em; border:1px solid var(--ink); background:transparent; color:var(--ink); cursor:pointer; transition:background var(--transition), color var(--transition); }
+    .stage-btn:hover { background:var(--ink); color:var(--cream); }
+    .stage-btn.primary { background:var(--ink); color:var(--cream); }
+    .stage-btn.primary:hover { background:var(--coral); border-color:var(--coral); }
+    .stage-btn.whatsapp { border-color:#3fa350; color:#3fa350; }
+    .stage-btn.whatsapp:hover { background:#3fa350; color:#fff; }
+    .stage-btn.danger { border-color:#a13d3d; color:#a13d3d; }
+    .stage-btn.danger:hover { background:#a13d3d; color:#fff; }
+
+    .empty-state { text-align:center; padding:4rem 1rem; color:var(--mist); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Wholesale</a></li>
+        <li><a href="shop.html">Marketplace</a></li>
+      </ul>
+      <div class="nav__right">
+        <span style="font-size:0.7rem;color:var(--mist);letter-spacing:0.04em;">🔒 Staff only</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-banner">🔧 PROTOTYPE — order data shown is demo data. Once the HitPay + Apps Script backend is live, this page reads real orders from the Google Sheet instead.</div>
+
+  <div class="container">
+    <div class="admin-header">
+      <h1>Order Fulfilment</h1>
+      <p>Track and update customer orders from payment through to delivery.</p>
+    </div>
+
+    <div class="admin-stats" id="admin-stats"></div>
+
+    <div class="admin-toolbar">
+      <input class="admin-search" type="text" id="admin-search" placeholder="Search by order ID, name, or phone…" oninput="renderOrders()">
+      <span style="font-size:0.78rem;color:var(--mist);" id="admin-count"></span>
+    </div>
+
+    <div id="orders-list"></div>
+  </div>
+
+  <script>
+    /* ============================================================
+       ADMIN.HTML — Order fulfilment dashboard (PROTOTYPE)
+       ------------------------------------------------------------
+       Demo orders below stand in for real rows from the "Orders"
+       Google Sheet. Once the Apps Script backend (see HitPay guide)
+       is live, replace loadDemoOrders() with a fetch() call to the
+       Apps Script Web App, e.g.:
+
+         async function loadOrders() {
+           const res = await fetch(APPS_SCRIPT_URL + '?action=list_orders');
+           return await res.json();
+         }
+
+       And replace updateStage() with a POST back to Apps Script:
+
+         async function pushStageUpdate(orderId, stage) {
+           await fetch(APPS_SCRIPT_URL, {
+             method: 'POST',
+             body: JSON.stringify({ action: 'update_status', orderId, stage })
+           });
+         }
+       ============================================================ */
+
+    const STAGES = ['paid', 'preparing', 'out_for_delivery', 'delivered'];
+    const STAGE_LABELS = {
+      paid: 'Payment Confirmed',
+      preparing: 'Preparing Order',
+      out_for_delivery: 'Out for Delivery',
+      delivered: 'Delivered'
+    };
+    const STAGE_CLASS = {
+      pending: 'status-pending', paid: 'status-paid', preparing: 'status-preparing',
+      out_for_delivery: 'status-out', delivered: 'status-delivered', cancelled: 'status-cancelled'
+    };
+    const STAGE_WHATSAPP_MSG = {
+      paid: (o) => `Hi ${o.customerName}, thanks for your order #${o.id} with Harmony! We've received your payment and are getting it ready. 🙌`,
+      preparing: (o) => `Hi ${o.customerName}, your order #${o.id} is being prepared and packed now.`,
+      out_for_delivery: (o) => `Hi ${o.customerName}, your order #${o.id} is out for delivery today! Please have someone available to receive it.`,
+      delivered: (o) => `Hi ${o.customerName}, your order #${o.id} has been delivered. Thank you for shopping with Harmony — hope to see you again soon! 😊`
+    };
+
+    const ORDERS_STORAGE_KEY = 'harmony_admin_orders_demo_v1';
+
+    function loadDemoOrders() {
+      const saved = localStorage.getItem(ORDERS_STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+
+      const demo = [
+        {
+          id: 'HAR-10231', timestamp: '2026-07-08T14:22:00', customerName: 'Jane Tan', phone: '+65 9123 4567',
+          address: 'Blk 22 Bishan St 13, #08-123', postalCode: '570022', deliveryDate: '2026-07-10',
+          items: [ { name: 'Pork Belly', qty: 2, price: 12.5 }, { name: 'Chicken Mid Wings', qty: 3, price: 8.9 } ],
+          stage: 'paid'
+        },
+        {
+          id: 'HAR-10232', timestamp: '2026-07-08T15:05:00', customerName: 'Wei Ming Lim', phone: '+65 8888 2211',
+          address: 'Blk 5 Toa Payoh Lorong 4, #12-45', postalCode: '310005', deliveryDate: '2026-07-10',
+          items: [ { name: 'Salmon Fillet', qty: 4, price: 15.0 }, { name: 'Frozen Prawns', qty: 2, price: 11.2 } ],
+          stage: 'preparing'
+        },
+        {
+          id: 'HAR-10233', timestamp: '2026-07-07T11:40:00', customerName: 'Amirah Rahman', phone: '+65 9002 7712',
+          address: '88 Tampines Ave 5, #03-09', postalCode: '520088', deliveryDate: '2026-07-09',
+          items: [ { name: 'Beef Cubes', qty: 3, price: 14.3 }, { name: 'Lamb Chops', qty: 1, price: 22.0 } ],
+          stage: 'out_for_delivery'
+        },
+        {
+          id: 'HAR-10234', timestamp: '2026-07-06T09:15:00', customerName: 'Rachel Ong', phone: '+65 8123 9876',
+          address: '10 Clementi Ave 3, #06-11', postalCode: '120010', deliveryDate: '2026-07-08',
+          items: [ { name: 'Duck Whole', qty: 1, price: 18.5 }, { name: 'Fishball', qty: 5, price: 5.4 } ],
+          stage: 'delivered'
+        },
+        {
+          id: 'HAR-10235', timestamp: '2026-07-08T16:50:00', customerName: 'Kelvin Goh', phone: '+65 9456 1230',
+          address: 'Blk 301 Yishun Ave 2, #14-88', postalCode: '760301', deliveryDate: '2026-07-10',
+          items: [ { name: 'Squid Rings', qty: 2, price: 9.8 } ],
+          stage: 'pending'
+        }
+      ];
+      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(demo));
+      return demo;
+    }
+
+    function saveOrders(orders) {
+      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+    }
+
+    function getOrderTotal(order) {
+      return order.items.reduce((s, i) => s + i.price * i.qty, 0);
+    }
+
+    function renderStats(orders) {
+      const counts = { all: orders.length, pending: 0, paid: 0, preparing: 0, out_for_delivery: 0, delivered: 0 };
+      orders.forEach(o => { if (counts[o.stage] !== undefined) counts[o.stage]++; });
+
+      const cfg = [
+        { key: 'all', label: 'All Orders' },
+        { key: 'pending', label: 'Pending Payment' },
+        { key: 'preparing', label: 'Preparing' },
+        { key: 'out_for_delivery', label: 'Out for Delivery' },
+        { key: 'delivered', label: 'Delivered' },
+      ];
+
+      document.getElementById('admin-stats').innerHTML = cfg.map(c => `
+        <div class="admin-stat ${ADMIN_FILTER === c.key ? 'active' : ''}" onclick="setFilter('${c.key}')">
+          <div class="admin-stat__count">${counts[c.key] !== undefined ? counts[c.key] : counts.all}</div>
+          <div class="admin-stat__label">${c.label}</div>
+        </div>
+      `).join('');
+    }
+
+    let ADMIN_FILTER = 'all';
+    let ADMIN_ORDERS = [];
+    let OPEN_ORDER_ID = null;
+
+    function setFilter(key) {
+      ADMIN_FILTER = key;
+      renderOrders();
+    }
+
+    function toggleOrder(id) {
+      OPEN_ORDER_ID = OPEN_ORDER_ID === id ? null : id;
+      renderOrders();
+    }
+
+    function updateStage(orderId, newStage) {
+      const order = ADMIN_ORDERS.find(o => o.id === orderId);
+      if (!order) return;
+      order.stage = newStage;
+      saveOrders(ADMIN_ORDERS);
+      renderOrders();
+
+      // PROTOTYPE: in production, also call pushStageUpdate(orderId, newStage) here
+      // to write the change back to the Google Sheet via Apps Script.
+    }
+
+    function cancelOrder(orderId) {
+      if (!confirm('Mark this order as cancelled?')) return;
+      updateStage(orderId, 'cancelled');
+    }
+
+    function sendWhatsAppUpdate(order, stage) {
+      const msg = STAGE_WHATSAPP_MSG[stage] ? STAGE_WHATSAPP_MSG[stage](order) : '';
+      const phone = order.phone.replace(/[^\d]/g, '');
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function renderStageTracker(order) {
+      if (order.stage === 'cancelled') {
+        return `<p style="color:#a13d3d;font-size:0.85rem;font-weight:500;">This order was cancelled.</p>`;
+      }
+      if (order.stage === 'pending') {
+        return `<p style="color:var(--mist);font-size:0.85rem;">Awaiting payment confirmation from HitPay.</p>`;
+      }
+      const currentIdx = STAGES.indexOf(order.stage);
+      return `
+        <div class="stage-tracker">
+          ${STAGES.map((s, i) => `
+            <div class="stage ${i < currentIdx ? 'done' : ''} ${i === currentIdx ? 'current' : ''}">
+              <div class="stage__line"></div>
+              <div class="stage__dot">${i < currentIdx ? '✓' : i + 1}</div>
+              <div class="stage__label">${STAGE_LABELS[s]}</div>
+            </div>
+          `).join('')}
+        </div>`;
+    }
+
+    function renderStageActions(order) {
+      if (order.stage === 'cancelled' || order.stage === 'delivered') {
+        return '';
+      }
+      if (order.stage === 'pending') {
+        return `<div class="stage-actions">
+          <button class="stage-btn danger" onclick="cancelOrder('${order.id}')">Cancel Order</button>
+        </div>`;
+      }
+      const currentIdx = STAGES.indexOf(order.stage);
+      const nextStage = STAGES[currentIdx + 1];
+
+      return `
+        <div class="stage-actions">
+          ${nextStage ? `<button class="stage-btn primary" onclick="updateStage('${order.id}', '${nextStage}')">Mark as ${STAGE_LABELS[nextStage]}</button>` : ''}
+          <button class="stage-btn whatsapp" onclick='sendWhatsAppUpdate(${JSON.stringify(order).replace(/'/g, "&#39;")}, "${order.stage}")'>📱 Notify via WhatsApp</button>
+          <button class="stage-btn danger" onclick="cancelOrder('${order.id}')">Cancel</button>
+        </div>`;
+    }
+
+    function renderOrders() {
+      renderStats(ADMIN_ORDERS);
+
+      const search = document.getElementById('admin-search').value.toLowerCase();
+      let list = ADMIN_ORDERS;
+      if (ADMIN_FILTER !== 'all') list = list.filter(o => o.stage === ADMIN_FILTER);
+      if (search) {
+        list = list.filter(o =>
+          o.id.toLowerCase().includes(search) ||
+          o.customerName.toLowerCase().includes(search) ||
+          o.phone.replace(/\s/g, '').includes(search.replace(/\s/g, ''))
+        );
+      }
+      list = [...list].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      document.getElementById('admin-count').textContent = `${list.length} order${list.length !== 1 ? 's' : ''}`;
+
+      const container = document.getElementById('orders-list');
+      if (!list.length) {
+        container.innerHTML = `<div class="empty-state">No orders match this view.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(order => {
+        const total = getOrderTotal(order);
+        const isOpen = OPEN_ORDER_ID === order.id;
+        const dateStr = new Date(order.timestamp).toLocaleString('en-SG', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+
+        return `
+          <div class="order-card ${isOpen ? 'open' : ''}">
+            <div class="order-card__head" onclick="toggleOrder('${order.id}')">
+              <div>
+                <div class="order-card__id">${order.id}</div>
+                <div class="order-card__meta">${order.customerName} · ${dateStr}</div>
+              </div>
+              <div class="order-card__right">
+                <span class="status-pill ${STAGE_CLASS[order.stage]}">${order.stage === 'pending' ? 'Pending Payment' : (STAGE_LABELS[order.stage] || order.stage)}</span>
+                <span class="order-card__total">$${total.toFixed(2)}</span>
+                <span class="order-card__chevron">▾</span>
+              </div>
+            </div>
+            <div class="order-card__body">
+              ${renderStageTracker(order)}
+              ${renderStageActions(order)}
+              <div class="order-detail-grid">
+                <div class="order-section">
+                  <h4>Items</h4>
+                  ${order.items.map(i => `
+                    <div class="order-line">
+                      <span>${i.name} <span class="order-line__qty">× ${i.qty}</span></span>
+                      <span>$${(i.price * i.qty).toFixed(2)}</span>
+                    </div>
+                  `).join('')}
+                  <div class="order-line" style="border-top:1px solid var(--border);margin-top:0.4rem;padding-top:0.6rem;font-weight:600;">
+                    <span>Total</span><span>$${total.toFixed(2)}</span>
+                  </div>
+                </div>
+                <div class="order-section">
+                  <h4>Delivery</h4>
+                  <div class="cust-detail">
+                    <strong>${order.customerName}</strong><br>
+                    ${order.phone}<br>
+                    ${order.address}, ${order.postalCode}<br>
+                    Delivery date: <strong>${new Date(order.deliveryDate).toLocaleDateString('en-SG', { weekday:'long', day:'numeric', month:'long' })}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      ADMIN_ORDERS = loadDemoOrders();
+      renderOrders();
+    });
+  </script>
+</body>
+</html>
