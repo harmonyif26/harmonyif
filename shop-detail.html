@@ -63,13 +63,15 @@
 
   <script src="js/lang.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/products.js"></script>
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/shop.js"></script>
   <script src="js/cart.js"></script>
   <script>
     async function renderShopDetail() {
       const params = new URLSearchParams(window.location.search);
       const nameKey = decodeURIComponent(params.get('product') || '');
-      const products = await loadProducts();
+      const products = await loadMarketplaceProducts();
       const p = products.find(x => x.nameEN === nameKey);
 
       if (!p) {
@@ -82,12 +84,13 @@
       }
 
       document.title = `Harmony Marketplace — ${p.nameEN}`;
-      const price = getDemoRetailPrice(p);
+      const price = p.retailPrice;
       const origin = p.origin || '—';
-      const imgHTML = p.imageUrl
-        ? `<img class="detail-image" src="${p.imageUrl}" alt="${p.nameEN}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      const imgSrc = marketplaceImageUrl(p);
+      const imgHTML = imgSrc
+        ? `<img class="detail-image" src="${imgSrc}" alt="${p.nameEN}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
         : '';
-      const placeholderStyle = p.imageUrl ? 'display:none;' : '';
+      const placeholderStyle = imgSrc ? 'display:none;' : '';
 
       document.getElementById('detail-root').innerHTML = `
         <section class="section">
