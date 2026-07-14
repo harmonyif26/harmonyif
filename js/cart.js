@@ -53,7 +53,8 @@ function clearCart() {
 }
 
 function getSubtotal() {
-  return getCart().reduce((sum, i) => sum + i.price * i.qty, 0);
+  const sum = getCart().reduce((sum, i) => sum + i.price * i.qty, 0);
+  return Math.round(sum * 100) / 100; // avoid floating point artifacts like 60.599999999999994
 }
 
 function getCartCount() {
