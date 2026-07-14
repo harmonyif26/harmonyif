@@ -69,7 +69,7 @@
     </div>
   </nav>
 
-  <div class="checkout-banner">🔧 PROTOTYPE — cart &amp; checkout flow demo. Payment is not yet connected (HitPay integration is Phase 1 backend work).</div>
+  <div class="checkout-banner">🔧 SANDBOX MODE — real checkout flow, test payments only. No real money is charged.</div>
 
   <section class="section">
     <div class="container">
@@ -111,21 +111,25 @@
                 <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
                   <div class="form-group">
                     <label class="form-label">Full Name *</label>
-                    <input class="form-input" type="text" required placeholder="Jane Tan">
+                    <input class="form-input" id="cf-name" type="text" required placeholder="Jane Tan">
                   </div>
                   <div class="form-group">
                     <label class="form-label">WhatsApp / Phone *</label>
-                    <input class="form-input" type="tel" required placeholder="+65 9XXX XXXX">
+                    <input class="form-input" id="cf-phone" type="tel" required placeholder="+65 9XXX XXXX">
                   </div>
                 </div>
                 <div class="form-group" style="margin-top:1rem;">
+                  <label class="form-label">Email *</label>
+                  <input class="form-input" id="cf-email" type="email" required placeholder="jane@example.com">
+                </div>
+                <div class="form-group" style="margin-top:1rem;">
                   <label class="form-label">Delivery Address *</label>
-                  <input class="form-input" type="text" required placeholder="Block, Street, Unit #">
+                  <input class="form-input" id="cf-address" type="text" required placeholder="Block, Street, Unit #">
                 </div>
                 <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
                   <div class="form-group">
                     <label class="form-label">Postal Code *</label>
-                    <input class="form-input" type="text" required placeholder="123456">
+                    <input class="form-input" id="cf-postal" type="text" required placeholder="123456">
                   </div>
                   <div class="form-group">
                     <label class="form-label">Preferred Delivery Date *</label>
@@ -134,7 +138,7 @@
                 </div>
                 <div class="form-group" style="margin-top:1rem;">
                   <label class="form-label">Delivery Notes</label>
-                  <textarea class="form-textarea" rows="2" placeholder="Gate code, preferred time window, leave at guardhouse, etc."></textarea>
+                  <textarea class="form-textarea" id="cf-notes" rows="2" placeholder="Gate code, preferred time window, leave at guardhouse, etc."></textarea>
                 </div>
               </form>
             </div>
@@ -156,16 +160,58 @@
             <button class="btn btn-primary pay-btn" ${!meetsMin ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''} onclick="handlePayClick()">
               Proceed to Payment
             </button>
-            <p class="pay-note">Payment via HitPay (PayNow / cards) — connects here once Phase 1 backend is live. This prototype stops at this step.</p>
+            <p class="pay-note">You'll be redirected to HitPay's secure checkout (PayNow or Card) to complete payment.</p>
           </div>
         </div>
       `;
     }
 
-    function handlePayClick() {
+    // ← Your deployed Apps Script Web App URL (same one used for the site's other forms)
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwq7Q2DA_HZMXRT1rqLs-4hAvcBS5f1TfyYCUfP2_AtXNeNeuqFUg5qc7fAkh6tmf3yzg/exec';
+
+    async function handlePayClick() {
       const form = document.getElementById('delivery-form');
       if (!form.reportValidity()) return;
-      alert('Prototype only: this is where HitPay checkout will launch once the backend (Apps Script + HitPay API) is connected. Your delivery details and cart would be sent there.');
+
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.textContent = 'Redirecting to payment…';
+      btn.disabled = true;
+
+      const payload = {
+        action: 'create_payment',
+        customerName: document.getElementById('cf-name').value,
+        phone: document.getElementById('cf-phone').value,
+        email: document.getElementById('cf-email').value,
+        address: document.getElementById('cf-address').value,
+        postalCode: document.getElementById('cf-postal').value,
+        deliveryDate: document.getElementById('delivery-date-input').value,
+        notes: document.getElementById('cf-notes').value,
+        items: getCart(),
+        subtotal: getSubtotal(),
+        redirectUrl: window.location.origin + '/order-confirmed.html'
+      };
+
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result.checkoutUrl) {
+          clearCart();
+          window.location.href = result.checkoutUrl;
+        } else {
+          alert('Something went wrong creating your payment. Please try again, or WhatsApp us at +65 8795 3309 if this keeps happening.');
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }
+      } catch (err) {
+        alert('Could not reach the payment server. Please check your connection and try again.');
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
     }
 
     document.addEventListener('DOMContentLoaded', renderCheckout);
