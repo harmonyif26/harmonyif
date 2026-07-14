@@ -98,12 +98,12 @@
         <li><a href="shop.html">Marketplace</a></li>
       </ul>
       <div class="nav__right">
-        <span style="font-size:0.7rem;color:var(--mist);letter-spacing:0.04em;">🔒 Staff only</span>
+        <span style="font-size:0.7rem;color:var(--mist);letter-spacing:0.04em;">Staff only</span>
       </div>
     </div>
   </nav>
 
-  <div class="admin-banner">🔧 SANDBOX MODE — showing real orders from HitPay sandbox testing. No real money involved yet.</div>
+  <div class="admin-banner">SANDBOX MODE — showing real orders from HitPay sandbox testing. No real money involved yet.</div>
 
   <div class="container">
     <div class="admin-header">
@@ -144,10 +144,10 @@
       out_for_delivery: 'status-out', delivered: 'status-delivered', cancelled: 'status-cancelled'
     };
     const STAGE_WHATSAPP_MSG = {
-      paid: (o) => `Hi ${o.customerName}, thanks for your order #${o.id} with Harmony! We've received your payment and are getting it ready. 🙌`,
+      paid: (o) => `Hi ${o.customerName}, thanks for your order #${o.id} with Harmony! We've received your payment and are getting it ready.`,
       preparing: (o) => `Hi ${o.customerName}, your order #${o.id} is being prepared and packed now.`,
       out_for_delivery: (o) => `Hi ${o.customerName}, your order #${o.id} is out for delivery today! Please have someone available to receive it.`,
-      delivered: (o) => `Hi ${o.customerName}, your order #${o.id} has been delivered. Thank you for shopping with Harmony — hope to see you again soon! 😊`
+      delivered: (o) => `Hi ${o.customerName}, your order #${o.id} has been delivered. Thank you for shopping with Harmony — hope to see you again soon!`
     };
 
     // Derives the tracker "stage" the UI understands from the Sheet's
@@ -278,7 +278,7 @@
       return `
         <div class="stage-actions">
           ${nextStage ? `<button class="stage-btn primary" onclick="updateStage('${order.id}', '${nextStage}')">Mark as ${STAGE_LABELS[nextStage]}</button>` : ''}
-          <button class="stage-btn whatsapp" onclick='sendWhatsAppUpdate(${JSON.stringify(order).replace(/'/g, "&#39;")}, "${order.stage}")'>📱 Notify via WhatsApp</button>
+          <button class="stage-btn whatsapp" onclick='sendWhatsAppUpdate(${JSON.stringify(order).replace(/'/g, "&#39;")}, "${order.stage}")'>Notify via WhatsApp</button>
           <button class="stage-btn danger" onclick="cancelOrder('${order.id}')">Cancel</button>
         </div>`;
     }
