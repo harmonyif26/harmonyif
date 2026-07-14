@@ -103,7 +103,7 @@
     </div>
   </nav>
 
-  <div class="admin-banner">🔧 PROTOTYPE — order data shown is demo data. Once the HitPay + Apps Script backend is live, this page reads real orders from the Google Sheet instead.</div>
+  <div class="admin-banner">🔧 SANDBOX MODE — showing real orders from HitPay sandbox testing. No real money involved yet.</div>
 
   <div class="container">
     <div class="admin-header">
@@ -115,6 +115,7 @@
 
     <div class="admin-toolbar">
       <input class="admin-search" type="text" id="admin-search" placeholder="Search by order ID, name, or phone…" oninput="renderOrders()">
+      <button class="stage-btn" id="admin-refresh-btn" onclick="refreshOrders()" style="flex-shrink:0;">↻ Refresh</button>
       <span style="font-size:0.78rem;color:var(--mist);" id="admin-count"></span>
     </div>
 
@@ -123,27 +124,13 @@
 
   <script>
     /* ============================================================
-       ADMIN.HTML — Order fulfilment dashboard (PROTOTYPE)
+       ADMIN.HTML — Order fulfilment dashboard
        ------------------------------------------------------------
-       Demo orders below stand in for real rows from the "Orders"
-       Google Sheet. Once the Apps Script backend (see HitPay guide)
-       is live, replace loadDemoOrders() with a fetch() call to the
-       Apps Script Web App, e.g.:
-
-         async function loadOrders() {
-           const res = await fetch(APPS_SCRIPT_URL + '?action=list_orders');
-           return await res.json();
-         }
-
-       And replace updateStage() with a POST back to Apps Script:
-
-         async function pushStageUpdate(orderId, stage) {
-           await fetch(APPS_SCRIPT_URL, {
-             method: 'POST',
-             body: JSON.stringify({ action: 'update_status', orderId, stage })
-           });
-         }
+       Reads and updates real orders via the Apps Script backend
+       (Code.gs doGet/doPost -> Orders.gs listOrders/updateFulfillmentStatus).
        ============================================================ */
+
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwq7Q2DA_HZMXRT1rqLs-4hAvcBS5f1TfyYCUfP2_AtXNeNeuqFUg5qc7fAkh6tmf3yzg/exec';
 
     const STAGES = ['paid', 'preparing', 'out_for_delivery', 'delivered'];
     const STAGE_LABELS = {
@@ -163,50 +150,27 @@
       delivered: (o) => `Hi ${o.customerName}, your order #${o.id} has been delivered. Thank you for shopping with Harmony — hope to see you again soon! 😊`
     };
 
-    const ORDERS_STORAGE_KEY = 'harmony_admin_orders_demo_v1';
-
-    function loadDemoOrders() {
-      const saved = localStorage.getItem(ORDERS_STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
-
-      const demo = [
-        {
-          id: 'HAR-10231', timestamp: '2026-07-08T14:22:00', customerName: 'Jane Tan', phone: '+65 9123 4567',
-          address: 'Blk 22 Bishan St 13, #08-123', postalCode: '570022', deliveryDate: '2026-07-10',
-          items: [ { name: 'Pork Belly', qty: 2, price: 12.5 }, { name: 'Chicken Mid Wings', qty: 3, price: 8.9 } ],
-          stage: 'paid'
-        },
-        {
-          id: 'HAR-10232', timestamp: '2026-07-08T15:05:00', customerName: 'Wei Ming Lim', phone: '+65 8888 2211',
-          address: 'Blk 5 Toa Payoh Lorong 4, #12-45', postalCode: '310005', deliveryDate: '2026-07-10',
-          items: [ { name: 'Salmon Fillet', qty: 4, price: 15.0 }, { name: 'Frozen Prawns', qty: 2, price: 11.2 } ],
-          stage: 'preparing'
-        },
-        {
-          id: 'HAR-10233', timestamp: '2026-07-07T11:40:00', customerName: 'Amirah Rahman', phone: '+65 9002 7712',
-          address: '88 Tampines Ave 5, #03-09', postalCode: '520088', deliveryDate: '2026-07-09',
-          items: [ { name: 'Beef Cubes', qty: 3, price: 14.3 }, { name: 'Lamb Chops', qty: 1, price: 22.0 } ],
-          stage: 'out_for_delivery'
-        },
-        {
-          id: 'HAR-10234', timestamp: '2026-07-06T09:15:00', customerName: 'Rachel Ong', phone: '+65 8123 9876',
-          address: '10 Clementi Ave 3, #06-11', postalCode: '120010', deliveryDate: '2026-07-08',
-          items: [ { name: 'Duck Whole', qty: 1, price: 18.5 }, { name: 'Fishball', qty: 5, price: 5.4 } ],
-          stage: 'delivered'
-        },
-        {
-          id: 'HAR-10235', timestamp: '2026-07-08T16:50:00', customerName: 'Kelvin Goh', phone: '+65 9456 1230',
-          address: 'Blk 301 Yishun Ave 2, #14-88', postalCode: '760301', deliveryDate: '2026-07-10',
-          items: [ { name: 'Squid Rings', qty: 2, price: 9.8 } ],
-          stage: 'pending'
-        }
-      ];
-      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(demo));
-      return demo;
+    // Derives the tracker "stage" the UI understands from the Sheet's
+    // separate PaymentStatus + FulfillmentStatus columns.
+    function deriveStage(order) {
+      if (order.fulfillmentStatus === 'cancelled') return 'cancelled';
+      if (order.paymentStatus !== 'paid') return 'pending';
+      if (!order.fulfillmentStatus || order.fulfillmentStatus === 'not_started') return 'paid';
+      return order.fulfillmentStatus; // preparing / out_for_delivery / delivered
     }
 
-    function saveOrders(orders) {
-      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+    async function loadOrders() {
+      const res = await fetch(APPS_SCRIPT_URL + '?action=list_orders');
+      const json = await res.json();
+      return (json.orders || []).map(o => ({ ...o, stage: deriveStage(o) }));
+    }
+
+    async function pushStageUpdate(orderId, stage) {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'update_status', orderId, stage })
+      });
     }
 
     function getOrderTotal(order) {
@@ -247,15 +211,25 @@
       renderOrders();
     }
 
-    function updateStage(orderId, newStage) {
+    async function refreshOrders() {
+      const btn = document.getElementById('admin-refresh-btn');
+      if (btn) { btn.textContent = 'Refreshing…'; btn.disabled = true; }
+      try {
+        ADMIN_ORDERS = await loadOrders();
+        renderOrders();
+      } catch (err) {
+        document.getElementById('orders-list').innerHTML =
+          `<div class="empty-state">Couldn't load orders. Check your connection and try refreshing.</div>`;
+      }
+      if (btn) { btn.textContent = '↻ Refresh'; btn.disabled = false; }
+    }
+
+    async function updateStage(orderId, newStage) {
       const order = ADMIN_ORDERS.find(o => o.id === orderId);
       if (!order) return;
-      order.stage = newStage;
-      saveOrders(ADMIN_ORDERS);
+      order.stage = newStage; // optimistic UI update
       renderOrders();
-
-      // PROTOTYPE: in production, also call pushStageUpdate(orderId, newStage) here
-      // to write the change back to the Google Sheet via Apps Script.
+      await pushStageUpdate(orderId, newStage);
     }
 
     function cancelOrder(orderId) {
@@ -381,10 +355,7 @@
       }).join('');
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      ADMIN_ORDERS = loadDemoOrders();
-      renderOrders();
-    });
+    document.addEventListener('DOMContentLoaded', refreshOrders);
   </script>
 </body>
 </html>
