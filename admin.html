@@ -45,6 +45,7 @@
     .status-out      { background:#d9e6f2; color:#2e5f8a; }
     .status-delivered{ background:#d7ecd7; color:#2e6b2e; }
     .status-cancelled{ background:#f0dada; color:#a13d3d; }
+    .status-refunded { background:#f3e6c9; color:#8a6a1f; }
 
     .order-card__body { display:none; padding:0 1.3rem 1.4rem; border-top:1px solid var(--border); }
     .order-card.open .order-card__body { display:block; }
@@ -82,6 +83,8 @@
     .stage-btn.whatsapp:hover { background:#3fa350; color:#fff; }
     .stage-btn.danger { border-color:#a13d3d; color:#a13d3d; }
     .stage-btn.danger:hover { background:#a13d3d; color:#fff; }
+    .stage-btn.refund { border-color:#8a6a1f; color:#8a6a1f; }
+    .stage-btn.refund:hover { background:#8a6a1f; color:#fff; }
 
     .empty-state { text-align:center; padding:4rem 1rem; color:var(--mist); }
   </style>
@@ -141,7 +144,8 @@
     };
     const STAGE_CLASS = {
       pending: 'status-pending', paid: 'status-paid', preparing: 'status-preparing',
-      out_for_delivery: 'status-out', delivered: 'status-delivered', cancelled: 'status-cancelled'
+      out_for_delivery: 'status-out', delivered: 'status-delivered', cancelled: 'status-cancelled',
+      refunded: 'status-refunded', partially_refunded: 'status-refunded'
     };
     const STAGE_WHATSAPP_MSG = {
       paid: (o) => `Hi ${o.customerName}, thanks for your order #${o.id} with Harmony! We've received your payment and are getting it ready.`,
@@ -154,6 +158,7 @@
     // separate PaymentStatus + FulfillmentStatus columns.
     function deriveStage(order) {
       if (order.fulfillmentStatus === 'cancelled') return 'cancelled';
+      if (order.paymentStatus === 'refunded' || order.paymentStatus === 'partially_refunded') return order.paymentStatus;
       if (order.paymentStatus !== 'paid') return 'pending';
       if (!order.fulfillmentStatus || order.fulfillmentStatus === 'not_started') return 'paid';
       return order.fulfillmentStatus; // preparing / out_for_delivery / delivered
@@ -247,6 +252,12 @@
       if (order.stage === 'cancelled') {
         return `<p style="color:#a13d3d;font-size:0.85rem;font-weight:500;">This order was cancelled.</p>`;
       }
+      if (order.stage === 'refunded') {
+        return `<p style="color:#8a6a1f;font-size:0.85rem;font-weight:500;">This order was fully refunded.</p>`;
+      }
+      if (order.stage === 'partially_refunded') {
+        return `<p style="color:#8a6a1f;font-size:0.85rem;font-weight:500;">This order was partially refunded.</p>`;
+      }
       if (order.stage === 'pending') {
         return `<p style="color:var(--mist);font-size:0.85rem;">Awaiting payment confirmation from HitPay.</p>`;
       }
@@ -264,7 +275,7 @@
     }
 
     function renderStageActions(order) {
-      if (order.stage === 'cancelled' || order.stage === 'delivered') {
+      if (order.stage === 'cancelled' || order.stage === 'refunded' || order.stage === 'partially_refunded') {
         return '';
       }
       if (order.stage === 'pending') {
@@ -274,13 +285,49 @@
       }
       const currentIdx = STAGES.indexOf(order.stage);
       const nextStage = STAGES[currentIdx + 1];
+      const refundBtn = `<button class="stage-btn refund" onclick="refundOrder('${order.id}', ${getOrderTotal(order)})">Refund</button>`;
+
+      if (order.stage === 'delivered') {
+        return `<div class="stage-actions">${refundBtn}</div>`;
+      }
 
       return `
         <div class="stage-actions">
           ${nextStage ? `<button class="stage-btn primary" onclick="updateStage('${order.id}', '${nextStage}')">Mark as ${STAGE_LABELS[nextStage]}</button>` : ''}
           <button class="stage-btn whatsapp" onclick='sendWhatsAppUpdate(${JSON.stringify(order).replace(/'/g, "&#39;")}, "${order.stage}")'>Notify via WhatsApp</button>
+          ${refundBtn}
           <button class="stage-btn danger" onclick="cancelOrder('${order.id}')">Cancel</button>
         </div>`;
+    }
+
+    async function refundOrder(orderId, orderTotal) {
+      const amountStr = prompt(`Refund amount for ${orderId} (leave blank for full refund of $${orderTotal.toFixed(2)}):`, orderTotal.toFixed(2));
+      if (amountStr === null) return; // cancelled
+
+      const reason = prompt('Reason for refund (shown internally and to the customer):', '');
+      if (reason === null) return;
+
+      const amount = amountStr.trim() === '' ? null : parseFloat(amountStr);
+      if (amount !== null && (isNaN(amount) || amount <= 0)) {
+        alert('Please enter a valid refund amount.');
+        return;
+      }
+
+      if (!confirm(`Confirm refund of $${(amount || orderTotal).toFixed(2)} for ${orderId}? This cannot be undone.`)) return;
+
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'process_refund', orderId, amount, reason })
+      });
+      const result = await res.json();
+
+      if (result.error) {
+        alert('Refund failed: ' + (result.error.message || JSON.stringify(result.detail || result.error)));
+      } else {
+        alert('Refund processed.');
+        refreshOrders();
+      }
     }
 
     function renderOrders() {
@@ -319,7 +366,7 @@
                 <div class="order-card__meta">${order.customerName} · ${dateStr}</div>
               </div>
               <div class="order-card__right">
-                <span class="status-pill ${STAGE_CLASS[order.stage]}">${order.stage === 'pending' ? 'Pending Payment' : (STAGE_LABELS[order.stage] || order.stage)}</span>
+                <span class="status-pill ${STAGE_CLASS[order.stage]}">${order.stage === 'pending' ? 'Pending Payment' : order.stage === 'refunded' ? 'Refunded' : order.stage === 'partially_refunded' ? 'Partially Refunded' : (STAGE_LABELS[order.stage] || order.stage)}</span>
                 <span class="order-card__total">$${total.toFixed(2)}</span>
                 <span class="order-card__chevron">▾</span>
               </div>
