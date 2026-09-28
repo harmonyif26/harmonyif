@@ -457,7 +457,9 @@ const MODULES = {
     ] },
   do:  { key:'do',  label:'Delivery Order', title:'Delivery Order',  prefix:'DO',  table:'delivery_orders',   refLabel:'DO No',       billLabel:'Deliver To',  showValidity:false, showSignature:true, showPayment:false, showPricing:false, sigLabel:'Received By (Customer)', source:{ module:'po', table:'purchase_orders', linkCol:'source_po_id', convertedCol:'converted_to_do', label:'Purchase Order' },
     extraFields:[
-      { id:'doAddr',       label:'Delivery Address (if different)', type:'text', placeholder:'' },
+      { id:'doAddr1',      label:'Delivery Address Line 1 (if different)', type:'text', placeholder:'', addrGroup:'Delivery Address' },
+      { id:'doAddr2',      label:'Address Line 2',                   type:'text', placeholder:'', addrGroup:'Delivery Address' },
+      { id:'doPostal',     label:'Postal Code',                      type:'text', placeholder:'e.g. 556741', addrGroup:'Delivery Address' },
       { id:'doDelivDate',  label:'Expected Delivery Date',           type:'date', placeholder:'' },
     ] },
   inv: { key:'inv', label:'Invoice',        title:'Invoice',         prefix:'INV', table:'invoices',          refLabel:'Invoice No',  billLabel:'Bill To',     showValidity:false, showSignature:false, showPayment:true, showPricing:true, source:{ module:'do', table:'delivery_orders', linkCol:'source_do_id', convertedCol:'converted_to_invoice', label:'Delivery Order' },
@@ -629,7 +631,18 @@ function stdHeaderHTML(docNum, docRev){
 function extraFieldsRefHTML(){
   const mod = curMod();
   if(!mod.extraFields || !mod.extraFields.length) return '';
+  const addrDone = {};
   return mod.extraFields.map(f => {
+    if(f.addrGroup){
+      if(addrDone[f.addrGroup]) return '';
+      addrDone[f.addrGroup] = true;
+      const grp = mod.extraFields.filter(x => x.addrGroup === f.addrGroup);
+      const v = i => { const e = document.getElementById(grp[i].id); return e ? e.value.trim() : ''; };
+      const a1 = v(0), a2 = v(1), pc = v(2);
+      if(!a1 && !a2 && !pc) return '';
+      const lines = [a1, a2, 'Singapore' + (pc ? ' ' + pc : '')].filter(Boolean);
+      return `<div class="rv-ref-row" style="align-items:flex-start;"><span class="rv-ref-lbl">${esc(f.addrGroup)} :</span><span class="rv-ref-val" style="text-align:right;">&nbsp;${lines.map(esc).join('<br>')}</span></div>`;
+    }
     const el = document.getElementById(f.id);
     const raw = el ? el.value : '';
     if(!raw || f.noPrint) return '';
@@ -1118,6 +1131,7 @@ function getExtraFieldValues(){
 }
 function setExtraFieldValues(vals){
   const mod = curMod();
+  if(vals && vals.doAddr && !vals.doAddr1) vals = { ...vals, doAddr1: vals.doAddr }; // older saved DOs
   (mod.extraFields||[]).forEach(f => { const el = document.getElementById(f.id); if(el){ el.value = (vals && vals[f.id]) || ''; if(f.id==='invDueDate' && el.value) el.dataset.manual='1'; } });
 }
 
