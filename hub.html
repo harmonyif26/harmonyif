@@ -286,6 +286,7 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
   </div>
   <div class="sidebar-divider"></div>
   <button class="nav-btn active" id="nav-dash" onclick="enterDashboard()" title="Dashboard">DASH</button>
+  <button class="nav-btn" id="nav-exp" onclick="enterExpenses()" title="Expenses">EXP</button>
   <div class="sidebar-divider"></div>
   <button class="nav-btn" id="nav-qt" onclick="switchModule('qt')" title="Quotation">QT</button>
   <button class="nav-btn" id="nav-po" onclick="switchModule('po')" title="Purchase Order">PO</button>
@@ -425,6 +426,40 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
     <button class="toggle-btn" onclick="clearDashboardFilters()">Clear</button>
   </div>
   <div id="dashboardBody"><div class="dash-loading">Loading…</div></div>
+</div>
+
+<div class="dashboard-view" id="expensesView">
+  <div class="dashboard-topbar">
+    <div class="dashboard-title">Expenses</div>
+    <button class="toggle-btn" onclick="loadExpenses()">↻ Refresh</button>
+  </div>
+  <div class="dash-filters">
+    <input type="text" class="dash-filter-input" id="expCustFilter" placeholder="Search vendor / category..." oninput="renderExpensesBody()" style="flex:1;min-width:200px;">
+    <span class="sep">Period</span>
+    <input type="date" class="dash-filter-input" id="expFrom" onchange="loadExpenses()">
+    <span class="sep">to</span>
+    <input type="date" class="dash-filter-input" id="expTo" onchange="loadExpenses()">
+    <button class="toggle-btn" onclick="clearExpenseFilters()">Clear</button>
+  </div>
+
+  <div class="dash-section-title">Add Expense</div>
+  <div class="dash-table-wrap" style="padding:14px 16px;">
+    <div class="row-2" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;">
+      <div class="field" style="margin:0;"><label>Date</label><input type="date" id="expNewDate"></div>
+      <div class="field" style="margin:0;"><label>Category</label><input type="text" id="expNewCategory" placeholder="e.g. Freight"></div>
+      <div class="field" style="margin:0;"><label>Vendor / Supplier</label><input type="text" id="expNewVendor" placeholder="e.g. SP Group"></div>
+      <div class="field" style="margin:0;"><label>Amount (SGD)</label><input type="number" step="0.01" id="expNewAmount" placeholder="0.00"></div>
+      <div class="field" style="margin:0;"><label>Payment Method</label><input type="text" id="expNewMethod" placeholder="e.g. PayNow, Cheque"></div>
+      <div class="field" style="margin:0;"><label>Reference No.</label><input type="text" id="expNewRef" placeholder="optional"></div>
+    </div>
+    <div class="field" style="margin-top:10px;"><label>Notes</label><input type="text" id="expNewNotes" placeholder="optional"></div>
+    <button class="gen-btn" style="margin-top:10px;" onclick="addExpense()">+ Add Expense</button>
+  </div>
+
+  <div class="dash-summary-grid" id="expSummaryCards"></div>
+
+  <div class="dash-section-title">All Expenses<span class="hint">(most recent first)</span></div>
+  <div id="expensesBody"><div class="dash-loading">Loading…</div></div>
 </div>
 </div>
 
@@ -1126,6 +1161,7 @@ function switchModule(key){
   if(dashboardActive){
     dashboardActive = false;
     document.getElementById('dashboardView').classList.remove('show');
+    document.getElementById('expensesView').classList.remove('show');
     document.getElementById('editor').classList.toggle('hidden', !editorVisible);
     document.getElementById('previewPane').style.display = '';
   }
@@ -1604,6 +1640,7 @@ async function loadSOADocument(){
 // ══════ DASHBOARD ══════
 function enterDashboard(){
   dashboardActive = true;
+  document.getElementById('expensesView').classList.remove('show');
   document.querySelectorAll('.nav-btn[id^="nav-"]').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-dash').classList.add('active');
   document.getElementById('editor').classList.add('hidden');
@@ -1615,6 +1652,110 @@ function enterDashboard(){
 function clearDashboardFilters(){
   ['dashCustFilter','dashFrom','dashTo'].forEach(id=>document.getElementById(id).value='');
   refreshDashboard();
+}
+
+// ══════ EXPENSES ══════
+let __expenseRows = [];
+
+function enterExpenses(){
+  dashboardActive = true; // reuses the "not in the document editor" plumbing
+  document.getElementById('dashboardView').classList.remove('show');
+  document.querySelectorAll('.nav-btn[id^="nav-"]').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nav-exp').classList.add('active');
+  document.getElementById('editor').classList.add('hidden');
+  document.getElementById('previewPane').style.display = 'none';
+  document.getElementById('expensesView').classList.add('show');
+  if(!document.getElementById('expNewDate').value) document.getElementById('expNewDate').value = todayISO();
+  loadExpenses();
+}
+
+function clearExpenseFilters(){
+  ['expCustFilter','expFrom','expTo'].forEach(id=>document.getElementById(id).value='');
+  loadExpenses();
+}
+
+async function loadExpenses(){
+  const bodyEl = document.getElementById('expensesBody');
+  bodyEl.innerHTML = '<div class="dash-loading">Loading…</div>';
+  try{
+    let q = sb.from('expenses').select('*').eq('voided', false).order('expense_date',{ascending:false}).order('created_at',{ascending:false});
+    const from = document.getElementById('expFrom').value;
+    const to = document.getElementById('expTo').value;
+    if(from) q = q.gte('expense_date', from);
+    if(to) q = q.lte('expense_date', to);
+    const { data, error } = await q;
+    if(error) throw error;
+    __expenseRows = data || [];
+    renderExpensesBody();
+  } catch(err){
+    bodyEl.innerHTML = '<div class="dash-empty">Failed to load expenses: ' + esc(err.message||'unknown error') + (err.message && err.message.includes('expenses') ? ' — has harmonyif_hub_expenses_schema.sql been run in Supabase yet?' : '') + '</div>';
+    document.getElementById('expSummaryCards').innerHTML = '';
+  }
+}
+
+function renderExpensesBody(){
+  const filter = (document.getElementById('expCustFilter').value||'').toLowerCase().trim();
+  const rows = __expenseRows.filter(r=>{
+    if(!filter) return true;
+    return (r.category||'').toLowerCase().includes(filter) || (r.vendor||'').toLowerCase().includes(filter);
+  });
+  const total = rows.reduce((s,r)=>s+Number(r.amount||0),0);
+  const thisMonthKey = todayISO().slice(0,7);
+  const thisMonthTotal = rows.filter(r=>(r.expense_date||'').slice(0,7)===thisMonthKey).reduce((s,r)=>s+Number(r.amount||0),0);
+  document.getElementById('expSummaryCards').innerHTML =
+    `<div class="dash-card"><div class="dash-card-label">Total (filtered)</div><div class="dash-card-value accent">$${fmt(total)}</div><div class="dash-card-sub">${rows.length} entr${rows.length===1?'y':'ies'}</div></div>` +
+    `<div class="dash-card"><div class="dash-card-label">This Month</div><div class="dash-card-value">$${fmt(thisMonthTotal)}</div></div>`;
+
+  const bodyEl = document.getElementById('expensesBody');
+  if(!rows.length){ bodyEl.innerHTML = '<div class="dash-table-wrap"><div class="dash-empty">No expenses recorded yet.</div></div>'; return; }
+  const head = '<th>Date</th><th>Category</th><th>Vendor</th><th class="r">Amount</th><th>Method</th><th>Reference</th><th>Notes</th><th></th>';
+  const body = rows.map(r=>`<tr>
+      <td>${esc(fmtDate(r.expense_date))}</td>
+      <td>${esc(r.category||'')}</td>
+      <td>${esc(r.vendor||'')}</td>
+      <td class="r bold">$${fmt(Number(r.amount||0))}</td>
+      <td>${esc(r.payment_method||'')}</td>
+      <td>${esc(r.reference||'')}</td>
+      <td>${esc(r.notes||'')}</td>
+      <td class="r"><button class="toggle-btn" onclick="deleteExpense('${r.id}')">Delete</button></td>
+    </tr>`).join('');
+  bodyEl.innerHTML = `<div class="dash-table-wrap"><table class="dash-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+async function addExpense(){
+  const date = document.getElementById('expNewDate').value || todayISO();
+  const category = document.getElementById('expNewCategory').value.trim();
+  const vendor = document.getElementById('expNewVendor').value.trim();
+  const amount = parseFloat(document.getElementById('expNewAmount').value);
+  const method = document.getElementById('expNewMethod').value.trim();
+  const reference = document.getElementById('expNewRef').value.trim();
+  const notes = document.getElementById('expNewNotes').value.trim();
+  if(!category || isNaN(amount) || amount <= 0){
+    showToast('error', 'Missing info', 'Category and a valid amount are required.');
+    return;
+  }
+  try{
+    const { error } = await sb.from('expenses').insert({
+      expense_date: date, category, vendor, amount, payment_method: method, reference, notes
+    });
+    if(error) throw error;
+    ['expNewCategory','expNewVendor','expNewAmount','expNewMethod','expNewRef','expNewNotes'].forEach(id=>document.getElementById(id).value='');
+    showToast('success', 'Expense added', category + ' — $' + fmt(amount));
+    loadExpenses();
+  } catch(err){
+    showToast('error', 'Save failed', esc(err.message||'unknown error'));
+  }
+}
+
+async function deleteExpense(id){
+  if(!confirm('Delete this expense? This cannot be undone yet (void/history is coming in a future update).')) return;
+  try{
+    const { error } = await sb.from('expenses').delete().eq('id', id);
+    if(error) throw error;
+    loadExpenses();
+  } catch(err){
+    showToast('error', 'Delete failed', esc(err.message||'unknown error'));
+  }
 }
 
 // ── Click-through: jump from the dashboard straight into a document or a customer's statement
