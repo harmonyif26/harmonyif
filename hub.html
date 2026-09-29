@@ -243,6 +243,13 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 .dash-table tbody tr:hover{background:#FAF9F7;}
 .dash-table td.bold{font-weight:700;color:var(--text);}
 .dash-table td.owed{font-weight:700;color:var(--accent-dark);}
+.dash-form-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;}
+.dash-form-grid .field,.dash-form-note .field{margin:0;}
+.dash-form-grid .field label,.dash-form-note .field label{display:block;color:var(--text-sec);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
+.dash-form-grid .field input,.dash-form-note .field input{width:100%;background:#fff;border:1px solid var(--border-strong);border-radius:2px;color:var(--text);font-size:13px;padding:7px 9px;outline:none;font-family:inherit;box-sizing:border-box;}
+.dash-form-grid .field input:focus,.dash-form-note .field input:focus{border-color:var(--accent);}
+.dash-form-note{margin-top:10px;}
+@media (max-width:900px){.dash-form-grid{grid-template-columns:repeat(2,1fr);}}
 .dash-empty{padding:20px;text-align:center;color:var(--text-muted);font-size:12.5px;}
 
 @media print{
@@ -444,15 +451,15 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 
   <div class="dash-section-title">Add Expense</div>
   <div class="dash-table-wrap" style="padding:14px 16px;">
-    <div class="row-2" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;">
-      <div class="field" style="margin:0;"><label>Date</label><input type="date" id="expNewDate"></div>
-      <div class="field" style="margin:0;"><label>Category</label><input type="text" id="expNewCategory" placeholder="e.g. Freight"></div>
-      <div class="field" style="margin:0;"><label>Vendor / Supplier</label><input type="text" id="expNewVendor" placeholder="e.g. SP Group"></div>
-      <div class="field" style="margin:0;"><label>Amount (SGD)</label><input type="number" step="0.01" id="expNewAmount" placeholder="0.00"></div>
-      <div class="field" style="margin:0;"><label>Payment Method</label><input type="text" id="expNewMethod" placeholder="e.g. PayNow, Cheque"></div>
-      <div class="field" style="margin:0;"><label>Reference No.</label><input type="text" id="expNewRef" placeholder="optional"></div>
+    <div class="dash-form-grid">
+      <div class="field"><label>Date</label><input type="date" id="expNewDate"></div>
+      <div class="field"><label>Category</label><input type="text" id="expNewCategory" placeholder="e.g. Freight"></div>
+      <div class="field"><label>Vendor / Supplier</label><input type="text" id="expNewVendor" placeholder="e.g. SP Group"></div>
+      <div class="field"><label>Amount (SGD)</label><input type="number" step="0.01" id="expNewAmount" placeholder="0.00"></div>
+      <div class="field"><label>Payment Method</label><input type="text" id="expNewMethod" placeholder="e.g. PayNow, Cheque"></div>
+      <div class="field"><label>Reference No.</label><input type="text" id="expNewRef" placeholder="optional"></div>
     </div>
-    <div class="field" style="margin-top:10px;"><label>Notes</label><input type="text" id="expNewNotes" placeholder="optional"></div>
+    <div class="dash-form-note field"><label>Notes</label><input type="text" id="expNewNotes" placeholder="optional"></div>
     <button class="gen-btn" style="margin-top:10px;" onclick="addExpense()">+ Add Expense</button>
   </div>
 
