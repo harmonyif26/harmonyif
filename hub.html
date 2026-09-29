@@ -243,13 +243,20 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 .dash-table tbody tr:hover{background:#FAF9F7;}
 .dash-table td.bold{font-weight:700;color:var(--text);}
 .dash-table td.owed{font-weight:700;color:var(--accent-dark);}
-.dash-form-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;}
-.dash-form-grid .field,.dash-form-note .field{margin:0;}
-.dash-form-grid .field label,.dash-form-note .field label{display:block;color:var(--text-sec);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
-.dash-form-grid .field input,.dash-form-note .field input{width:100%;background:#fff;border:1px solid var(--border-strong);border-radius:2px;color:var(--text);font-size:13px;padding:7px 9px;outline:none;font-family:inherit;box-sizing:border-box;}
-.dash-form-grid .field input:focus,.dash-form-note .field input:focus{border-color:var(--accent);}
-.dash-form-note{margin-top:10px;}
-@media (max-width:900px){.dash-form-grid{grid-template-columns:repeat(2,1fr);}}
+.exp-form{background:#fff;border:1px solid var(--border-strong);border-radius:4px;padding:18px 20px;}
+.exp-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;}
+.exp-form-grid .exp-field.full{grid-column:1/-1;}
+.exp-field{margin:0;}
+.exp-field label{display:block;color:var(--text-sec);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:1.3px;margin-bottom:5px;}
+.exp-field input[type=text],.exp-field input[type=number],.exp-field input[type=date],.exp-field select{width:100%;background:#fff;border:1px solid var(--border-strong);border-radius:3px;color:var(--text);font-size:13.5px;padding:9px 10px;outline:none;font-family:inherit;box-sizing:border-box;transition:border-color .15s;}
+.exp-field input:focus,.exp-field select:focus{border-color:var(--accent);}
+.exp-field input::placeholder{color:var(--text-muted);}
+.exp-gst-row{display:flex;align-items:center;gap:8px;margin-top:26px;}
+.exp-gst-row label{color:var(--text-sec);font-size:12.5px;font-weight:500;text-transform:none;letter-spacing:0;margin:0;}
+.exp-gst-row input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);}
+.exp-gross-note{font-size:11.5px;color:var(--text-muted);margin-top:4px;}
+.exp-form-actions{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);}
+@media (max-width:820px){.exp-form-grid{grid-template-columns:1fr;}}
 .dash-empty{padding:20px;text-align:center;color:var(--text-muted);font-size:12.5px;}
 
 @media print{
@@ -450,17 +457,76 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
   </div>
 
   <div class="dash-section-title">Add Expense</div>
-  <div class="dash-table-wrap" style="padding:14px 16px;">
-    <div class="dash-form-grid">
-      <div class="field"><label>Date</label><input type="date" id="expNewDate"></div>
-      <div class="field"><label>Category</label><input type="text" id="expNewCategory" placeholder="e.g. Freight"></div>
-      <div class="field"><label>Vendor / Supplier</label><input type="text" id="expNewVendor" placeholder="e.g. SP Group"></div>
-      <div class="field"><label>Amount (SGD)</label><input type="number" step="0.01" id="expNewAmount" placeholder="0.00"></div>
-      <div class="field"><label>Payment Method</label><input type="text" id="expNewMethod" placeholder="e.g. PayNow, Cheque"></div>
-      <div class="field"><label>Reference No.</label><input type="text" id="expNewRef" placeholder="optional"></div>
+  <div class="exp-form">
+    <div class="exp-form-grid">
+      <div class="exp-field"><label>Date</label><input type="date" id="expNewDate"></div>
+      <div class="exp-field">
+        <label>Category</label>
+        <select id="expNewCategory" onchange="onExpCategoryChange()">
+          <option value="">Select category...</option>
+          <optgroup label="Cost of Sales">
+            <option>Freight & Logistics</option>
+            <option>Packaging Materials</option>
+            <option>Fuel & Transport</option>
+          </optgroup>
+          <optgroup label="Operating Expenses">
+            <option>Rent</option>
+            <option>Utilities</option>
+            <option>Salaries & CPF</option>
+            <option>Telecommunications & Internet</option>
+            <option>Repairs & Maintenance</option>
+            <option>Office Supplies & Printing</option>
+            <option>Cleaning & Pest Control</option>
+            <option>Insurance</option>
+            <option>Licenses & Permits</option>
+            <option>Staff Welfare</option>
+          </optgroup>
+          <optgroup label="Admin & Finance">
+            <option>Professional & Accounting Fees</option>
+            <option>Bank Charges</option>
+            <option>Marketing & Advertising</option>
+          </optgroup>
+          <option value="__other__">Other (specify)...</option>
+        </select>
+        <input type="text" id="expNewCategoryOther" placeholder="Type category name" style="margin-top:6px;display:none;">
+      </div>
+      <div class="exp-field"><label>Vendor / Supplier</label><input type="text" id="expNewVendor" placeholder="e.g. SP Group"></div>
+      <div class="exp-field">
+        <label>Amount, excl. GST (SGD)</label>
+        <input type="number" step="0.01" id="expNewAmount" placeholder="0.00" oninput="updateExpGstPreview()">
+      </div>
+      <div class="exp-field" style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="flex:1;">
+          <label>GST</label>
+          <div class="exp-gst-row" style="margin-top:9px;">
+            <input type="checkbox" id="expNewGstToggle" onchange="updateExpGstPreview()">
+            <label for="expNewGstToggle" style="text-transform:none;">Apply GST (9%)</label>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <label>Total incl. GST</label>
+          <div class="exp-gross-note" id="expGstPreview" style="font-size:14px;color:var(--text);font-weight:600;margin-top:8px;">$0.00</div>
+        </div>
+      </div>
+      <div class="exp-field">
+        <label>Payment Method</label>
+        <select id="expNewMethod">
+          <option value="">Select method...</option>
+          <option>PayNow</option>
+          <option>Bank Transfer</option>
+          <option>GIRO</option>
+          <option>Cheque</option>
+          <option>Cash</option>
+          <option>Credit Card</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="exp-field"><label>Reference No.</label><input type="text" id="expNewRef" placeholder="e.g. invoice/receipt no."></div>
+      <div class="exp-field full"><label>Notes</label><input type="text" id="expNewNotes" placeholder="optional"></div>
     </div>
-    <div class="dash-form-note field"><label>Notes</label><input type="text" id="expNewNotes" placeholder="optional"></div>
-    <button class="gen-btn" style="margin-top:10px;" onclick="addExpense()">+ Add Expense</button>
+    <div class="exp-form-actions">
+      <button class="gen-btn" onclick="addExpense()">+ Add Expense</button>
+    </div>
   </div>
 
   <div class="dash-summary-grid" id="expSummaryCards"></div>
@@ -1681,6 +1747,18 @@ function clearExpenseFilters(){
   loadExpenses();
 }
 
+function onExpCategoryChange(){
+  const sel = document.getElementById('expNewCategory');
+  document.getElementById('expNewCategoryOther').style.display = (sel.value === '__other__') ? 'block' : 'none';
+}
+
+function updateExpGstPreview(){
+  const amount = parseFloat(document.getElementById('expNewAmount').value) || 0;
+  const gstOn = document.getElementById('expNewGstToggle').checked;
+  const gst = gstOn ? amount * 0.09 : 0;
+  document.getElementById('expGstPreview').textContent = '$' + fmt(amount + gst) + (gstOn ? ' (incl. $' + fmt(gst) + ' GST)' : '');
+}
+
 async function loadExpenses(){
   const bodyEl = document.getElementById('expensesBody');
   bodyEl.innerHTML = '<div class="dash-loading">Loading…</div>';
@@ -1706,34 +1784,48 @@ function renderExpensesBody(){
     if(!filter) return true;
     return (r.category||'').toLowerCase().includes(filter) || (r.vendor||'').toLowerCase().includes(filter);
   });
-  const total = rows.reduce((s,r)=>s+Number(r.amount||0),0);
+  // "Net" = amount excl. GST as entered; "Gross" = what actually left the bank (incl. GST), which is
+  // the figure that matters for a cash/expenses total.
+  const netTotal = rows.reduce((s,r)=>s+Number(r.amount||0),0);
+  const gstTotal = rows.reduce((s,r)=>s+Number(r.gst_amount||0),0);
+  const grossTotal = netTotal + gstTotal;
   const thisMonthKey = todayISO().slice(0,7);
-  const thisMonthTotal = rows.filter(r=>(r.expense_date||'').slice(0,7)===thisMonthKey).reduce((s,r)=>s+Number(r.amount||0),0);
+  const thisMonthRows = rows.filter(r=>(r.expense_date||'').slice(0,7)===thisMonthKey);
+  const thisMonthGross = thisMonthRows.reduce((s,r)=>s+Number(r.amount||0)+Number(r.gst_amount||0),0);
   document.getElementById('expSummaryCards').innerHTML =
-    `<div class="dash-card"><div class="dash-card-label">Total (filtered)</div><div class="dash-card-value accent">$${fmt(total)}</div><div class="dash-card-sub">${rows.length} entr${rows.length===1?'y':'ies'}</div></div>` +
-    `<div class="dash-card"><div class="dash-card-label">This Month</div><div class="dash-card-value">$${fmt(thisMonthTotal)}</div></div>`;
+    `<div class="dash-card"><div class="dash-card-label">Total for the dates/search above</div><div class="dash-card-value accent">$${fmt(grossTotal)}</div><div class="dash-card-sub">${rows.length} entr${rows.length===1?'y':'ies'}${gstTotal>0?' · incl. $'+fmt(gstTotal)+' GST':''}</div></div>` +
+    `<div class="dash-card"><div class="dash-card-label">This Month</div><div class="dash-card-value">$${fmt(thisMonthGross)}</div><div class="dash-card-sub">${thisMonthRows.length} entr${thisMonthRows.length===1?'y':'ies'}</div></div>`;
 
   const bodyEl = document.getElementById('expensesBody');
   if(!rows.length){ bodyEl.innerHTML = '<div class="dash-table-wrap"><div class="dash-empty">No expenses recorded yet.</div></div>'; return; }
-  const head = '<th>Date</th><th>Category</th><th>Vendor</th><th class="r">Amount</th><th>Method</th><th>Reference</th><th>Notes</th><th></th>';
-  const body = rows.map(r=>`<tr>
+  const head = '<th>Date</th><th>Category</th><th>Vendor</th><th class="r">Amount (excl. GST)</th><th class="r">GST</th><th class="r">Total</th><th>Method</th><th>Reference</th><th>Notes</th><th></th>';
+  const body = rows.map(r=>{
+    const gst = Number(r.gst_amount||0);
+    const amt = Number(r.amount||0);
+    return `<tr>
       <td>${esc(fmtDate(r.expense_date))}</td>
       <td>${esc(r.category||'')}</td>
       <td>${esc(r.vendor||'')}</td>
-      <td class="r bold">$${fmt(Number(r.amount||0))}</td>
+      <td class="r">$${fmt(amt)}</td>
+      <td class="r">${gst>0?'$'+fmt(gst):'—'}</td>
+      <td class="r bold">$${fmt(amt+gst)}</td>
       <td>${esc(r.payment_method||'')}</td>
       <td>${esc(r.reference||'')}</td>
       <td>${esc(r.notes||'')}</td>
       <td class="r"><button class="toggle-btn" onclick="deleteExpense('${r.id}')">Delete</button></td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
   bodyEl.innerHTML = `<div class="dash-table-wrap"><table class="dash-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
 async function addExpense(){
   const date = document.getElementById('expNewDate').value || todayISO();
-  const category = document.getElementById('expNewCategory').value.trim();
+  const catSel = document.getElementById('expNewCategory').value;
+  const category = catSel === '__other__' ? document.getElementById('expNewCategoryOther').value.trim() : catSel;
   const vendor = document.getElementById('expNewVendor').value.trim();
   const amount = parseFloat(document.getElementById('expNewAmount').value);
+  const gstOn = document.getElementById('expNewGstToggle').checked;
+  const gstAmount = gstOn && !isNaN(amount) ? Math.round(amount*0.09*100)/100 : 0;
   const method = document.getElementById('expNewMethod').value.trim();
   const reference = document.getElementById('expNewRef').value.trim();
   const notes = document.getElementById('expNewNotes').value.trim();
@@ -1743,11 +1835,18 @@ async function addExpense(){
   }
   try{
     const { error } = await sb.from('expenses').insert({
-      expense_date: date, category, vendor, amount, payment_method: method, reference, notes
+      expense_date: date, category, vendor, amount, gst_amount: gstAmount,
+      payment_method: method, reference, notes
     });
     if(error) throw error;
-    ['expNewCategory','expNewVendor','expNewAmount','expNewMethod','expNewRef','expNewNotes'].forEach(id=>document.getElementById(id).value='');
-    showToast('success', 'Expense added', category + ' — $' + fmt(amount));
+    ['expNewVendor','expNewAmount','expNewRef','expNewNotes'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('expNewCategory').value = '';
+    document.getElementById('expNewCategoryOther').value = '';
+    document.getElementById('expNewCategoryOther').style.display = 'none';
+    document.getElementById('expNewMethod').value = '';
+    document.getElementById('expNewGstToggle').checked = false;
+    updateExpGstPreview();
+    showToast('success', 'Expense added', category + ' — $' + fmt(amount + gstAmount));
     loadExpenses();
   } catch(err){
     showToast('error', 'Save failed', esc(err.message||'unknown error'));
