@@ -257,6 +257,19 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 .exp-gst-row input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);}
 .exp-gross-note{font-size:11.5px;color:var(--text-muted);margin-top:4px;}
 .exp-form-actions{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);}
+.exp-form .link-result{background:#fafaf8;border:1px solid var(--border-strong);}
+.exp-form .link-result:hover{border-color:var(--accent);background:rgba(3,139,2,0.06);}
+.exp-form .link-result-top{color:var(--text);}
+.exp-form .link-result-sub{color:var(--text-muted);}
+.exp-form .link-empty{color:var(--text-muted);}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(20,18,15,0.5);z-index:500;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal-card{background:#fff;border-radius:6px;padding:22px 24px;width:520px;max-width:92vw;max-height:88vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,0.25);}
+.modal-title{font-size:16px;font-weight:700;color:var(--text);}
+.modal-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);}
+.cust-detail-card{background:#fff;border:1px solid var(--border-strong);border-radius:4px;padding:16px 18px;font-size:13px;line-height:1.9;color:var(--text);}
+.cust-detail-card .label{color:var(--text-sec);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:1.3px;display:inline-block;width:90px;}
 @media (max-width:820px){.exp-form-grid{grid-template-columns:1fr;}}
 .dash-empty{padding:20px;text-align:center;color:var(--text-muted);font-size:12.5px;}
 
@@ -362,7 +375,7 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 
   <div class="section">
     <div class="section-title">Customer</div>
-    <div class="field"><label>Customer Name</label><input type="text" id="custName" placeholder="e.g. Crystal Jade"></div>
+    <div class="field"><label>Customer Name</label><input type="text" id="custName" placeholder="e.g. Crystal Jade" onblur="autofillCustomerFromMaster()"></div>
     <div class="row-2">
       <div class="field"><label>Contact Person</label><input type="text" id="custContact"></div>
       <div class="field"><label>Phone</label><input type="text" id="custPhone"></div>
@@ -596,6 +609,14 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
     </div>
   </div>
   <div class="dash-section-title">Recent Payments<span class="hint">(most recent first)</span></div>
+  <div class="dash-filters">
+    <input type="text" class="dash-filter-input" id="payListFilter" placeholder="Search customer / invoice..." oninput="loadRecentPayments()" style="flex:1;min-width:200px;">
+    <span class="sep">Period</span>
+    <input type="date" class="dash-filter-input" id="payFrom" onchange="loadRecentPayments()">
+    <span class="sep">to</span>
+    <input type="date" class="dash-filter-input" id="payTo" onchange="loadRecentPayments()">
+    <button class="toggle-btn" onclick="clearPaymentFilters()">Clear</button>
+  </div>
   <div id="recentPaymentsBody"><div class="dash-loading">Loading…</div></div>
 </div>
 
@@ -634,6 +655,28 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
     <input type="date" class="dash-filter-input" id="histTo" onchange="loadHistory()">
   </div>
   <div id="historyBody"><div class="dash-loading">Loading…</div></div>
+</div>
+
+<div class="modal-overlay" id="custEditOverlay">
+  <div class="modal-card">
+    <div class="modal-title">Edit Customer</div>
+    <div class="modal-sub" id="custEditOrigName"></div>
+    <div class="exp-form-grid" style="margin-top:14px;">
+      <div class="exp-field"><label>Contact Person</label><input type="text" id="custEditContact"></div>
+      <div class="exp-field"><label>Phone</label><input type="text" id="custEditPhone"></div>
+      <div class="exp-field full"><label>Email</label><input type="text" id="custEditEmail"></div>
+      <div class="exp-field full"><label>Address Line 1</label><input type="text" id="custEditAddr1"></div>
+      <div class="exp-field full"><label>Address Line 2</label><input type="text" id="custEditAddr2"></div>
+      <div class="exp-field"><label>Postal Code</label><input type="text" id="custEditPostal"></div>
+    </div>
+    <div class="exp-form-note" style="margin-top:10px;color:var(--text-muted);font-size:11.5px;">
+      Saving this updates the customer's details for any new document you create from now on. It will not change documents already saved or printed.
+    </div>
+    <div class="modal-actions">
+      <button class="toggle-btn" onclick="closeCustomerEditModal()">Cancel</button>
+      <button class="gen-btn" style="flex:none;padding:10px 20px;" onclick="saveCustomerEdit()">Save Changes</button>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -2005,6 +2048,7 @@ async function deleteExpense(id){
 
 // ══════ CUSTOMERS ══════
 let __customerRows = [];
+let __customerMaster = {}; // name.toLowerCase() -> persisted override record from the `customers` table
 
 function enterCustomers(){
   showTopView('customersView', 'nav-cust');
@@ -2016,14 +2060,17 @@ async function loadCustomers(){
   const bodyEl = document.getElementById('customersBody');
   bodyEl.innerHTML = '<div class="dash-loading">Loading…</div>';
   try{
-    const [qt, po, doOrders, inv, cn] = await Promise.all([
+    const [qt, po, doOrders, inv, cn, custMaster] = await Promise.all([
       sb.from('quotations').select('customer_name, updated_at').eq('voided', false),
       sb.from('purchase_orders').select('customer_name, updated_at').eq('voided', false),
       sb.from('delivery_orders').select('customer_name, updated_at').eq('voided', false),
       sb.from('invoices').select('customer_name, grand_total, paid_amount, updated_at, data').eq('voided', false),
       sb.from('credit_notes').select('customer_name, grand_total, updated_at').eq('voided', false),
+      sb.from('customers').select('*'),
     ].map(p=>p));
     [qt,po,doOrders,inv,cn].forEach(r=>{ if(r.error) throw r.error; });
+    __customerMaster = {};
+    if(!custMaster.error) (custMaster.data||[]).forEach(c => { __customerMaster[c.name.toLowerCase()] = c; });
     const custs = {};
     const ensure = name => custs[name] || (custs[name] = { name, docCount:0, invoiced:0, credited:0, paid:0, lastActive:null, latestData:null, latestTs:null });
     const bump = (name, ts) => { const c = ensure(name); c.docCount++; if(!c.lastActive || ts > c.lastActive) c.lastActive = ts; };
@@ -2062,19 +2109,89 @@ function showCustomerDetail(i){
   const rows = __customerRows.filter(c=>!term || c.name.toLowerCase().includes(term));
   const c = rows[i];
   if(!c) return;
-  const d = c.latestData || {};
-  const addrLine = [d.custAddr1, d.custAddr2, d.custPostal ? ('Singapore ' + d.custPostal) : ''].filter(Boolean).join(', ');
+  const master = __customerMaster[c.name.toLowerCase()];
+  const d = master || c.latestData || {};
+  const contact = master ? master.contact : d.custContact;
+  const email = master ? master.email : d.custEmail;
+  const phone = master ? master.phone : d.custPhone;
+  const addr1 = master ? master.addr1 : d.custAddr1;
+  const addr2 = master ? master.addr2 : d.custAddr2;
+  const postal = master ? master.postal : d.custPostal;
+  const addrLine = [addr1, addr2, postal ? ('Singapore ' + postal) : ''].filter(Boolean).join(', ');
   document.getElementById('customerDetailWrap').innerHTML = `
-    <div class="dash-section-title">${esc(c.name)}<span class="hint">customer details, from their most recent invoice</span></div>
-    <div class="dash-table-wrap" style="padding:14px 16px;line-height:1.8;">
-      <div><b>Contact:</b> ${esc(d.custContact || '—')}</div>
-      <div><b>Email:</b> ${esc(d.custEmail || '—')}</div>
-      <div><b>Phone:</b> ${esc(d.custPhone || '—')}</div>
-      <div><b>Address:</b> ${esc(addrLine || '—')}</div>
-      <div style="margin-top:10px;">
+    <div class="dash-section-title">${esc(c.name)}<span class="hint">${master ? 'customer details (edited)' : 'customer details, from their most recent invoice'}</span></div>
+    <div class="cust-detail-card">
+      <div><span class="label">Contact</span>${esc(contact || '—')}</div>
+      <div><span class="label">Email</span>${esc(email || '—')}</div>
+      <div><span class="label">Phone</span>${esc(phone || '—')}</div>
+      <div><span class="label">Address</span>${esc(addrLine || '—')}</div>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <button class="toggle-btn" onclick='openCustomerEditModal(${JSON.stringify(c.name)})'>Edit Customer</button>
         <button class="toggle-btn" onclick='openSOAFromDash(${JSON.stringify(c.name)})'>View Statement of Account</button>
       </div>
     </div>`;
+}
+
+function openCustomerEditModal(name){
+  const master = __customerMaster[name.toLowerCase()];
+  const row = __customerRows.find(c=>c.name===name);
+  const d = master || (row && row.latestData) || {};
+  document.getElementById('custEditOrigName').textContent = name;
+  document.getElementById('custEditOverlay').dataset.name = name;
+  document.getElementById('custEditContact').value = (master ? master.contact : d.custContact) || '';
+  document.getElementById('custEditPhone').value = (master ? master.phone : d.custPhone) || '';
+  document.getElementById('custEditEmail').value = (master ? master.email : d.custEmail) || '';
+  document.getElementById('custEditAddr1').value = (master ? master.addr1 : d.custAddr1) || '';
+  document.getElementById('custEditAddr2').value = (master ? master.addr2 : d.custAddr2) || '';
+  document.getElementById('custEditPostal').value = (master ? master.postal : d.custPostal) || '';
+  document.getElementById('custEditOverlay').classList.add('show');
+}
+
+function closeCustomerEditModal(){
+  document.getElementById('custEditOverlay').classList.remove('show');
+}
+
+async function saveCustomerEdit(){
+  const name = document.getElementById('custEditOverlay').dataset.name;
+  const record = {
+    name,
+    contact: document.getElementById('custEditContact').value.trim(),
+    phone: document.getElementById('custEditPhone').value.trim(),
+    email: document.getElementById('custEditEmail').value.trim(),
+    addr1: document.getElementById('custEditAddr1').value.trim(),
+    addr2: document.getElementById('custEditAddr2').value.trim(),
+    postal: document.getElementById('custEditPostal').value.trim(),
+  };
+  try{
+    const { error } = await sb.from('customers').upsert(record, { onConflict: 'name' });
+    if(error) throw error;
+    __customerMaster[name.toLowerCase()] = record;
+    logActivity('updated', 'customer', null, name, null, 'Customer details edited');
+    showToast('success', 'Customer updated', name + ' — will apply to new documents from now on.');
+    closeCustomerEditModal();
+    const idx = __customerRows.findIndex(c=>c.name===name);
+    if(idx >= 0) showCustomerDetail(__customerRows.filter(c=>{ const term=(document.getElementById('custListFilter').value||'').toLowerCase().trim(); return !term||c.name.toLowerCase().includes(term); }).findIndex(c=>c.name===name));
+  } catch(err){
+    showToast('error', 'Save failed', esc(err.message||'unknown error') + (err.message && err.message.includes('customers') ? ' — has harmonyif_hub_v3_customers_schema.sql been run in Supabase yet?' : ''));
+  }
+}
+
+// Looks up the persisted customer master record and fills in contact/address fields for a
+// brand-new document only — never overwrites a document that's already saved, and never
+// overwrites a field the user has already typed something into.
+async function autofillCustomerFromMaster(){
+  if(currentDocId) return; // never touch an already-saved document
+  const name = document.getElementById('custName').value.trim();
+  if(!name) return;
+  try{
+    const { data, error } = await sb.from('customers').select('*').ilike('name', name).limit(1).maybeSingle();
+    if(error || !data) return;
+    const map = { custContact:'contact', custPhone:'phone', custEmail:'email', custAddr1:'addr1', custAddr2:'addr2', custPostal:'postal' };
+    Object.entries(map).forEach(([fieldId, col]) => {
+      const el = document.getElementById(fieldId);
+      if(el && !el.value && data[col]) el.value = data[col];
+    });
+  } catch(err){ /* silent — autofill is a convenience, not critical */ }
 }
 
 // ══════ DOCUMENTS BROWSER ══════
@@ -2244,10 +2361,18 @@ async function loadRecentPayments(){
   const bodyEl = document.getElementById('recentPaymentsBody');
   bodyEl.innerHTML = '<div class="dash-loading">Loading…</div>';
   try{
-    const { data, error } = await sb.from('payments').select('*, invoices(full_doc_no)').eq('voided', false).order('created_at', {ascending:false}).limit(50);
+    let q = sb.from('payments').select('*, invoices(full_doc_no)').eq('voided', false).order('payment_date', {ascending:false}).order('created_at', {ascending:false}).limit(200);
+    const from = document.getElementById('payFrom').value;
+    const to = document.getElementById('payTo').value;
+    if(from) q = q.gte('payment_date', from);
+    if(to) q = q.lte('payment_date', to);
+    const { data, error } = await q;
     if(error) throw error;
-    const rows = data || [];
-    if(!rows.length){ bodyEl.innerHTML = '<div class="dash-table-wrap"><div class="dash-empty">No payments recorded yet.</div></div>'; return; }
+    let rows = data || [];
+    const term = (document.getElementById('payListFilter').value||'').toLowerCase().trim();
+    if(term) rows = rows.filter(r => (r.customer_name||'').toLowerCase().includes(term) || ((r.invoices&&r.invoices.full_doc_no)||'').toLowerCase().includes(term));
+    if(!rows.length){ bodyEl.innerHTML = '<div class="dash-table-wrap"><div class="dash-empty">No payments found.</div></div>'; return; }
+    const totalShown = rows.reduce((s,r)=>s+Number(r.amount||0),0);
     const head = '<th>Date</th><th>Customer</th><th>Invoice</th><th class="r">Amount</th><th>Method</th><th>Reference</th><th></th>';
     const body = rows.map(r => `<tr>
         <td>${fmtDate(r.payment_date)}</td>
@@ -2258,10 +2383,16 @@ async function loadRecentPayments(){
         <td>${esc(r.reference||'')}</td>
         <td class="r"><button class="toggle-btn" onclick="voidPayment('${r.id}', '${r.invoice_id}')">Void</button></td>
       </tr>`).join('');
-    bodyEl.innerHTML = `<div class="dash-table-wrap"><table class="dash-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+    bodyEl.innerHTML = `<div class="dash-table-wrap"><table class="dash-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>
+      <div class="dash-empty" style="text-align:right;background:none;border:none;padding:8px 4px;">Total shown: <b>$${fmt(totalShown)}</b> across ${rows.length} payment${rows.length===1?'':'s'}</div>`;
   } catch(err){
     bodyEl.innerHTML = '<div class="dash-empty">Failed to load payments: ' + esc(err.message||'unknown error') + '</div>';
   }
+}
+
+function clearPaymentFilters(){
+  ['payListFilter','payFrom','payTo'].forEach(id=>document.getElementById(id).value='');
+  loadRecentPayments();
 }
 
 async function voidPayment(id, invoiceId){
