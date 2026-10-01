@@ -359,6 +359,7 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
       <button class="load-btn" onclick="loadDocument()">Load</button>
     </div>
     <div class="field"><label>Date</label><input type="date" id="docDate"></div>
+    <div class="field" id="docStatusRow"><label>Status</label><select id="docStatus"></select></div>
     <div class="field" id="validityRow"><label id="validityLabel">Valid Until</label><input type="text" id="docValidity" readonly></div>
   </div>
 
@@ -403,6 +404,12 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
   <div class="section" id="payTermsSection">
     <div class="section-title">Payment Terms</div>
     <div class="field"><label>Terms</label><input type="text" id="payTerms" placeholder="Net 30 Days"></div>
+  </div>
+
+  <div class="section" id="invPaymentHistorySection" style="display:none;">
+    <div class="section-title">Payment History<span style="font-weight:400;text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.35);font-size:10.5px;"> (recorded on the Payments page)</span></div>
+    <div id="invPaymentHistoryBody" style="font-size:11.5px;color:rgba(255,255,255,0.55);line-height:1.7;"></div>
+    <button class="add-item-btn" onclick="enterPaymentsForThisInvoice()" style="margin-top:6px;">Go to Payments page</button>
   </div>
 
   <div class="section" id="soaDataSection" style="display:none;">
@@ -628,6 +635,9 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
   <div class="dash-filters" id="docsTypeTabs"></div>
   <div class="dash-filters">
     <input type="text" class="dash-filter-input" id="docsBrowserFilter" placeholder="Search customer / doc no..." oninput="renderDocsBrowserBody()" style="flex:1;min-width:200px;">
+    <select class="dash-filter-input" id="docsBrowserStatusFilter" onchange="renderDocsBrowserBody()">
+      <option value="">All statuses</option>
+    </select>
   </div>
   <div id="docsBrowserBody"><div class="dash-loading">Loading…</div></div>
 </div>
@@ -750,13 +760,16 @@ let linkedSourceId = null;
 
 const MODULES = {
   qt:  { key:'qt',  label:'Quotation',      title:'Quotation',       prefix:'QT',  table:'quotations',       refLabel:'Quote No',    billLabel:'Quote To',    showValidity:true,  showSignature:true, showPayment:true, showPricing:true, sigLabel:'Accepted By (Customer)', source:null,
+    statusOptions:['Draft','Sent','Accepted','Declined'],
     extraFields:[] },
   po:  { key:'po',  label:'Purchase Order', title:'Purchase Order',  prefix:'PO',  table:'purchase_orders',   refLabel:'PO No',       billLabel:'Customer',    showValidity:false, showSignature:true, showPayment:true, showPricing:true, sigLabel:'Accepted By (Customer)', source:{ module:'qt', table:'quotations', linkCol:'source_quotation_id', convertedCol:'converted_to_po', label:'Quotation' },
+    statusOptions:['Draft','Sent','Accepted'],
     extraFields:[
       { id:'poDelivDate', label:'Delivery Required By', type:'date', placeholder:'' },
       { id:'poShipping',  label:'Shipping Method',       type:'text', placeholder:'e.g. Own fleet delivery' },
     ] },
   do:  { key:'do',  label:'Delivery Order', title:'Delivery Order',  prefix:'DO',  table:'delivery_orders',   refLabel:'DO No',       billLabel:'Deliver To',  showValidity:false, showSignature:true, showPayment:false, showPricing:false, sigLabel:'Received By (Customer)', source:{ module:'po', table:'purchase_orders', linkCol:'source_po_id', convertedCol:'converted_to_do', label:'Purchase Order' },
+    statusOptions:['Draft','Delivered'],
     extraFields:[
       { id:'doAddr1',      label:'Delivery Address Line 1 (if different)', type:'text', placeholder:'', addrGroup:'Delivery Address' },
       { id:'doAddr2',      label:'Address Line 2',                   type:'text', placeholder:'', addrGroup:'Delivery Address' },
@@ -764,18 +777,18 @@ const MODULES = {
       { id:'doDelivDate',  label:'Expected Delivery Date',           type:'date', placeholder:'' },
     ] },
   inv: { key:'inv', label:'Invoice',        title:'Invoice',         prefix:'INV', table:'invoices',          refLabel:'Invoice No',  billLabel:'Bill To',     showValidity:false, showSignature:false, showPayment:true, showPricing:true, source:{ module:'do', table:'delivery_orders', linkCol:'source_do_id', convertedCol:'converted_to_invoice', label:'Delivery Order' },
+    statusOptions:['Draft','Sent'],
     extraFields:[
       { id:'invDueDate',      label:'Due Date',               type:'date', placeholder:'' },
-      { id:'invPaidAmt',      label:'Amount Paid So Far ($)', type:'number', placeholder:'0.00', noPrint:true },
-      { id:'invPaymentDate',  label:'Last Payment Date',      type:'date', placeholder:'', noPrint:true },
-      { id:'invPaymentNote',  label:'Payment Note',           type:'text', placeholder:'e.g. Paid via bank transfer', noPrint:true },
     ] },
   cn:  { key:'cn',  label:'Credit Note',    title:'Credit Note',     prefix:'CN',  table:'credit_notes',      refLabel:'CN No',       billLabel:'Issued To',   showValidity:false, showSignature:false, showPayment:false, showPricing:true, source:{ module:'inv', table:'invoices', linkCol:'source_invoice_id', convertedCol:'converted_to_cn', label:'Invoice' },
+    statusOptions:['Draft','Issued'],
     extraFields:[
       { id:'cnOrigInv', label:'Original Invoice No.', type:'text', placeholder:'e.g. HIF-INV0926001' },
       { id:'cnReason',  label:'Reason for Credit',    type:'textarea', placeholder:'e.g. Short-weight adjustment on delivery' },
     ] },
   soa: { key:'soa', label:'Statement of Account', title:'Statement of Account', prefix:'SOA', table:'soa', refLabel:'SOA No', billLabel:'Statement For', showValidity:false, showSignature:false, showPayment:true, showPricing:true, source:null,
+    statusOptions:null,
     extraFields:[] },
 };
 function curMod(){ return MODULES[currentModuleKey]; }
@@ -1346,12 +1359,10 @@ async function saveDocToSupabase(){
       grand_total: grand,
       data: payload,
     };
+    if(mod.statusOptions){ row.status = document.getElementById('docStatus').value || mod.statusOptions[0]; }
     if(mod.source && linkedSourceId){ row[mod.source.linkCol] = linkedSourceId; }
-    if(mod.key === 'inv'){
-      row.paid_amount = parseFloat(payload.extra.invPaidAmt) || 0;
-      row.payment_date = payload.extra.invPaymentDate || null;
-      row.payment_note = payload.extra.invPaymentNote || '';
-    }
+    // paid_amount/payment_date/payment_note are NOT set here on purpose — they are owned by the
+    // Payments page (recalcInvoicePayments), so saving/editing an invoice must never touch them.
 
     const wasNew = !currentDocId;
     let result;
@@ -1371,6 +1382,7 @@ async function saveDocToSupabase(){
 
     logActivity(wasNew ? 'created' : 'updated', mod.key, fullDocNo, custName, grand);
     setStatus('Saved: ' + fullDocNo, 'green');
+    if(mod.key === 'inv') loadInvoicePaymentHistory();
   } catch(err){
     console.error(err);
     setStatus('Save failed: ' + (err.message||'unknown error'), 'red');
@@ -1389,6 +1401,7 @@ async function loadDocument(){
     currentDocId = data.id;
     docNumIsProvisional = false;
     document.getElementById('voidBtnRow').style.display = data.voided ? 'none' : 'flex';
+    if(curMod().statusOptions && data.status){ document.getElementById('docStatus').value = data.status; }
     linkedSourceId = doc.linkedSourceId || null;
     setExtraFieldValues(doc.extra);
     document.getElementById('docNum').value = doc.docNum || '';
@@ -1408,6 +1421,7 @@ async function loadDocument(){
     uid = Math.max(...items.map(i=>i.id), 0) + 1;
     renderLineItems(); renderDoc();
     setStatus(data.voided ? ('VOIDED: ' + data.full_doc_no + (data.void_reason ? (' — ' + data.void_reason) : '')) : ('Loaded: ' + data.full_doc_no), data.voided ? 'red' : 'green');
+    if(curMod().key === 'inv') loadInvoicePaymentHistory(); else document.getElementById('invPaymentHistorySection').style.display = 'none';
   } catch(err){
     console.error(err);
     setStatus('Not found: ' + docNo, 'red');
@@ -1469,6 +1483,11 @@ function switchModule(key){
   document.getElementById('lineItemsSection').style.display = isSOA ? 'none' : '';
   document.getElementById('gstSection').style.display = (isSOA || !mod.showPricing) ? 'none' : '';
   document.getElementById('payTermsSection').style.display = (isSOA || !mod.showPayment) ? 'none' : '';
+  document.getElementById('invPaymentHistorySection').style.display = 'none';
+  document.getElementById('docStatusRow').style.display = mod.statusOptions ? '' : 'none';
+  if(mod.statusOptions){
+    document.getElementById('docStatus').innerHTML = mod.statusOptions.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+  }
   document.getElementById('soaDataSection').style.display = isSOA ? '' : 'none';
   document.getElementById('soaCustLinkSection').style.display = isSOA ? '' : 'none';
   setupExtraFields();
@@ -1946,6 +1965,37 @@ function clearDashboardFilters(){
   refreshDashboard();
 }
 
+// Read-only payment history shown inside the Invoice editor itself. The actual recording and
+// voiding of payments happens on the Payments page — this is just a quick glance so Pat doesn't
+// have to leave the invoice to see what's been paid.
+async function loadInvoicePaymentHistory(){
+  const sec = document.getElementById('invPaymentHistorySection');
+  const bodyEl = document.getElementById('invPaymentHistoryBody');
+  if(!currentDocId){ sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  bodyEl.innerHTML = 'Loading…';
+  try{
+    const { data, error } = await sb.from('payments').select('*').eq('invoice_id', currentDocId).eq('voided', false).order('payment_date', {ascending:false});
+    if(error) throw error;
+    const rows = data || [];
+    if(!rows.length){ bodyEl.innerHTML = 'No payments recorded yet.'; return; }
+    const total = rows.reduce((s,r)=>s+Number(r.amount||0),0);
+    bodyEl.innerHTML = rows.map(r => `${esc(fmtDate(r.payment_date))} — $${fmt(Number(r.amount||0))}${r.method?(' via '+esc(r.method)):''}${r.reference?(' (ref: '+esc(r.reference)+')'):''}`).join('<br>')
+      + `<br><b>Total paid: $${fmt(total)}</b>`;
+  } catch(err){
+    bodyEl.innerHTML = 'Could not load payment history: ' + esc(err.message||'unknown error');
+  }
+}
+
+function enterPaymentsForThisInvoice(){
+  const custName = document.getElementById('custName').value.trim();
+  enterPayments();
+  if(custName){
+    document.getElementById('payCustSearch').value = custName;
+    pickPayCustomer(custName);
+  }
+}
+
 // ══════ EXPENSES ══════
 let __expenseRows = [];
 
@@ -2298,9 +2348,12 @@ function setDocsBrowserType(key){
 async function loadDocsBrowser(){
   const bodyEl = document.getElementById('docsBrowserBody');
   bodyEl.innerHTML = '<div class="dash-loading">Loading…</div>';
+  const statusSel = document.getElementById('docsBrowserStatusFilter');
+  const mod = MODULES[__docsBrowserType];
+  statusSel.innerHTML = '<option value="">All statuses</option>' + (mod.statusOptions ? mod.statusOptions.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('') : '');
   try{
-    const table = MODULES[__docsBrowserType].table;
-    const { data, error } = await sb.from(table).select('doc_no, full_doc_no, customer_name, doc_date, grand_total, updated_at')
+    const cols = 'doc_no, full_doc_no, customer_name, doc_date, grand_total, updated_at' + (mod.statusOptions ? ', status' : '');
+    const { data, error } = await sb.from(mod.table).select(cols)
       .eq('voided', false).order('updated_at', {ascending:false}).limit(200);
     if(error) throw error;
     __docsBrowserRows = data || [];
@@ -2312,15 +2365,22 @@ async function loadDocsBrowser(){
 
 function renderDocsBrowserBody(){
   const term = (document.getElementById('docsBrowserFilter').value||'').toLowerCase().trim();
-  const rows = __docsBrowserRows.filter(r => !term || (r.customer_name||'').toLowerCase().includes(term) || (r.full_doc_no||'').toLowerCase().includes(term));
+  const statusFilter = document.getElementById('docsBrowserStatusFilter').value;
+  const mod = MODULES[__docsBrowserType];
+  const rows = __docsBrowserRows.filter(r => {
+    if(term && !((r.customer_name||'').toLowerCase().includes(term) || (r.full_doc_no||'').toLowerCase().includes(term))) return false;
+    if(statusFilter && r.status !== statusFilter) return false;
+    return true;
+  });
   const bodyEl = document.getElementById('docsBrowserBody');
   if(!rows.length){ bodyEl.innerHTML = '<div class="dash-table-wrap"><div class="dash-empty">No documents found.</div></div>'; return; }
-  const head = '<th>Doc No.</th><th>Customer</th><th>Date</th><th class="r">Total</th>';
+  const head = '<th>Doc No.</th><th>Customer</th><th>Date</th><th class="r">Total</th>' + (mod.statusOptions ? '<th>Status</th>' : '');
   const body = rows.map(r => `<tr style="cursor:pointer;" onclick="openDocFromDash('${__docsBrowserType}', ${JSON.stringify(r.doc_no)})">
       <td class="bold">${esc(r.full_doc_no)}</td>
       <td>${esc(r.customer_name||'—')}</td>
       <td>${fmtDate(r.doc_date)}</td>
       <td class="r">$${fmt(Number(r.grand_total||0))}</td>
+      ${mod.statusOptions ? `<td>${esc(r.status||'Draft')}</td>` : ''}
     </tr>`).join('');
   bodyEl.innerHTML = `<div class="dash-table-wrap"><table class="dash-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
@@ -2570,8 +2630,8 @@ async function refreshDashboard(){
   const recent = t => sb.from(t).select('doc_no, full_doc_no, customer_name, grand_total, updated_at').eq('voided', false).order('updated_at',{ascending:false}).limit(5);
   try {
     const res = await Promise.all([
-      range(sb.from('quotations').select('customer_name, converted_to_po').eq('voided', false)),
-      range(sb.from('purchase_orders').select('customer_name, converted_to_do').eq('voided', false)),
+      range(sb.from('quotations').select('customer_name, converted_to_po, status').eq('voided', false)),
+      range(sb.from('purchase_orders').select('customer_name, converted_to_do, status').eq('voided', false)),
       range(sb.from('delivery_orders').select('customer_name, converted_to_invoice').eq('voided', false)),
       sb.from('invoices').select('doc_no, full_doc_no, customer_name, grand_total, paid_amount, doc_date, data').eq('voided', false),
       range(sb.from('credit_notes').select('customer_name, grand_total').eq('voided', false)),
@@ -2666,6 +2726,10 @@ function renderDashboardBody(){
   const monthRows = Object.values(months).sort((a,b)=>a.key.localeCompare(b.key)).slice(-8);
   const monthLabel = k => new Date(k+'-01T00:00:00').toLocaleDateString('en-SG',{month:'short',year:'numeric'});
 
+  const qtSentAwaiting = d.qt.filter(r => r.status === 'Sent' && !r.converted_to_po).length;
+  const poSentAwaiting = d.po.filter(r => r.status === 'Sent' && !r.converted_to_do).length;
+  const qtAccepted = d.qt.filter(r => r.status === 'Accepted').length;
+
   const card = (label,val,sub,accent) => `<div class="dash-card"><div class="dash-card-label">${label}</div><div class="dash-card-value${accent?' accent':''}">${val}</div>${sub?`<div class="dash-card-sub">${sub}</div>`:''}</div>`;
   const table = (head, body) => `<div class="dash-table-wrap"><table class="dash-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
   const empty = msg => `<div class="dash-table-wrap"><div class="dash-empty">${msg}</div></div>`;
@@ -2677,6 +2741,13 @@ function renderDashboardBody(){
       ${card('Open Quotations',sum(c=>c.qtOpen),'Not yet converted to a PO')}
       ${card('Open Purchase Orders',sum(c=>c.poOpen),'Not yet delivered')}
       ${card('Open Delivery Orders',sum(c=>c.doOpen),'Not yet invoiced')}
+    </div>
+
+    <div class="dash-section-title">Document Status<span class="hint">(from the Status field on each document)</span></div>
+    <div class="dash-summary-grid">
+      ${card('Quotations Awaiting Response',qtSentAwaiting,'Marked "Sent" but not Accepted/Declined yet')}
+      ${card('Quotations Accepted',qtAccepted,'Ready to convert to a PO')}
+      ${card('POs Awaiting Acceptance',poSentAwaiting,'Marked "Sent" but not yet Accepted')}
     </div>
 
     <div class="dash-section-title">This Month<span class="hint">(as of today · Period filter doesn’t apply)</span></div>
