@@ -662,12 +662,46 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
     <div class="modal-title">Edit Customer</div>
     <div class="modal-sub" id="custEditOrigName"></div>
     <div class="exp-form-grid" style="margin-top:14px;">
+      <div class="exp-field"><label>Account Code</label><input type="text" id="custEditAccountCode" placeholder="optional, e.g. CJ001"></div>
+      <div class="exp-field">
+        <label>Status</label>
+        <select id="custEditStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+      </div>
       <div class="exp-field"><label>Contact Person</label><input type="text" id="custEditContact"></div>
       <div class="exp-field"><label>Phone</label><input type="text" id="custEditPhone"></div>
       <div class="exp-field full"><label>Email</label><input type="text" id="custEditEmail"></div>
       <div class="exp-field full"><label>Address Line 1</label><input type="text" id="custEditAddr1"></div>
       <div class="exp-field full"><label>Address Line 2</label><input type="text" id="custEditAddr2"></div>
       <div class="exp-field"><label>Postal Code</label><input type="text" id="custEditPostal"></div>
+      <div class="exp-field"><label>UEN / GST Reg. No.</label><input type="text" id="custEditUen" placeholder="optional"></div>
+      <div class="exp-field">
+        <label>Default Payment Terms</label>
+        <select id="custEditTerms" onchange="document.getElementById('custEditTermsOther').style.display=this.value==='__other__'?'block':'none';">
+          <option value="">Use the hub default (Net 30 Days)</option>
+          <option>COD / Immediate</option>
+          <option>Net 7 Days</option>
+          <option>Net 14 Days</option>
+          <option>Net 30 Days</option>
+          <option>Net 60 Days</option>
+          <option value="__other__">Other (specify)...</option>
+        </select>
+        <input type="text" id="custEditTermsOther" placeholder="e.g. Net 45 Days" style="margin-top:6px;display:none;">
+      </div>
+      <div class="exp-field">
+        <label>Preferred Payment Method</label>
+        <select id="custEditMethod">
+          <option value="">Not set</option>
+          <option>PayNow</option>
+          <option>Bank Transfer</option>
+          <option>GIRO</option>
+          <option>Cheque</option>
+          <option>Cash</option>
+          <option>Credit Card</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="exp-field"><label>Credit Limit (SGD)</label><input type="number" step="0.01" id="custEditCreditLimit" placeholder="optional"></div>
+      <div class="exp-field full"><label>Notes</label><input type="text" id="custEditNotes" placeholder="optional"></div>
     </div>
     <div class="exp-form-note" style="margin-top:10px;color:var(--text-muted);font-size:11.5px;">
       Saving this updates the customer's details for any new document you create from now on. It will not change documents already saved or printed.
@@ -2094,13 +2128,18 @@ function renderCustomersBody(){
   const bodyEl = document.getElementById('customersBody');
   if(!rows.length){ bodyEl.innerHTML = '<div class="dash-table-wrap"><div class="dash-empty">No customers found yet — save a Quotation, PO, DO, Invoice or Credit Note first.</div></div>'; return; }
   const head = '<th>Customer</th><th class="r"># Documents</th><th class="r">Invoiced</th><th class="r">Balance Owed</th><th>Last Activity</th>';
-  const body = rows.map((c,i)=>`<tr style="cursor:pointer;" onclick="showCustomerDetail(${i})">
-      <td class="bold">${esc(c.name)}</td>
+  const body = rows.map((c,i)=>{
+    const master = __customerMaster[c.name.toLowerCase()];
+    const overLimit = master && master.credit_limit && c.balance > Number(master.credit_limit) + 0.005;
+    const inactive = master && master.status === 'inactive';
+    return `<tr style="cursor:pointer;${inactive?'opacity:.5;':''}" onclick="showCustomerDetail(${i})">
+      <td class="bold">${esc(c.name)}${master && master.account_code ? ' <span style="color:var(--text-muted);font-weight:400;">('+esc(master.account_code)+')</span>' : ''}${overLimit ? ' <span style="color:#b23;font-size:10px;font-weight:700;">OVER LIMIT</span>' : ''}</td>
       <td class="r">${c.docCount}</td>
       <td class="r">$${fmt(c.invoiced)}</td>
       <td class="r${c.balance>0.005?' owed':''}">$${fmt(Math.max(0,c.balance))}</td>
       <td>${c.lastActive ? fmtDate(c.lastActive.slice(0,10)) : '—'}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
   bodyEl.innerHTML = `<div class="dash-table-wrap"><table class="dash-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
@@ -2118,13 +2157,19 @@ function showCustomerDetail(i){
   const addr2 = master ? master.addr2 : d.custAddr2;
   const postal = master ? master.postal : d.custPostal;
   const addrLine = [addr1, addr2, postal ? ('Singapore ' + postal) : ''].filter(Boolean).join(', ');
+  const overLimit = master && master.credit_limit && c.balance > Number(master.credit_limit) + 0.005;
   document.getElementById('customerDetailWrap').innerHTML = `
-    <div class="dash-section-title">${esc(c.name)}<span class="hint">${master ? 'customer details (edited)' : 'customer details, from their most recent invoice'}</span></div>
+    <div class="dash-section-title">${esc(c.name)}${master && master.account_code ? ' <span style="color:var(--text-muted);font-weight:400;">('+esc(master.account_code)+')</span>' : ''}${master && master.status==='inactive' ? ' <span style="color:#b23;font-weight:600;font-size:11px;">INACTIVE</span>' : ''}<span class="hint">${master ? 'customer details (edited)' : 'customer details, from their most recent invoice'}</span></div>
     <div class="cust-detail-card">
       <div><span class="label">Contact</span>${esc(contact || '—')}</div>
       <div><span class="label">Email</span>${esc(email || '—')}</div>
       <div><span class="label">Phone</span>${esc(phone || '—')}</div>
       <div><span class="label">Address</span>${esc(addrLine || '—')}</div>
+      <div><span class="label">UEN</span>${esc((master&&master.uen) || '—')}</div>
+      <div><span class="label">Terms</span>${esc((master&&master.payment_terms) || 'Hub default (Net 30 Days)')}</div>
+      <div><span class="label">Pay Method</span>${esc((master&&master.preferred_method) || '—')}</div>
+      <div><span class="label">Credit Limit</span>${master && master.credit_limit ? ('$'+fmt(Number(master.credit_limit)) + (overLimit ? ' <span style="color:#b23;font-weight:700;">— OVER LIMIT (owes $'+fmt(c.balance)+')</span>' : '')) : '—'}</div>
+      ${master && master.notes ? `<div><span class="label">Notes</span>${esc(master.notes)}</div>` : ''}
       <div style="margin-top:12px;display:flex;gap:8px;">
         <button class="toggle-btn" onclick='openCustomerEditModal(${JSON.stringify(c.name)})'>Edit Customer</button>
         <button class="toggle-btn" onclick='openSOAFromDash(${JSON.stringify(c.name)})'>View Statement of Account</button>
@@ -2138,12 +2183,29 @@ function openCustomerEditModal(name){
   const d = master || (row && row.latestData) || {};
   document.getElementById('custEditOrigName').textContent = name;
   document.getElementById('custEditOverlay').dataset.name = name;
+  document.getElementById('custEditAccountCode').value = (master && master.account_code) || '';
+  document.getElementById('custEditStatus').value = (master && master.status) || 'active';
   document.getElementById('custEditContact').value = (master ? master.contact : d.custContact) || '';
   document.getElementById('custEditPhone').value = (master ? master.phone : d.custPhone) || '';
   document.getElementById('custEditEmail').value = (master ? master.email : d.custEmail) || '';
   document.getElementById('custEditAddr1').value = (master ? master.addr1 : d.custAddr1) || '';
   document.getElementById('custEditAddr2').value = (master ? master.addr2 : d.custAddr2) || '';
   document.getElementById('custEditPostal').value = (master ? master.postal : d.custPostal) || '';
+  document.getElementById('custEditUen').value = (master && master.uen) || '';
+  document.getElementById('custEditCreditLimit').value = (master && master.credit_limit) || '';
+  document.getElementById('custEditNotes').value = (master && master.notes) || '';
+  document.getElementById('custEditMethod').value = (master && master.preferred_method) || '';
+  const knownTerms = ['COD / Immediate','Net 7 Days','Net 14 Days','Net 30 Days','Net 60 Days'];
+  const terms = (master && master.payment_terms) || '';
+  if(terms && !knownTerms.includes(terms)){
+    document.getElementById('custEditTerms').value = '__other__';
+    document.getElementById('custEditTermsOther').value = terms;
+    document.getElementById('custEditTermsOther').style.display = 'block';
+  } else {
+    document.getElementById('custEditTerms').value = terms;
+    document.getElementById('custEditTermsOther').value = '';
+    document.getElementById('custEditTermsOther').style.display = 'none';
+  }
   document.getElementById('custEditOverlay').classList.add('show');
 }
 
@@ -2153,14 +2215,24 @@ function closeCustomerEditModal(){
 
 async function saveCustomerEdit(){
   const name = document.getElementById('custEditOverlay').dataset.name;
+  const termsSel = document.getElementById('custEditTerms').value;
+  const terms = termsSel === '__other__' ? document.getElementById('custEditTermsOther').value.trim() : termsSel;
+  const creditLimit = document.getElementById('custEditCreditLimit').value;
   const record = {
     name,
+    account_code: document.getElementById('custEditAccountCode').value.trim(),
+    status: document.getElementById('custEditStatus').value,
     contact: document.getElementById('custEditContact').value.trim(),
     phone: document.getElementById('custEditPhone').value.trim(),
     email: document.getElementById('custEditEmail').value.trim(),
     addr1: document.getElementById('custEditAddr1').value.trim(),
     addr2: document.getElementById('custEditAddr2').value.trim(),
     postal: document.getElementById('custEditPostal').value.trim(),
+    uen: document.getElementById('custEditUen').value.trim(),
+    payment_terms: terms,
+    preferred_method: document.getElementById('custEditMethod').value,
+    credit_limit: creditLimit ? parseFloat(creditLimit) : null,
+    notes: document.getElementById('custEditNotes').value.trim(),
   };
   try{
     const { error } = await sb.from('customers').upsert(record, { onConflict: 'name' });
@@ -2176,8 +2248,8 @@ async function saveCustomerEdit(){
   }
 }
 
-// Looks up the persisted customer master record and fills in contact/address fields for a
-// brand-new document only — never overwrites a document that's already saved, and never
+// Looks up the persisted customer master record and fills in contact/address/terms fields for
+// a brand-new document only — never overwrites a document that's already saved, and never
 // overwrites a field the user has already typed something into.
 async function autofillCustomerFromMaster(){
   if(currentDocId) return; // never touch an already-saved document
@@ -2191,6 +2263,13 @@ async function autofillCustomerFromMaster(){
       const el = document.getElementById(fieldId);
       if(el && !el.value && data[col]) el.value = data[col];
     });
+    // Payment terms: only overwrite if the field still shows the untouched hub default.
+    const termsEl = document.getElementById('payTerms');
+    if(termsEl && data.payment_terms && termsEl.value === CO.payTerms){
+      termsEl.value = data.payment_terms;
+      const dueEl = document.getElementById('invDueDate');
+      if(dueEl && !dueEl.dataset.manual) dueEl.value = document.getElementById('docDate').value ? addDaysISO(document.getElementById('docDate').value, parseTermsDays(data.payment_terms)) : '';
+    }
   } catch(err){ /* silent — autofill is a convenience, not critical */ }
 }
 
