@@ -377,6 +377,10 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
   <div class="section">
     <div class="section-title">Customer</div>
     <div class="field"><label>Customer Name</label><input type="text" id="custName" placeholder="e.g. Crystal Jade" onblur="autofillCustomerFromMaster()"></div>
+    <div class="field" id="branchRow" style="display:none;">
+      <label>Branch<span style="font-weight:400;text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.35);"> (optional — overrides contact/address below for this document only; billing stays with the customer name above)</span></label>
+      <select id="branchSelect" onchange="applyBranchSelection()"><option value="">Head Office / no branch</option></select>
+    </div>
     <div class="row-2">
       <div class="field"><label>Contact Person</label><input type="text" id="custContact"></div>
       <div class="field"><label>Phone</label><input type="text" id="custPhone"></div>
@@ -1348,6 +1352,8 @@ async function saveDocToSupabase(){
       payTerms: document.getElementById('payTerms').value,
       remarks: document.getElementById('remarks').value,
       linkedSourceId: linkedSourceId || null,
+      branchId: document.getElementById('branchSelect').style && document.getElementById('branchRow').style.display !== 'none' ? (document.getElementById('branchSelect').value || null) : null,
+      branchName: document.getElementById('branchRow').style.display !== 'none' && document.getElementById('branchSelect').value ? document.getElementById('branchSelect').selectedOptions[0].textContent : null,
       extra: getExtraFieldValues(),
     };
 
@@ -1414,6 +1420,10 @@ async function loadDocument(){
     document.getElementById('custAddr1').value = doc.custAddr1 || '';
     document.getElementById('custAddr2').value = doc.custAddr2 || '';
     document.getElementById('custPostal').value = doc.custPostal || '';
+    if(document.getElementById('branchRow').style.display !== 'none'){
+      loadBranchesForCustomer(doc.custName).then(()=>{ document.getElementById('branchSelect').value = doc.branchId || ''; });
+      __parentCustSnapshot = null; // fields above already reflect whatever was saved (branch or head office)
+    }
     document.getElementById('gstToggle').checked = doc.gstApplied !== false;
     document.getElementById('payTerms').value = doc.payTerms || CO.payTerms;
     document.getElementById('remarks').value = doc.remarks || '';
@@ -1431,6 +1441,8 @@ async function loadDocument(){
 function newDocument(silent){
   if(!silent && !confirm('Clear and start a new document?')) return;
   items = []; uid = 1; currentDocId = null; docNumIsProvisional = false; linkedSourceId = null;
+  __parentCustSnapshot = null;
+  document.getElementById('branchSelect').innerHTML = '<option value="">Head Office / no branch</option>';
   document.getElementById('voidBtnRow').style.display = 'none';
   ['docNum','docRev','custName','custContact','custEmail','custPhone','custAddr1','custAddr2','custPostal','remarks'].forEach(id=>{
     const el = document.getElementById(id); if(el) el.value = '';
@@ -1485,6 +1497,7 @@ function switchModule(key){
   document.getElementById('payTermsSection').style.display = (isSOA || !mod.showPayment) ? 'none' : '';
   document.getElementById('invPaymentHistorySection').style.display = 'none';
   document.getElementById('docStatusRow').style.display = mod.statusOptions ? '' : 'none';
+  document.getElementById('branchRow').style.display = (key==='qt'||key==='po'||key==='do') ? '' : 'none';
   if(mod.statusOptions){
     document.getElementById('docStatus').innerHTML = mod.statusOptions.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
   }
@@ -2224,7 +2237,78 @@ function showCustomerDetail(i){
         <button class="toggle-btn" onclick='openCustomerEditModal(${JSON.stringify(c.name)})'>Edit Customer</button>
         <button class="toggle-btn" onclick='openSOAFromDash(${JSON.stringify(c.name)})'>View Statement of Account</button>
       </div>
+    </div>
+    <div class="dash-section-title" style="margin-top:16px;">Branches<span class="hint">different contact/address for DO &amp; PO — still billed to this customer</span></div>
+    <div id="branchListWrap"></div>
+    <div class="cust-detail-card" style="margin-top:8px;">
+      <div class="exp-form-grid">
+        <div class="exp-field"><label>Branch Name</label><input type="text" id="newBranchName" placeholder="e.g. Tampines Outlet"></div>
+        <div class="exp-field"><label>Contact Person</label><input type="text" id="newBranchContact" placeholder=""></div>
+        <div class="exp-field"><label>Phone</label><input type="text" id="newBranchPhone" placeholder=""></div>
+        <div class="exp-field full"><label>Email</label><input type="text" id="newBranchEmail" placeholder=""></div>
+        <div class="exp-field full"><label>Address Line 1</label><input type="text" id="newBranchAddr1" placeholder=""></div>
+        <div class="exp-field full"><label>Address Line 2</label><input type="text" id="newBranchAddr2" placeholder=""></div>
+        <div class="exp-field"><label>Postal Code</label><input type="text" id="newBranchPostal" placeholder=""></div>
+      </div>
+      <div class="exp-form-actions"><button class="gen-btn" onclick='addBranch(${JSON.stringify(c.name)})'>+ Add Branch</button></div>
     </div>`;
+  loadBranchListForCustomerPage(c.name);
+}
+
+async function loadBranchListForCustomerPage(name){
+  const wrap = document.getElementById('branchListWrap');
+  wrap.innerHTML = '<div class="dash-loading">Loading…</div>';
+  try{
+    const { data, error } = await sb.from('customer_branches').select('*').eq('customer_name', name).order('branch_name');
+    if(error) throw error;
+    const rows = data || [];
+    if(!rows.length){ wrap.innerHTML = '<div class="dash-empty" style="background:none;border:none;padding:4px;">No branches added yet.</div>'; return; }
+    wrap.innerHTML = rows.map(b => `<div class="cust-detail-card" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <b>${esc(b.branch_name)}</b><br>
+          ${esc(b.contact||'')}${b.contact&&b.phone?' · ':''}${esc(b.phone||'')}<br>
+          ${esc([b.addr1,b.addr2,b.postal?('Singapore '+b.postal):''].filter(Boolean).join(', '))}
+        </div>
+        <button class="toggle-btn" onclick="deleteBranch('${b.id}', ${JSON.stringify(name)})">Delete</button>
+      </div>`).join('');
+  } catch(err){
+    wrap.innerHTML = '<div class="dash-empty">Failed to load branches: ' + esc(err.message||'unknown error') + (err.message && err.message.includes('customer_branches') ? ' — has harmonyif_hub_v5_branches_schema.sql been run in Supabase yet?' : '') + '</div>';
+  }
+}
+
+async function addBranch(customerName){
+  const branch_name = document.getElementById('newBranchName').value.trim();
+  if(!branch_name){ showToast('error', 'Missing branch name', 'Give the branch a name first.'); return; }
+  const record = {
+    customer_name: customerName,
+    branch_name,
+    contact: document.getElementById('newBranchContact').value.trim(),
+    phone: document.getElementById('newBranchPhone').value.trim(),
+    email: document.getElementById('newBranchEmail').value.trim(),
+    addr1: document.getElementById('newBranchAddr1').value.trim(),
+    addr2: document.getElementById('newBranchAddr2').value.trim(),
+    postal: document.getElementById('newBranchPostal').value.trim(),
+  };
+  try{
+    const { error } = await sb.from('customer_branches').insert(record);
+    if(error) throw error;
+    ['newBranchName','newBranchContact','newBranchPhone','newBranchEmail','newBranchAddr1','newBranchAddr2','newBranchPostal'].forEach(id=>document.getElementById(id).value='');
+    showToast('success', 'Branch added', branch_name);
+    loadBranchListForCustomerPage(customerName);
+  } catch(err){
+    showToast('error', 'Save failed', esc(err.message||'unknown error') + (err.message && err.message.includes('customer_branches') ? ' — has harmonyif_hub_v5_branches_schema.sql been run in Supabase yet?' : ''));
+  }
+}
+
+async function deleteBranch(id, customerName){
+  if(!confirm('Delete this branch? (Documents already saved using it keep their own saved address, so this is safe.)')) return;
+  try{
+    const { error } = await sb.from('customer_branches').delete().eq('id', id);
+    if(error) throw error;
+    loadBranchListForCustomerPage(customerName);
+  } catch(err){
+    showToast('error', 'Delete failed', esc(err.message||'unknown error'));
+  }
 }
 
 function openCustomerEditModal(name){
@@ -2298,12 +2382,13 @@ async function saveCustomerEdit(){
   }
 }
 
-// Looks up the persisted customer master record and fills in contact/address/terms fields for
-// a brand-new document only — never overwrites a document that's already saved, and never
-// overwrites a field the user has already typed something into.
+let __parentCustSnapshot = null; // the customer's own (non-branch) contact/address, so "Head Office" can restore it
+let __custBranches = [];
+
 async function autofillCustomerFromMaster(){
-  if(currentDocId) return; // never touch an already-saved document
   const name = document.getElementById('custName').value.trim();
+  if(document.getElementById('branchRow').style.display !== 'none'){ loadBranchesForCustomer(name); }
+  if(currentDocId) return; // never touch an already-saved document
   if(!name) return;
   try{
     const { data, error } = await sb.from('customers').select('*').ilike('name', name).limit(1).maybeSingle();
@@ -2321,6 +2406,45 @@ async function autofillCustomerFromMaster(){
       if(dueEl && !dueEl.dataset.manual) dueEl.value = document.getElementById('docDate').value ? addDaysISO(document.getElementById('docDate').value, parseTermsDays(data.payment_terms)) : '';
     }
   } catch(err){ /* silent — autofill is a convenience, not critical */ }
+}
+
+async function loadBranchesForCustomer(name){
+  const sel = document.getElementById('branchSelect');
+  sel.innerHTML = '<option value="">Head Office / no branch</option>';
+  __custBranches = [];
+  if(!name) return;
+  try{
+    const { data, error } = await sb.from('customer_branches').select('*').eq('customer_name', name).order('branch_name');
+    if(error || !data || !data.length) return;
+    __custBranches = data;
+    sel.innerHTML += data.map(b=>`<option value="${esc(b.id)}">${esc(b.branch_name)}</option>`).join('');
+  } catch(err){ /* no branches table yet, or none set up — fine, just head office */ }
+}
+
+function applyBranchSelection(){
+  const id = document.getElementById('branchSelect').value;
+  if(!__parentCustSnapshot){
+    __parentCustSnapshot = {
+      custContact: document.getElementById('custContact').value,
+      custPhone: document.getElementById('custPhone').value,
+      custEmail: document.getElementById('custEmail').value,
+      custAddr1: document.getElementById('custAddr1').value,
+      custAddr2: document.getElementById('custAddr2').value,
+      custPostal: document.getElementById('custPostal').value,
+    };
+  }
+  if(!id){
+    Object.entries(__parentCustSnapshot).forEach(([k,v])=>document.getElementById(k).value = v);
+    return;
+  }
+  const b = __custBranches.find(x=>String(x.id)===id);
+  if(!b) return;
+  document.getElementById('custContact').value = b.contact || '';
+  document.getElementById('custPhone').value = b.phone || '';
+  document.getElementById('custEmail').value = b.email || '';
+  document.getElementById('custAddr1').value = b.addr1 || '';
+  document.getElementById('custAddr2').value = b.addr2 || '';
+  document.getElementById('custPostal').value = b.postal || '';
 }
 
 // ══════ DOCUMENTS BROWSER ══════
