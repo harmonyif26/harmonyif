@@ -29,7 +29,8 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 /* ══════ LOGIN SCREEN ══════ */
 .login-wrap{display:none;height:100vh;align-items:center;justify-content:center;background:var(--dark-panel);}
 .login-wrap.show{display:flex;}
-.login-box{background:#FFFFFF;border-radius:4px;padding:40px 36px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.login-box{background:#FFFFFF;border-radius:4px;padding:40px 36px;width:360px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.3);box-sizing:border-box;}
+@media (max-width:420px){.login-box{padding:28px 22px;}}
 .login-logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);margin-bottom:2px;}
 .login-logo span{color:var(--accent);}
 .login-sub{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:24px;}
@@ -274,6 +275,40 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 .cust-detail-card{background:#fff;border:1px solid var(--border-strong);border-radius:4px;padding:16px 18px;font-size:13px;line-height:1.9;color:var(--text);}
 .cust-detail-card .label{color:var(--text-sec);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:1.3px;display:inline-block;width:90px;}
 @media (max-width:820px){.exp-form-grid{grid-template-columns:1fr;}}
+
+/* ══════ MOBILE LAYOUT ══════ */
+.mobile-toggle-fab{display:none;}
+@media (max-width:860px){
+  .app.show{flex-direction:column;}
+  .sidebar{width:100%;height:auto;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 8px;border-right:none;border-bottom:1px solid #333;justify-content:flex-start;}
+  .sidebar-logo-wrap{flex-shrink:0;}
+  .sidebar-divider{width:1px;height:22px;margin:0 5px;flex-shrink:0;}
+  .nav-btn{flex-shrink:0;}
+  .editor{width:100%!important;min-width:0!important;}
+  .editor.hidden{width:0!important;padding:0!important;}
+  .preview-pane{padding:12px;}
+  .dashboard-view{padding:14px;gap:14px;}
+  .dash-summary-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .dash-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .dash-table{min-width:560px;}
+  .dashboard-topbar{flex-wrap:wrap;gap:8px;}
+  .dashboard-title{font-size:18px;}
+  .cust-detail-card{font-size:12.5px;}
+  .modal-card{padding:16px;}
+
+  /* Always-reachable switch between Editor and Preview, since side-by-side
+     doesn't fit a phone screen and the old in-flow button could end up
+     scrolled out of view on either pane. Hidden unless JS adds .in-editor
+     (i.e. we're actually in a document editor, not one of the Dashboard-
+     style pages, which don't have an editor/preview to switch between). */
+  .mobile-toggle-fab.in-editor{display:flex;position:fixed;bottom:18px;right:16px;z-index:80;background:var(--accent);color:#fff;border:none;border-radius:24px;padding:12px 18px;font-size:12.5px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;box-shadow:0 4px 14px rgba(0,0,0,0.3);cursor:pointer;font-family:inherit;}
+}
+@media (max-width:480px){
+  .row-2{grid-template-columns:1fr;}
+  .dash-summary-grid{grid-template-columns:1fr;}
+  .exp-form-grid{grid-template-columns:1fr;}
+  .toast{left:12px;right:12px;top:12px;min-width:0;max-width:none;}
+}
 .dash-empty{padding:20px;text-align:center;color:var(--text-muted);font-size:12.5px;}
 
 @media print{
@@ -306,6 +341,7 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
 </div>
 
 <!-- ══════ APP ══════ -->
+<button class="mobile-toggle-fab" id="mobileFab" onclick="toggleEditor()">Preview</button>
 <div class="app" id="app">
 
 <div class="sidebar">
@@ -1224,6 +1260,8 @@ function toggleEditor(){
   editorVisible = !editorVisible;
   document.getElementById('editor').classList.toggle('hidden', !editorVisible);
   document.getElementById('toggleBtn').textContent = editorVisible ? 'Hide Editor' : 'Show Editor';
+  document.getElementById('mobileFab').textContent = editorVisible ? 'Preview' : 'Editor';
+  setTimeout(scaleDoc, 280); // re-fit the A4 preview once the editor's width-collapse transition finishes
   setTimeout(scaleDoc, 280);
 }
 
@@ -1649,6 +1687,7 @@ function switchModule(key){
   }
   currentModuleKey = key;
   const mod = curMod();
+  document.getElementById('mobileFab').classList.add('in-editor');
   document.querySelectorAll('.nav-btn[id^="nav-"]').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-'+key).classList.add('active');
   document.getElementById('editorModuleTitle').textContent = mod.label;
@@ -2136,6 +2175,7 @@ function showTopView(viewId, navId){
   document.getElementById('editor').classList.add('hidden');
   document.getElementById('previewPane').style.display = 'none';
   document.getElementById(viewId).classList.add('show');
+  document.getElementById('mobileFab').classList.remove('in-editor');
 }
 
 function enterDashboard(){
