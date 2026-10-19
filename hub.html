@@ -284,10 +284,11 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
   .sidebar-logo-wrap{flex-shrink:0;}
   .sidebar-divider{width:1px;height:22px;margin:0 5px;flex-shrink:0;}
   .nav-btn{flex-shrink:0;}
-  .editor{width:100%!important;min-width:0!important;}
-  .editor.hidden{width:0!important;padding:0!important;}
-  .preview-pane{padding:12px;}
-  .dashboard-view{padding:14px;gap:14px;}
+  .sidebar{flex-shrink:0;}
+  .editor{width:100%!important;min-width:0!important;flex:1 1 0%!important;min-height:0;}
+  .editor.hidden{flex:0 0 0%!important;height:0!important;min-height:0!important;width:0!important;padding:0!important;overflow:hidden!important;}
+  .preview-pane{padding:12px;flex:1 1 0%;min-height:0;}
+  .dashboard-view{padding:14px;gap:14px;flex:1 1 0%!important;min-height:0;}
   .dash-summary-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
   .dash-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   .dash-table{min-width:560px;}
@@ -1256,11 +1257,21 @@ function scaleDoc(){
   scaler.style.marginBottom = (-(794*(1-scale)*0.5))+'px';
 }
 
+// On mobile there's only room for one of Editor/Preview on screen at a time (unlike desktop,
+// where Preview is always visible beside the editor). This keeps that in sync whenever
+// editorVisible changes, or when a module is first opened.
+function applyMobilePaneVisibility(){
+  if(window.innerWidth > 860) return; // desktop: leave the normal CSS/JS behaviour alone
+  if(dashboardActive) return; // a Dashboard-style page, not the editor — not our concern here
+  document.getElementById('previewPane').style.display = editorVisible ? 'none' : 'flex';
+}
+
 function toggleEditor(){
   editorVisible = !editorVisible;
   document.getElementById('editor').classList.toggle('hidden', !editorVisible);
   document.getElementById('toggleBtn').textContent = editorVisible ? 'Hide Editor' : 'Show Editor';
   document.getElementById('mobileFab').textContent = editorVisible ? 'Preview' : 'Editor';
+  applyMobilePaneVisibility();
   setTimeout(scaleDoc, 280); // re-fit the A4 preview once the editor's width-collapse transition finishes
   setTimeout(scaleDoc, 280);
 }
@@ -1684,6 +1695,7 @@ function switchModule(key){
     TOP_VIEW_IDS.forEach(id=>document.getElementById(id).classList.remove('show'));
     document.getElementById('editor').classList.toggle('hidden', !editorVisible);
     document.getElementById('previewPane').style.display = '';
+    applyMobilePaneVisibility();
   }
   currentModuleKey = key;
   const mod = curMod();
@@ -3133,6 +3145,10 @@ function renderDashboardBody(){
   setupExtraFields();
   addItem();
   window.addEventListener('resize', scaleDoc);
+  window.addEventListener('resize', () => {
+    if(dashboardActive) return;
+    document.getElementById('previewPane').style.display = (window.innerWidth > 860) ? '' : (editorVisible ? 'none' : 'flex');
+  });
   checkSession();
 })();
 </script>
