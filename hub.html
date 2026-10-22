@@ -1378,17 +1378,32 @@ async function generateDocPdfBlob(){
   const previewPane = document.getElementById('previewPane');
   // On mobile, the preview pane can be set to display:none (e.g. while the editor is the
   // active view), which gives it zero width/height — and an element with zero size
-  // captures as a blank 0x0 image. Force it visible and laid-out for the capture, no
+  // captures as a blank 0x0 image. We force it to actually render for the capture, no
   // matter what the user is currently looking at, then always restore it afterwards.
-  const prevPaneDisplay = previewPane.style.display;
-  const prevPaneVisibility = previewPane.style.visibility;
+  // IMPORTANT: this must make it genuinely visible to the rendering engine (not just
+  // "there" in the layout) — visibility:hidden looked tempting to avoid a flash, but it
+  // makes html2canvas capture real pixels... except they're all blank, because the
+  // element truly isn't rendered. Moving it off-screen instead keeps it fully real.
+  const prevPaneStyle = {
+    display: previewPane.style.display,
+    position: previewPane.style.position,
+    left: previewPane.style.left,
+    top: previewPane.style.top,
+  };
   previewPane.style.display = 'flex';
-  previewPane.style.visibility = 'hidden'; // avoid a visible flash while still being measurable/capturable
+  previewPane.style.position = 'fixed';
+  previewPane.style.left = '-10000px';
+  previewPane.style.top = '0';
+  const restorePane = () => {
+    previewPane.style.display = prevPaneStyle.display;
+    previewPane.style.position = prevPaneStyle.position;
+    previewPane.style.left = prevPaneStyle.left;
+    previewPane.style.top = prevPaneStyle.top;
+  };
   renderDoc(); // make sure what we're about to capture reflects the current form values
   const pages = document.querySelectorAll('#invoiceDoc .rv-page');
   if(!pages.length){
-    previewPane.style.display = prevPaneDisplay;
-    previewPane.style.visibility = prevPaneVisibility;
+    restorePane();
     throw new Error('Nothing to export — load or save the document first.');
   }
   const prevTransform = scaler.style.transform;
@@ -1408,8 +1423,7 @@ async function generateDocPdfBlob(){
     return pdf.output('blob');
   } finally {
     scaler.style.transform = prevTransform;
-    previewPane.style.display = prevPaneDisplay;
-    previewPane.style.visibility = prevPaneVisibility;
+    restorePane();
   }
 }
 
