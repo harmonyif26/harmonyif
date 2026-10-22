@@ -473,7 +473,7 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:#F5F3F
   </div>
 
   <div class="btn-row">
-    <button class="save-btn" onclick="printDoc()">Print / Save PDF</button>
+    <button class="save-btn" onclick="downloadDocPdf()">Download PDF</button>
     <button class="gen-btn" id="saveBtnLabel" onclick="saveToSupabase()">Save Quotation</button>
   </div>
   <div class="btn-row">
@@ -1276,12 +1276,36 @@ function toggleEditor(){
   setTimeout(scaleDoc, 280);
 }
 
-function printDoc(){
+// Replaces the old window.print()-based approach, which was unreliable on mobile: the
+// filename depended on document.title, which reverted to the generic page title before
+// the (often slow, manual) mobile print/share-sheet flow finished saving, and some mobile
+// browsers produced a shared link rather than an actual PDF file at all. This instead
+// renders the real PDF bytes (same method used for the Google Drive save) and triggers a
+// normal, same-origin file download — which reliably gets the right name and a real file
+// on both desktop and mobile.
+async function downloadDocPdf(){
+  if(!document.querySelectorAll('#invoiceDoc .rv-page').length){
+    showToast('error', 'Nothing to export', 'Load or save the document first.');
+    return;
+  }
   const docNum = (document.getElementById('docNum').value||'').trim();
   const rev = (document.getElementById('docRev').value||'').trim();
-  document.title = 'HarmonyIF ' + docNum + rev;
-  window.print();
-  setTimeout(()=>{ document.title = 'Harmony Hub'; }, 3000);
+  const fullDocNo = docNum + rev;
+  showToast('loading', 'Preparing PDF...', fullDocNo);
+  try{
+    const blob = await generateDocPdfBlob();
+    const filename = 'HarmonyIF ' + fullDocNo + '.pdf';
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    showToast('success', 'PDF downloaded', filename);
+  } catch(err){
+    showToast('error', 'PDF generation failed', esc(err.message||'unknown error'));
+  }
 }
 
 // ══════ GOOGLE DRIVE ══════
