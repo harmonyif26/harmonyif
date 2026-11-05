@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <meta name="description" content="Harmony International Food's sourcing partners, including Halal-certified suppliers. Download partner price lists or enquire for bulk pricing." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://harmonyif.sg/partners.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Harmony International Food" />
+  <meta property="og:url"         content="https://harmonyif.sg/partners.html" />
+  <meta property="og:title"       content="Partners — Harmony International Food" />
+  <meta property="og:description" content="Our sourcing partners, including Halal-certified suppliers. Download price lists or enquire for bulk pricing." />
+  <meta property="og:image"       content="https://harmonyif.sg/og-image.jpg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="en_SG" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Partners — Harmony International Food" />
+  <meta name="twitter:description" content="Our sourcing partners, including Halal-certified suppliers." />
+  <meta name="twitter:image"       content="https://harmonyif.sg/og-image.jpg" />
+
+  <title>Partners — Halal-Certified &amp; Sourcing Partners | Harmony</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.min.css" />
+  <style>
+    .page-hero__label { font-size:0.7rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); display:block; margin-bottom:0.6rem; }
+    .page-hero { text-align:center; }
+
+    /* ── PARTNER CARDS ── */
+    .partners-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.75rem; margin-top:2rem; }
+    .partner-card { background:var(--cream, #F5F0E8); border:1px solid var(--border, rgba(0,0,0,0.08)); padding:2rem; display:flex; flex-direction:column; gap:0.9rem; }
+    .partner-card__badge { display:inline-flex; align-self:flex-start; align-items:center; gap:0.4rem; font-size:0.68rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#1f7a3f; background:rgba(31,122,63,0.1); border:1px solid rgba(31,122,63,0.25); padding:0.3rem 0.65rem; }
+    .partner-card h3 { margin:0; font-size:1.3rem; }
+    .partner-card p { margin:0; font-size:0.9rem; line-height:1.6; color:var(--mist, #6b6b6b); }
+    .partner-card__meta { font-size:0.82rem; color:var(--mist, #6b6b6b); line-height:1.8; }
+    .partner-card__actions { margin-top:0.4rem; display:flex; gap:0.75rem; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Harmony<span>.</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html"  data-en="Home"    data-cn="首页">Home</a></li>
+        <li><a href="products.html" data-en="Wholesale" data-cn="批发">Wholesale</a></li>
+        <li><a href="partners.html" class="active" data-en="Partners" data-cn="合作伙伴">Partners</a></li>
+        <li><a href="about.html"  data-en="About"   data-cn="关于">About</a></li>
+        <li><a href="contact.html" data-en="Contact" data-cn="联系">Contact</a></li>
+      </ul>
+      <div class="nav__right">
+        <div class="lang-toggle">
+          <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn')">中文</button>
+        </div>
+        <button class="nav__cta" onclick="openEnquiry('')" data-en="Enquire Now" data-cn="立即询价">Enquire Now</button>
+        <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile">
+      <a href="index.html"    data-en="Home"     data-cn="首页">Home</a>
+      <a href="products.html" data-en="Wholesale" data-cn="批发">Wholesale</a>
+      <a href="partners.html" data-en="Partners" data-cn="合作伙伴">Partners</a>
+      <a href="about.html"    data-en="About"    data-cn="关于">About</a>
+      <a href="contact.html"  data-en="Contact"  data-cn="联系">Contact</a>
+      <div class="lang-toggle" style="margin-top:1.5rem;">
+        <button class="lang-toggle__btn active" data-lang="en" onclick="setLanguage('en');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">EN</button>
+        <button class="lang-toggle__btn" data-lang="cn" onclick="setLanguage('cn');document.querySelector('.nav__mobile').classList.remove('open');document.body.style.overflow=''">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero__label" data-en="Sourcing Network" data-cn="采购网络">Sourcing Network</span>
+      <h1 data-en="Our Partners" data-cn="合作伙伴">Our Partners</h1>
+      <p data-en="Alongside our own range, we work with trusted partners to cover needs we don't carry ourselves — including Halal-certified sourcing." data-cn="除了我们自身的产品范围，我们亦与信誉良好的合作伙伴携手，涵盖我们未供应的需求，包括清真认证采购。">Alongside our own range, we work with trusted partners to cover needs we don't carry ourselves — including Halal-certified sourcing.</p>
+    </div>
+  </section>
+
+  <!-- PARTNERS GRID -->
+  <section class="section">
+    <div class="container">
+      <div class="partners-grid">
+
+        <div class="partner-card">
+          <span class="partner-card__badge" data-en="✓ Halal Certified" data-cn="✓ 清真认证">✓ Halal Certified</span>
+          <h3 data-en="TSM Food Services Pte Ltd" data-cn="TSM Food Services Pte Ltd">TSM Food Services Pte Ltd</h3>
+          <p data-en="A Halal-certified supplier of frozen and chilled beef, poultry, lamb, seafood, dairy and dry goods — a sourcing option for customers who require Halal-certified products." data-cn="一家清真认证供应商，提供冷冻及冷藏牛肉、禽肉、羊肉、海鲜、乳制品及干货 — 为需要清真认证产品的客户提供采购选择。">A Halal-certified supplier of frozen and chilled beef, poultry, lamb, seafood, dairy and dry goods — a sourcing option for customers who require Halal-certified products.</p>
+          <div class="partner-card__meta">
+            Tel: +65 6570 3177<br>
+            Email: sales@tsmfoodservices.com<br>
+            Address: 8A Admiralty Street #03-03 FoodXchange@Admiralty, Singapore 757437
+          </div>
+          <div class="partner-card__actions">
+            <a href="files/tsm-food-services-price-list-nov-2026.pdf" download class="btn btn-primary" data-en="↓  Download Price List (PDF)" data-cn="↓  下载价格表 (PDF)">↓  Download Price List (PDF)</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TRADE CTA -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="trade-cta__inner">
+        <div>
+          <span class="label text-muted" data-en="Trade Enquiries Welcome" data-cn="欢迎贸易询价">Trade Enquiries Welcome</span>
+          <h2 style="color:var(--cream);margin:0.5rem 0 0.75rem;" data-en="Not sure which supplier fits your needs?" data-cn="不确定哪家供应商适合您？">Not sure which supplier fits your needs?</h2>
+          <p style="color:var(--mist);max-width:480px;" data-en="Reach out and we'll point you to the right source, Harmony or partner." data-cn="联系我们，我们将为您指引合适的供应来源，无论是Harmony或合作伙伴。">Reach out and we'll point you to the right source, Harmony or partner.</p>
+        </div>
+        <div class="trade-cta__actions">
+          <button class="btn btn-primary" onclick="openEnquiry('')" data-en="Get in Touch" data-cn="联系我们">Get in Touch</button>
+          <a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." target="_blank" class="whatsapp-btn" data-en="WhatsApp Us" data-cn="WhatsApp 联系">WhatsApp Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <div class="footer__logo">Harmony<span>.</span></div>
+          <p class="footer__tagline">Harmony International Food Pte Ltd<br>和谐国际食品私人有限公司<br>UEN: 202608797N</p>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Wholesale" data-cn="批发">Wholesale</h5>
+          <ul>
+            <li><a href="products.html?category=pork"      data-en="Pork"           data-cn="猪肉">Pork</a></li>
+            <li><a href="products.html?category=beef"      data-en="Beef & Lamb"    data-cn="牛羊肉">Beef & Lamb</a></li>
+            <li><a href="products.html?category=chicken"   data-en="Chicken & Duck" data-cn="鸡鸭">Chicken & Duck</a></li>
+            <li><a href="products.html?category=seafood"   data-en="Seafood"        data-cn="海鲜">Seafood</a></li>
+            <li><a href="products.html?category=processed" data-en="Processed"      data-cn="加工食品">Processed</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Company" data-cn="公司">Company</h5>
+          <ul>
+            <li><a href="about.html"   data-en="About Us"           data-cn="关于我们">About Us</a></li>
+            <li><a href="partners.html" data-en="Partners"          data-cn="合作伙伴">Partners</a></li>
+            <li><a href="contact.html" data-en="Contact"            data-cn="联系我们">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 data-en="Contact" data-cn="联系方式">Contact</h5>
+          <div class="footer__contact-item"><span class="icon">WA</span><span><a href="https://wa.me/6587953309?text=Hi%20Harmony%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20pricing." style="font-size:0.85rem;color:rgba(245,240,232,0.65);">+65 8795 3309</a></span></div>
+          <div class="footer__contact-item"><span class="icon">✉</span><span><a href="mailto:pat@harmonyif.com" style="font-size:0.85rem;color:rgba(245,240,232,0.65);">pat@harmonyif.com</a></span></div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p data-en="© 2026 Harmony International Food Pte Ltd. All rights reserved." data-cn="© 2026 和谐国际食品私人有限公司。版权所有。">© 2026 Harmony International Food Pte Ltd. All rights reserved.</p>
+        <p data-en="Partner prices are set by the respective partner and may change without notice." data-cn="合作伙伴价格由相应合作伙伴制定，可能随时调整，恕不另行通知。">Partner prices are set by the respective partner and may change without notice.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ENQUIRY MODAL -->
+  <div class="enquiry-modal" id="enquiry-modal">
+    <div class="enquiry-modal__box">
+      <button class="enquiry-modal__close" onclick="closeEnquiry()">✕</button>
+      <p class="enquiry-modal__eyebrow" data-en="Product Enquiry" data-cn="产品询价">Product Enquiry</p>
+      <h2 class="enquiry-modal__title" data-en="Tell Us What You Need" data-cn="告诉我们您的需求">Tell Us What You Need</h2>
+
+      <form id="modal-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="modal-name" data-en="Full Name *" data-cn="姓名 *">Full Name *</label>
+            <input class="form-input" type="text" id="modal-name" name="name" placeholder="John Tan" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="modal-company" data-en="Restaurant / Company" data-cn="餐厅 / 公司">Restaurant / Company</label>
+            <input class="form-input" type="text" id="modal-company" name="company" placeholder="e.g. Hai Di Lao" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="modal-email" data-en="Email *" data-cn="电邮 *">Email *</label>
+            <input class="form-input" type="email" id="modal-email" name="email" placeholder="you@restaurant.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="modal-phone" data-en="WhatsApp / Phone *" data-cn="WhatsApp / 电话 *">WhatsApp / Phone *</label>
+            <input class="form-input" type="tel" id="modal-phone" name="phone" placeholder="+65 9XXX XXXX" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-product" data-en="Product(s) of Interest" data-cn="感兴趣的产品">Product(s) of Interest</label>
+          <input class="form-input" type="text" id="modal-product" name="products" placeholder="e.g. Halal beef, Vannamei Shrimp 21/25" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-volume" data-en="Est. Required Volume" data-cn="预计所需用量">Est. Required Volume</label>
+          <select class="form-select" id="modal-volume" name="volume">
+            <option value="" data-en="Select a range" data-cn="选择范围">Select a range</option>
+            <option>Under 50kg</option>
+            <option>50 – 100kg</option>
+            <option>100 – 200kg</option>
+            <option>200 – 500kg</option>
+            <option>500kg+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-message" data-en="Additional Notes" data-cn="备注">Additional Notes</label>
+          <textarea class="form-textarea" id="modal-message" name="message" rows="2" placeholder="Specific cuts, packaging, delivery frequency…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" id="modal-submit" data-en="Send via WhatsApp" data-cn="通过WhatsApp发送">Send via WhatsApp</button>
+        <div class="modal-success" id="modal-success">
+          <h4 data-en="Opening WhatsApp…" data-cn="正在打开WhatsApp…">Opening WhatsApp…</h4>
+          <p data-en="Just hit send in WhatsApp to complete your enquiry." data-cn="在WhatsApp中点击发送即可完成询价。">Just hit send in WhatsApp to complete your enquiry.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/lang.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/form_handler.js"></script>
+  <script>
+    /* Modal open/close */
+    function openEnquiry(productName) {
+      const modal   = document.getElementById('enquiry-modal');
+      const field   = document.getElementById('modal-product');
+      const form    = document.getElementById('modal-form');
+      const success = document.getElementById('modal-success');
+      if (form) {
+        form.reset();
+        form.querySelectorAll('.form-group, .form-row, button[type=submit]')
+          .forEach(el => el.style.display = '');
+      }
+      if (success) success.style.display = 'none';
+      if (field && productName) field.value = productName;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeEnquiry() {
+      document.getElementById('enquiry-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('enquiry-modal').addEventListener('click', e => {
+      if (e.target.id === 'enquiry-modal') closeEnquiry();
+    });
+  </script>
+
+</body>
+</html>
